@@ -1,6 +1,6 @@
 ---
 layout: post
-title: About
+title: Public and Private Keys
 ---
 
 Hello, and thanks for landing on my personal website. I am passionate about learning and wanted to create a place to share my thoughts.

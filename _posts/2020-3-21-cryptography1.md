@@ -9,4 +9,5 @@ In this post we will discuss how public-key cryptography works and how it applie
 The main results we will need to understand public-key cryptography are the properties of modular arithmetic. To begin, it is helpful to consider division. Let \\(A, B\\) be integers such that \\(A>B\\). Then we can define \\(A\\) in terms of \\(B\\), the quotient (how many copies of \\(B\\) fit in \\(A\\)), \\(q\\), and the remainder (how much is leftover), \\(r\\). More formally,
 \\[A = B \cdot q + r.\\]
 As an example, consider the case where \\(A = 5\\) and \\(B=2\\), then \\(q=2\\) and \\(r=1\\) because two copies of \\(2\\) fit into \\(5\\) and there is \\(1\\) leftover. Now we can introduce the following notation,
-\\[A \equiv r \textrm{mod}(B).\\]
+\\[A_1 \equiv A_2 \; \textrm{mod}(B).\\]
+Intuitively, this means that \\(A_1 \; \& \; A_2\\) have the same *remainder* when divided by \\(B\\). 

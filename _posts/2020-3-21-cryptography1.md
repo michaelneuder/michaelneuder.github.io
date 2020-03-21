@@ -10,7 +10,7 @@ The main result we will need to understand public-key cryptography is the defini
 
 $$
 \begin{equation}
-    A &= B \cdot q + r.
+    A = B \cdot q + r.
 \begin{equation}
 $$
 

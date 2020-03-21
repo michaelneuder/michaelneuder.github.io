@@ -40,7 +40,7 @@ Similarly, Bob will create his private key \\(B_0\\) and public key \\(B_1\\). T
     K = 2^{A_0\cdot B_0} \; \textrm{mod}(q).
 \\]
 
-Alice can calculate \\(K\\), by using Bob's public key in the following way,
+Alice can calculate \\(K\\) by using Bob's public key in the following way,
 
 \\[
     \begin{align}
@@ -49,7 +49,7 @@ Alice can calculate \\(K\\), by using Bob's public key in the following way,
     \end{align}
 \\]
 
-Similarly Bob can calculate \\(K\\) using Alice's public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve it. 
+Similarly Bob can calculate \\(K\\) using Alice's public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve the equation, while an attacker doesn't have any information to begin with, so must do a massive amount of work to achieve the same result.
 
 ## Demo
 Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full [here](https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/publicKey.py). We will work through this file to understand what is going on. First, we define a global prime number that we will use `Q=23`. Now we define a class to that represents an individual on the network. The constructor simply takes a name for the person and chooses a random private key less than `Q` and stores both of these as class variables.

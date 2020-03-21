@@ -3,28 +3,9 @@ layout: page
 title: About
 ---
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
+Hello, and thanks for landing on my personal website. I am passionate about learning and wanted to create a place to share my thoughts.
+This blog will have a range of posts and topics but will generally be centered around computer science, math, blockchain, and economics.
 
-In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
 
-There are currently two themes built on Poole:
-
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
-
-Learn more and contribute on [GitHub](https://github.com/poole).
-
-## Setup
-
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.org), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
-
-Thanks for reading!
+## Brief bio
+I am bouncing between being a student, researcher, and software engineer. Currently, I am finishing up my undergraduate degree in Computer Science and Mathematics at the University of Colorado, Boulder. This summer (2020), I will be working on Google Cloud network infrastructure in Madison, WI (unless COVID-19 changes things that is). In the fall, I will be starting graduate school working towards my Master's of Engineering in Computational Science and Engineering at Harvard University. See my 

@@ -7,13 +7,12 @@ permalink:        pretty
 
 # Setup
 title:            Michael Neuder
-tagline:          'a'
+tagline:          ''
 description:      ''
 url:              http://michealneuder.github.io
 
 author:
   name:           'Michael Neuder'
-  url:            https://twitter.com/mdo
 
 paginate:         5
 

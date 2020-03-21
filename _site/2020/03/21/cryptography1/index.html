@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
   <head>
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -96,13 +94,52 @@
   <p>In this post we will discuss how public-key cryptography works and how it applies to cryptocurrencies. Broadly, cryptography is the study of sharing information privately over an insecure channel. In the context of modern computers, the goal is to exchange data over a network such that only the sender and recipient can decode it. Before 1976, the method of doing encrypting digital messages was using a shared private key (a pseudorandom string) to encode the data. This is problematic in many contexts, because it requires the sender and the receiver to agree on a private key before they can privately communicate. A solution to this problem was described by Diffie and Hellman in their <a href="https://ee.stanford.edu/~hellman/publications/24.pdf">famous 1976 paper</a>. They describe a system where two keys are created. The first, called the private-key, is kept secret to the individual, while the second, called the public key, is distributed over the network. Now if two individuals want to communicate, they can agree on a shared key to encrypt their data by each combining their private key with the others public key. We will explore exactly how this works, but first we need to cover a bit of number theory.</p>
 
 <h2 id="modular-arithmetic">Modular Arithmetic</h2>
-<p>The main results we will need to understand public-key cryptography are the properties of modular arithmetic. To begin, it is helpful to consider division. Let \(A, B\) be integers such that \(A&gt;B\). Then we can define \(A\) in terms of \(B\), the quotient (how many copies of \(B\) fit in \(A\)), \(q\), and the remainder (how much is leftover), \(r\). More formally,
-\[A = B \cdot q + r.\]
-As an example, consider the case where \(A = 5\) and \(B=2\), then \(q=2\) and \(r=1\) because two copies of \(2\) fit into \(5\) and there is \(1\) leftover. Now we can introduce the following notation,
-\[A_1 \equiv A_2 \; \textrm{mod}(B).\]
-Intuitively, this means that \(A_1 \; \&amp; \; A_2\) have the same <em>remainder</em> when divided by \(B\). Building off our example above where \(B=5\), consider \(A_1=5 \; \&amp; \; A_2 = 9\), then we can assert the following
-\[5 \equiv 9 \; \textrm{mod}(2),\]
-because \(5\) and \(9\) both have a remainder of \(1\) when divided by \(2\).</p>
+<p>The main result we will need to understand public-key cryptography is the definition of modular arithmetic. To begin, it is helpful to consider division. Let \(A, B\) be integers such that \(A&gt;B\). Then we can define \(A\) in terms of \(B\), the quotient (how many copies of \(B\) fit in \(A\)), \(q\), and the remainder (how much is leftover), \(r\). More formally,</p>
+
+<p>\[
+    A = B \cdot q + r.
+\]</p>
+
+<p>As an example, consider the case where \(A = 5\) and \(B=2\), then \(q=2\) and \(r=1\) because two copies of \(2\) fit into \(5\) and there is \(1\) leftover. Now we can introduce the following notation,</p>
+
+<p>\[
+    A_1 \equiv A_2 \; \textrm{mod}(B).
+\]</p>
+
+<p>Intuitively, this means that \(A_1 \; \&amp; \; A_2\) have the same <em>remainder</em> when divided by \(B\). Building off our example above where \(B=5\), consider \(A_1=5 \; \&amp; \; A_2 = 9\), then we can assert the following</p>
+
+<p>\[
+    5 \equiv 9 \; \textrm{mod}(2),
+\]</p>
+
+<p>because \(5\) and \(9\) both have a remainder of \(1\) when divided by \(2\). Now we can see how this is useful in public-key cryptography.</p>
+
+<h2 id="key-distribution-algorithm">Key Distribution Algorithm</h2>
+<p>Consider the case where Alice is trying to send Bob an encrypted message. Let \(q\) be a huge prime number that is known publicly. First, Alice will create her private key, denoted \(A_0\), and calculate her public key, denoted \(A_1\) with the following function,</p>
+
+<p>\[
+    A_1 = 2^{A_0} \; \textrm{mod}(q).
+\]</p>
+
+<p>Similarly, Bob will create his private key \(B_0\) and public key \(B_1\). Then they can each generate a shared private key,</p>
+
+<p>\[
+    K = 2^{A_0\cdot B_0} \; \textrm{mod}(q).
+\]</p>
+
+<p>Alice can calculate \(K\), by using Bob’s public key in the following way,</p>
+
+<p>\[
+    \begin{align}
+        K &amp;= B_1^{A_0} \; \textrm{mod}(q) \newline
+        &amp;= 2^{A_0\cdot B_0}\; \textrm{mod}(q).
+    \end{align}
+\]</p>
+
+<p>Similarly Bob can calculate \(K\) using Alice’s public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve it.</p>
+
+<h2 id="demo">Demo</h2>
+<p>Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full <a href="http://michaelneuder.github.io/michaelneuder.github.io/assets/code/publicKey.py">here</a></p>
 
 </div>
 
@@ -118,3 +155,6 @@ because \(5\) and \(9\) both have a remainder of \(1\) when divided by \(2\).</p
 
   </body>
 </html>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>

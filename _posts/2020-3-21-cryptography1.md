@@ -20,4 +20,15 @@ Consider the case where Alice is trying to send Bob an encrypted message. Let \\
 Similarly, Bob will create his private key \\(B_0\\) and public key as,
 \\[B_1 = 2^{B_0} \; \textrm{mod}(q).\\]
 Then they can each generate a shared private key 
-\\[K_{AB} = 2^{A_0\cdot B_0} \; \textrm{mod}(q).\\]
+\\[K = 2^{A_0\cdot B_0} \; \textrm{mod}(q).\\]
+Alice can calculate \\(K\\), by using Bob's public key in the following way,
+\\[K = B_1^{A_0} \; \textrm{mod}(q)\\]
+
+$$
+  \begin{align}
+    |\psi_1\rangle &= a|0\rangle + b|1\rangle \\\\
+    |\psi_2\rangle &= c|0\rangle + d|1\rangle
+  \end{align}
+$$
+
+here

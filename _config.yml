@@ -1,4 +1,5 @@
 # Permalinks
+markdown:         maruku
 permalink:        pretty
 
 # Setup

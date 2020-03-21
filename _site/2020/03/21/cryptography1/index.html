@@ -139,7 +139,68 @@
 <p>Similarly Bob can calculate \(K\) using Alice’s public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve it.</p>
 
 <h2 id="demo">Demo</h2>
-<p>Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full <a href="http://michaelneuder.github.io/michaelneuder.github.io/assets/code/publicKey.py">here</a></p>
+<p>Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/publicKey.py">here</a>. We will work through this file to understand what is going on. First, we define a global prime number that we will use <code class="highlighter-rouge">Q=23</code>. Now we define a class to that represents an individual on the network. The constructor simply takes a name for the person and chooses a random private key less than <code class="highlighter-rouge">Q</code> and stores both of these as class variables.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">privKey</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="n">Q</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The next class function is a simple getter that returns the public key as a function of the private key as discussed in the previous section. This allows other users to access the public key without exposing the value of the private key.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">getPubKey</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">privKey</span><span class="p">)</span> <span class="o">%</span> <span class="n">Q</span>
+</code></pre></div></div>
+
+<p>Now we get to the encryption function, which is parameterized with a message to encrypt and the public key of the recipient of the message. The first step is to create a shared key, which corresponds to finding the value of \(K\) as described above. Once we have the decimal representation we convert it a 32-bit binary string. To do the actual encryption given this shared key we will use the <a href="https://cryptography.io/en/latest/">cryptography python library</a>, and specifically the Fernet symmetric key functionality. Once we create a Fernet key with our shared key, then we can simply return the encrypted message.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">recipientPubKey</span><span class="p">):</span>
+    <span class="n">sharedKeyDecimal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">recipientPubKey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">privKey</span><span class="p">)</span> <span class="o">%</span> <span class="n">Q</span>
+    <span class="n">sharedKeyBinary</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span>
+        <span class="s">'{:032b}'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">sharedKeyDecimal</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'utf8'</span><span class="p">)</span>
+    <span class="n">fernetKey</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">sharedKeyBinary</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fernetKey</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The decryption function is quite similar to the previous. In the same way, we create a shared key, convert it to binary, and create a Fernet key using it. But now we return the decrypt function on the encrypted message that was passed in.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encryptedMessage</span><span class="p">,</span> <span class="n">recipientPubKey</span><span class="p">):</span>
+    <span class="n">sharedKeyDecimal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">recipientPubKey</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">privKey</span><span class="p">)</span> <span class="o">%</span> <span class="n">Q</span>
+    <span class="n">sharedKeyBinary</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span>
+        <span class="s">'{:032b}'</span><span class="o">.</span><span class="nb">format</span><span class="p">(</span><span class="n">sharedKeyDecimal</span><span class="p">),</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'utf8'</span><span class="p">)</span>
+    <span class="n">fernetKey</span> <span class="o">=</span> <span class="n">Fernet</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">sharedKeyBinary</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fernetKey</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">encryptedMessage</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now we can test our class out. First in the main function, we instantiate our two people, Alice and Bob.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Construction.
+</span><span class="n">alice</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">)</span>
+<span class="n">bob</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Next we create an encrypted message from Alice to Bob. Notice how Alice never knows Bob’s private key, she just calls the getter for his public key.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Encryption
+</span><span class="n">encryptedMessage</span> <span class="o">=</span> <span class="n">alice</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">b</span><span class="s">"Hi Bob, my credit card number is 1111 1111 1111 1111."</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">getPubKey</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">encryptedMessage</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The output from this print statement is seen below.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gAAAAABedqEurgAjBqyHIYN-qKOGCdP8k3vpU0HQsv-jifSHMMpQK8wenuW1NHWJlLudqyTNZrnxMNkIQBE2MwUNQJsiXjbj2Wq1MX36o8C36HZ1VSsAYuYKLE4w5AA8Raa8nuKT1b1Vyyk3Xd74PlbuNXApKL3Pag==
+</code></pre></div></div>
+
+<p>Now Bob can decrypt using only his private key and Alice’s public key.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Decryption
+</span><span class="n">decryptedMessage</span> <span class="o">=</span> <span class="n">bob</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">encryptedMessage</span><span class="p">,</span> <span class="n">alice</span><span class="o">.</span><span class="n">getPubKey</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">decryptedMessage</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Finally, we can see the output from this print statement is indeed Alice’s hidden message.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hi Bob, my credit card number is 1111 1111 1111 1111.
+</code></pre></div></div>
+
+<p>Cool stuff! So this is a simple example of how public key encryption works. This is the foundation of modern cryptography and enables most of the encryption that happens on the internet.</p>
+
+<p>Thanks for reading! I hope you enjoyed, and please do reach out with comments/questions/corrections.</p>
+
+<p><em>Mike</em></p>
 
 </div>
 

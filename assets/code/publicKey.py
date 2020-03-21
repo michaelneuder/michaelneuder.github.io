@@ -21,11 +21,11 @@ class Person():
         fernetKey = Fernet(base64.urlsafe_b64encode(sharedKeyBinary))
         return fernetKey.encrypt(message)
     
-    def decrypt(self, message, recipientPubKey):
+    def decrypt(self, encryptedMessage, recipientPubKey):
         sharedKeyDecimal = np.power(recipientPubKey, self.privKey) % Q
         sharedKeyBinary = bytes('{:032b}'.format(sharedKeyDecimal), encoding='utf8')
         fernetKey = Fernet(base64.urlsafe_b64encode(sharedKeyBinary))
-        return fernetKey.decrypt(message)
+        return fernetKey.decrypt(encryptedMessage)
 
 
 if __name__ == "__main__":

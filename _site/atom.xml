@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Michael Neuder</title>
+ <link href="http://michealneuder.github.io/atom.xml" rel="self"/>
+ <link href="http://michealneuder.github.io/"/>
+ <updated>2020-03-21T14:06:04-06:00</updated>
+ <id>http://michealneuder.github.io</id>
+ <author>
+   <name>Michael Neuder</name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Public-Key Cryptography</title>
+   <link href="http://michealneuder.github.io/2020/03/21/cryptography1/"/>
+   <updated>2020-03-21T00:00:00-06:00</updated>
+   <id>http://michealneuder.github.io/2020/03/21/cryptography1</id>
+   <content type="html">&lt;p&gt;In this post we will discuss how public-key cryptography works and how it applies to cryptocurrencies. Broadly, cryptography is the study of sharing information privately over an insecure channel. In the context of modern computers, the goal is to exchange data over a network such that only the sender and recipient can decode it. Before 1976, the method of doing encrypting digital messages was using a shared private key (a pseudorandom string) to encode the data. This is problematic in many contexts, because it requires the sender and the receiver to agree on a private key before they can privately communicate. A solution to this problem was described by Diffie and Hellman in their &lt;a href=&quot;https://ee.stanford.edu/~hellman/publications/24.pdf&quot;&gt;famous 1976 paper&lt;/a&gt;. They describe a system where two keys are created. The first, called the private-key, is kept secret to the individual, while the second, called the public key, is distributed over the network. Now if two individuals want to communicate, they can agree on a shared key to encrypt their data by each combining their private key with the others public key. We will explore exactly how this works, but first we need to cover a bit of number theory.&lt;/p&gt;
+
+&lt;h2 id=&quot;modular-arithmetic&quot;&gt;Modular Arithmetic&lt;/h2&gt;
+&lt;p&gt;The main results we will need to understand public-key cryptography are the properties of modular arithmetic. To begin, it is helpful to consider division. Let \(A, B\) be integers such that \(A&amp;gt;B\). Then we can define \(A\) in terms of \(B\), the quotient (how many copies of \(B\) fit in \(A\)), \(q\), and the remainder (how much is leftover), \(r\). More formally,
+\[A = B \cdot q + r.\]
+As an example, consider the case where \(A = 5\) and \(B=2\), then \(q=2\) and \(r=1\) because two copies of \(2\) fit into \(5\) and there is \(1\) leftover. Now we can introduce the following notation,
+\[A_1 \equiv A_2 \; \textrm{mod}(B).\]
+Intuitively, this means that \(A_1 \; \&amp;amp; \; A_2\) have the same &lt;em&gt;remainder&lt;/em&gt; when divided by \(B\). Building off our example above where \(B=5\), consider \(A_1=5 \; \&amp;amp; \; A_2 = 9\), then we can assert the following
+\[5 \equiv 9 \; \textrm{mod}(2),\]
+because \(5\) and \(9\) both have a remainder of \(1\) when divided by \(2\).&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>

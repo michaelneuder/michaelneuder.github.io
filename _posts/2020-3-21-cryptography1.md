@@ -10,4 +10,6 @@ The main results we will need to understand public-key cryptography are the prop
 \\[A = B \cdot q + r.\\]
 As an example, consider the case where \\(A = 5\\) and \\(B=2\\), then \\(q=2\\) and \\(r=1\\) because two copies of \\(2\\) fit into \\(5\\) and there is \\(1\\) leftover. Now we can introduce the following notation,
 \\[A_1 \equiv A_2 \; \textrm{mod}(B).\\]
-Intuitively, this means that \\(A_1 \; \& \; A_2\\) have the same *remainder* when divided by \\(B\\). 
+Intuitively, this means that \\(A_1 \; \& \; A_2\\) have the same *remainder* when divided by \\(B\\). Building off our example above where \\(B=5\\), consider \\(A_1=5 \; \& \; A_2 = 9\\), then we can assert the following
+\\[5 \equiv 9 \; \textrm{mod}(2),\\]
+because \\(5\\) and \\(9\\) both have a remainder of \\(1\\) when divided by \\(2\\).

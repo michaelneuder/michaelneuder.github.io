@@ -15,4 +15,9 @@ Intuitively, this means that \\(A_1 \; \& \; A_2\\) have the same *remainder* wh
 because \\(5\\) and \\(9\\) both have a remainder of \\(1\\) when divided by \\(2\\). Now we can see how this is useful in public-key cryptography.
 
 ## Key Distribution Algorithm 
-Consider the case where Alice is trying to send Bob an encrypted message. Let \\(q\\) be a huge prime number that is known publicly. Then Alice will create her public and private keys \\(A_0 \; \& \; A_1\\), and distributed the public key over the network. Bob will do the same with his public key \\(B_0\\), but also keep his private key \\(B_1\\) secret. 
+Consider the case where Alice is trying to send Bob an encrypted message. Let \\(q\\) be a huge prime number that is known publicly. First, Alice will create her private key, denoted \\(A_0\\), and calculate her public key, denoted \\(A_1\\) with the following function,
+\\[A_1 = 2^{A_0} \; \textrm{mod}(q). \\]
+Similarly, Bob will create his private key \\(B_0\\) and public key as,
+\\[B_1 = 2^{B_0} \; \textrm{mod}(q).\\]
+Then they can each generate a shared private key 
+\\[K_{AB} = 2^{A_0\cdot B_0} \; \textrm{mod}(q).\\]

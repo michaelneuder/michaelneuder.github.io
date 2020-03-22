@@ -4,7 +4,7 @@
  <title>Michael Neuder</title>
  <link href="http://localhost:4000/atom.xml" rel="self"/>
  <link href="http://localhost:4000/"/>
- <updated>2020-03-21T17:30:20-06:00</updated>
+ <updated>2020-03-22T16:59:30-06:00</updated>
  <id>http://localhost:4000</id>
  <author>
    <name>Michael Neuder</name>
@@ -20,7 +20,7 @@
    <content type="html">&lt;p&gt;In this post we will discuss how public-key cryptography works and how it applies to cryptocurrencies. Broadly, cryptography is the study of sharing information privately over an insecure channel. In the context of modern computers, the goal is to exchange data over a network such that only the sender and recipient can decode it. Before 1976, the method of doing encrypting digital messages was using a shared private key (a pseudorandom string) to encode the data. This is problematic in many contexts, because it requires the sender and the receiver to agree on a private key before they can privately communicate. A solution to this problem was described by Diffie and Hellman in their &lt;a href=&quot;https://ee.stanford.edu/~hellman/publications/24.pdf&quot;&gt;famous 1976 paper&lt;/a&gt;. They describe a system where two keys are created. The first, called the private-key, is kept secret to the individual, while the second, called the public key, is distributed over the network. Now if two individuals want to communicate, they can agree on a shared key to encrypt their data by each combining their private key with the others public key. We will explore exactly how this works, but first we need to cover a bit of number theory.&lt;/p&gt;
 
 &lt;h2 id=&quot;modular-arithmetic&quot;&gt;Modular Arithmetic&lt;/h2&gt;
-&lt;p&gt;The main result we will need to understand public-key cryptography is the definition of modular arithmetic. To begin, it is helpful to consider division. Let \(A, B\) be integers such that \(A&amp;gt;B\). Then we can define \(A\) in terms of \(B\), the quotient (how many copies of \(B\) fit in \(A\)), \(q\), and the remainder (how much is leftover), \(r\). More formally,&lt;/p&gt;
+&lt;p&gt;The main result we will need to understand public-key cryptography is the definition of modular arithmetic. To begin, it is helpful to consider division. Let \(A, B\) be integers such that \(A&amp;gt;B\). Then we can define \(A\) in terms of \(B, \; q, \;\text{and}\; r\), where \(q\) is the quotient (how many copies of \(B\) fit in \(A\)) and \(r\) is the remainder (how much is leftover). More formally,&lt;/p&gt;
 
 &lt;p&gt;\[
     A = B \cdot q + r.
@@ -32,7 +32,7 @@
     A_1 \equiv A_2 \; \textrm{mod}(B).
 \]&lt;/p&gt;
 
-&lt;p&gt;Intuitively, this means that \(A_1 \; \&amp;amp; \; A_2\) have the same &lt;em&gt;remainder&lt;/em&gt; when divided by \(B\). Building off our example above where \(B=5\), consider \(A_1=5 \; \&amp;amp; \; A_2 = 9\), then we can assert the following&lt;/p&gt;
+&lt;p&gt;This means that \(A_1 \; \&amp;amp; \; A_2\) have the same &lt;em&gt;remainder&lt;/em&gt; when divided by \(B\). Building off our example above where \(B=5\), consider \(A_1=5 \; \&amp;amp; \; A_2 = 9\), then we can assert the following&lt;/p&gt;
 
 &lt;p&gt;\[
     5 \equiv 9 \; \textrm{mod}(2),
@@ -41,31 +41,31 @@
 &lt;p&gt;because \(5\) and \(9\) both have a remainder of \(1\) when divided by \(2\). Now we can see how this is useful in public-key cryptography.&lt;/p&gt;
 
 &lt;h2 id=&quot;key-distribution-algorithm&quot;&gt;Key Distribution Algorithm&lt;/h2&gt;
-&lt;p&gt;Consider the case where Alice is trying to send Bob an encrypted message. Let \(q\) be a huge prime number that is known publicly. First, Alice will create her private key, denoted \(A_0\), and calculate her public key, denoted \(A_1\) with the following function,&lt;/p&gt;
+&lt;p&gt;Consider the case where Alice is trying to send Bob an encrypted message. Let \(q\) be a huge prime number that is known publicly. First, Alice will create her private key, denoted \(\alpha_0\), and calculate her public key, denoted \(\alpha_1\) with the following function,&lt;/p&gt;
 
 &lt;p&gt;\[
-    A_1 = 2^{A_0} \; \textrm{mod}(q).
+    \alpha_1 = 2^{\small{\alpha_0}} \; \textrm{mod}(q).
 \]&lt;/p&gt;
 
-&lt;p&gt;Similarly, Bob will create his private key \(B_0\) and public key \(B_1\). Then they can each generate a shared private key,&lt;/p&gt;
+&lt;p&gt;Similarly, Bob will create his private key \(\beta_0\) and public key \(\beta_1\). Then they can each generate a shared private key,&lt;/p&gt;
 
 &lt;p&gt;\[
-    K = 2^{A_0\cdot B_0} \; \textrm{mod}(q).
+    K = 2^{\small{\alpha_0 \cdot \beta_0}} \; \textrm{mod}(q).
 \]&lt;/p&gt;
 
-&lt;p&gt;Alice can calculate \(K\), by using Bob’s public key in the following way,&lt;/p&gt;
+&lt;p&gt;Alice can calculate \(K\) by using Bob’s public key in the following way,&lt;/p&gt;
 
 &lt;p&gt;\[
     \begin{align}
-        K &amp;amp;= B_1^{A_0} \; \textrm{mod}(q) \newline
-        &amp;amp;= 2^{A_0\cdot B_0}\; \textrm{mod}(q).
+        K &amp;amp;= \beta_1^{\small{\alpha_0}} \; \textrm{mod}(q) \newline
+        &amp;amp;= 2^{\small{\alpha_0\cdot \beta_0}}\; \textrm{mod}(q).
     \end{align}
 \]&lt;/p&gt;
 
-&lt;p&gt;Similarly Bob can calculate \(K\) using Alice’s public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve it.&lt;/p&gt;
+&lt;p&gt;Similarly Bob can calculate \(K\) using Alice’s public key and his private key. In this way they both agree on a shared key to use for the encryption without ever meeting outside of this insecure channel. Intuitively this works because they each have their own corresponding piece of the solution that they can use to quickly solve the equation, while an attacker doesn’t have any information to begin with, so must do a massive amount of work to achieve the same result.&lt;/p&gt;
 
 &lt;h2 id=&quot;demo&quot;&gt;Demo&lt;/h2&gt;
-&lt;p&gt;Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full &lt;a href=&quot;https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/publicKey.py&quot;&gt;here&lt;/a&gt;. We will work through this file to understand what is going on. First, we define a global prime number that we will use &lt;code class=&quot;highlighter-rouge&quot;&gt;Q=23&lt;/code&gt;. Now we define a class to that represents an individual on the network. The constructor simply takes a name for the person and chooses a random private key less than &lt;code class=&quot;highlighter-rouge&quot;&gt;Q&lt;/code&gt; and stores both of these as class variables.&lt;/p&gt;
+&lt;p&gt;Now that we have the theory developed, we can look at a toy example to see how this can work. The python3 code used in the demo can be found in full &lt;a href=&quot;https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/publicKey.py&quot;&gt;here&lt;/a&gt;. We will work through this file to understand what is going on. First, we define a global prime number that we will use, &lt;code class=&quot;highlighter-rouge&quot;&gt;Q=23&lt;/code&gt;. Now we define a class that represents an individual on the network. The constructor simply takes a name for the person and chooses a random private key less than &lt;code class=&quot;highlighter-rouge&quot;&gt;Q&lt;/code&gt; and stores both of these as class variables.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;

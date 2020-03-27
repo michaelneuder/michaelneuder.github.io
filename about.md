@@ -3,8 +3,6 @@ layout: page
 title: About
 ---
 
-[Blog posts](../contents)
-
 Hello, and thanks for landing on my personal website. I am passionate about learning and wanted to create a place to share my thoughts.
 This blog will have a range of posts and topics but will generally be centered around programming, computer science, math, blockchain, and economics.
 

@@ -10,3 +10,7 @@ This blog will have a range of posts and topics but will generally be centered a
 ## Cryptocurrencies
 
 1. [Public-Key Cryptography](../../posts/2020-3-21-cryptography1)
+
+## Mathematics
+
+1. [Euler's Method](../../posts/2020-3-27-eulers)

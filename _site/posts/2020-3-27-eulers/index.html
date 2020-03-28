@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Euler's Method &middot; Michael Neuder
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p></p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- <a class="sidebar-nav-item" href="/">Home</a> -->
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/">About</a>
+        
+      
+    
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/pages/contents/">Welcome</a>
+        
+      
+    
+      
+    
+
+    <a class="sidebar-nav-item" href="https://github.com/michaelneuder/michaelneuder.github.io">GitHub project</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2020. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Michael Neuder</a>
+            <small></small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Euler's Method</h1>
+  <span class="post-date"></span>
+  <p><em>I am trying to keep this content accessible. Don’t worry if you don’t understand all the theory, because I try to demonstrate examples and build intuition. As always, please feel free to reach out with questions/concerns/corrections.</em></p>
+
+<hr />
+
+<p>This turned into a longer post so feel free to skip around using these links.</p>
+<ol>
+  <li>Overview
+    <ul>
+      <li><a href="#context">Context</a></li>
+      <li><a href="#example-problem">Example problem</a></li>
+    </ul>
+  </li>
+  <li>Theory
+    <ul>
+      <li><a href="#derive-1">Derivation of Euler’s Method</a></li>
+      <li><a href="#derive-2">Derivation of error bound</a></li>
+    </ul>
+  </li>
+  <li>Demo
+    <ul>
+      <li><a href="#implementation">Implementation</a></li>
+      <li><a href="#results">Results</a></li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<p>This post was inspired by the content I am covering currently in my Numerical Analysis course taught by Dr. David Bosley at the University of Colorado. This has been one of my favorite math courses as it combines theory and practice in a very intuitive way. The central goals in this field are creating good numerical estimates of values that are difficult or impossible to find analytically, while also understanding the error of the estimates. The following analysis is of Euler’s Method for integrating Ordinary Differential Equations (ODEs). ODEs are equations that relate an independent variable and its derivatives, and often come up in engineering and scientific applications. The problem is that most ODEs are impossible to solve algebraically, and indeed the techniques learned in ODEs courses taught at most universities only apply to a small subset of problems, so we must often turn to numerical approximation to get solutions. Euler’s method is the simplest way of doing so, and has a relatively high error rate (which we will derive!), but it is very helpful to develop an intuition about these techniques before moving on to more accurate methods.</p>
+
+<h2 id="context-">Context <a name="context"></a></h2>
+<p>We will consider the following class of Initial Value Problems (IVPs) 
+\[
+    y’ = f(t, y), \quad a \leq t \leq b,\quad y(a) = \alpha.
+\]
+Intuitively this means that the derivative of \(y\) with respect to \(t\) is a function of both \(y\) and \(t\), and we define the domain of \(t\) as the closed interval \([a, \;b]\). With the constraint \(y(a)=\alpha\) we now have a place to start and the goal will be to find the value of \(y(b)\).</p>
+
+<h2 id="example-problem-">Example problem <a name="example-problem"></a></h2>
+<p>To demonstrate we will use an IVP that we <em>can</em> solve exactly, and use this true value to measure how accurate our approximations are. Consider the following IVP,
+\[
+    y’ = y + t, \quad 0 \leq t \leq 1, \quad y(0) = 0.
+\]
+Remember we are trying to find a function \(y(t)\) such that this above equation is satisfied. Since this is a linear ODE, we can find the exact solution as \(y(t) = e^t -t -1\). If you are curious how this exact solution is calculated see <a href="http://tutorial.math.lamar.edu/Classes/DE/Linear.aspx">Paul’s Online Math Notes</a>. Now let’s check to make sure this solution works. We can do this by plugging into our original ODE and making sure the equation is true. First we expand the left hand side of the equation,
+\[
+    \begin{align}
+        y’ &amp;= \frac{d}{dt} [e^t -t-1]\newline
+        &amp;= e^t - 1.
+    \end{align}
+\]</p>
+
+<p>Now we can expand the right hand side,
+\[
+    \begin{align}
+        y + t &amp;= e^t - t - 1 + t \newline
+        &amp;= e^t - 1.
+    \end{align}
+\]
+They match! So now we now this is the solution to the ODE and can calculate the value at \(b=1\),
+\[
+    \begin{align}
+        y(1) &amp;= e - 1 - 1 \newline
+        &amp;= e - 2 \newline
+        &amp;\approx 0.7182818284.
+    \end{align}
+\]</p>
+
+<p>This is the true value of the solution at \(b=1\), so we will use this value to calculate how far our approximations are from the truth. Now we are going to go through the derivation of Euler’s method and the associated error bound, so feel free to jump to the <a href="#implementation">implementation</a> if you prefer to skip the theory (but it is cool so you should stick around).</p>
+
+<h2 id="derivation-of-eulers-method-">Derivation of Euler’s Method <a name="derive-1"></a></h2>
+<p>We begin by breaking our interval into a number of “mesh points”. This will allow us to approximate the solution at a bunch of points in between \(a\) and \(b\) and thus get a more accurate approximate solution at \(b\). Let \(N\) be the number of mesh points we want to use. Then \(h = (b-a)/N\) is the distance between each point, and the values at each mesh point are \(t_j = a + jh\) for \(j = 0, 1, … , N\). For example, with \(a=0, \; b=1\) if we have \(N=4\), then the spacing between each mesh point will be \(0.25\), and the values of the mesh points are \([0, 0.25, 0.5, 0.75, 1].\) These mesh points are the <em>times</em> at which we will approximate the solution to our IVP.</p>
+
+<p>Now consider the the Taylor expansion of the solution \(y(t_{j+1})\) around the point \(t_j\) (for a refresher of Taylor Series see <a href="https://en.wikipedia.org/wiki/Taylor_series#Definition">here</a>). This expansion is as follows,
+\[
+    \begin{align}
+        y(t_{j+1}) &amp;= y(t_j) + y’(t_j)(t_{j+1} - t_j) + y’’(\xi) \frac{(t_{j+1} - t_j)^2}{2}.
+    \end{align}
+\]
+We know this is exact for some \(\xi \in [a,b]\). We can reduce this using the following features. First, 
+\[
+    \begin{align}
+        t_{j+1} - t_j &amp;= a + (j+1)h - (a + jh) \newline
+        &amp;= h.
+    \end{align}
+\]
+Additionally, we know the value of \(y’(t_j)\) because that is given by the IVP (recall that \(y\) is a function of \(t\)),
+\[
+    \begin{align}
+        y(t_j) &amp;= f(t_j, y(t_j)).
+    \end{align}
+\]
+So now we can rewrite our expansion more simply as,
+\[
+    \begin{align}
+        y(t_{j+1}) &amp;= y(t_j) + f (t_j, y(t_j))h + y’’(\xi) \frac{h^2}{2}.
+    \end{align}
+\]</p>
+
+<p>Now we can simply drop the last term and come to the approximation,
+\[
+    y(t_{j+1}) \approx y(t_j) + f (t_j, y(t_j))h.
+\]
+So this gives the iteration method as follows,
+\[
+    \begin{align}
+        w_0 &amp;= \alpha \newline
+        w_1 &amp;= w_0 + h f(t_0, w_0) \newline
+        … \newline
+        w_{j+1} &amp;= w_j + h f(t_j, w_j).
+    \end{align}
+\]</p>
+
+<p>This is what we will apply in the demo below. But first, we need to understand how the error shrinks as a function of \(h\). Intuitively, we expect that the error will shrink as we decrease \(h\). The iteration method above ignores the term that is order \(h^2\). This is called the <em>Local Truncation Error</em> (LTE). The global error then is a combination of each of these errors of the entire interval. The general rule is that the global error is order one less than the LTE, so Euler’s method is an \(O(h)\) method. What this means is that if we decrease \(h\) by a factor of 2, we expect the error to decrease by about a factor of 2. This is shown in the demo, but first we can derive a bound for the error.</p>
+
+<h2 id="derivation-of-error-bound-">Derivation of error bound <a name="derive-2"></a></h2>
+<p>We start by considering the error of our approximation at time \(t_{j+1}\). Recall that the exact value of the solution \(y(t_{j+1})\) is given by our Taylor Series expansion,
+\[
+    \begin{align}
+        y(t_{j+1}) &amp;= y(t_j) + f (t_j, y(t_j))h + y’’(\xi) \frac{h^2}{2}.
+    \end{align}
+\]</p>
+
+<p>Our approximation at time \(t_{j+1}\) is given by our iteration method,
+\[
+    \begin{align}
+        w_{j+1} &amp;= w_j + h f(t_j, w_j).
+    \end{align}
+\]
+So we can find our error at time \(t_{j+1}\) by taking the difference in these two values,</p>
+
+<p>\[
+    \begin{align}
+        y(t_{j+1}) - w_{j+1} &amp;= y(t_j) - w_j + h \left[f(t_j, y_j) - f(t_j, w_j)\right] +  \frac{h^2}{2} y’’(\xi).
+    \end{align}
+\]</p>
+
+<p>Now define error at time \(t_j\) to be \(e_j = y(t_j) - w_j\), and we can rewrite our expression,</p>
+
+<p>\[
+    \begin{align}
+        e_{j+1} &amp;= e_j + h \left[f(t_j, y_j) - f(t_j, w_j)\right] +  \frac{h^2}{2} y’’(\xi).
+    \end{align}
+\]</p>
+
+<p>Now we will use the fact that this IVP is Lipschitz continuous to further reduce. Lipschitz continuity is a subset of continuity that ensures the rate of change is bounded. Formally, it requires that there exists a constant \(K\) such that,
+\[
+|f(t,y_1) - f(t, y_2)| \leq K |y_1 - y_2|. 
+\]</p>
+
+<p>So now we can rewrite our definition of error at \(t_{j+1}\) as the following inequality,</p>
+
+<p>\[
+    \begin{align}
+        |e_{j+1}|  &amp;\leq |e_j| + hK \left|y_j - w_j\right| +  \frac{h^2}{2} y’’(\xi) \newline
+        &amp;= |e_j| + hK|e_j| +  \frac{h^2}{2} y’’(\xi) \newline
+        &amp;= |e_j|(1+hK) +  \frac{h^2}{2} y’’(\xi).
+    \end{align}
+\]
+Further, by the Extreme Value Theorem, we know that \( y’’ (t) \leq M\) for all \(t \in [a,b]\). Using this upper bound we can simplify,</p>
+
+<p>\[
+    \begin{align}
+        |e_{j+1}|  &amp;\leq |e_j|(1+hK) +  \frac{Mh^2}{2}.
+    \end{align}
+\]</p>
+
+<p>We can now rewrite \(|e_j|\) to be a function of only \(|e_0|\) by recursively defining \(|e_j|\) as a function of \(|e_{j-1}|\) all the way down to 0. This can be shown to be,
+\[
+    |e_j| \leq (1+hK)^{j} |e_0| + \frac{h^2}{2} M \sum_{i=0}^{j-1} e^{ihK}.
+\] 
+Now let’s simplify the sum. First we can look at the terms,</p>
+
+<p>\[
+    \begin{align}
+        \sum_{i=0}^{j-1} e^{ihK} &amp;= e^0 + e^{hK} + e^{2hK} + … + e^{(j-1)hK}.
+    \end{align}
+\]</p>
+
+<p>We can see this is a geometric sequence with rule \(e_{hK}\), so we can calculate the value as,</p>
+
+<p>\[
+    \begin{align}
+        \sum_{i=0}^{j-1} e^{ihK} &amp;= \frac{1-e^{jhK}}{1-e^{hK}} \newline
+        &amp;= \frac{e^{jhK}-1}{e^{hK}-1}
+    \end{align}
+\]
+Plugging this back in we have the error as,
+\[
+    |e_j| \leq (1+hK)^{j} |e_0| + \frac{h^2M}{2}  \frac{e^{jhK}-1}{e^{hK}-1}.
+\]
+Now we will use the identity \(e^{x} \geq 1+ x\). Note here that \(e\) is the base of the natural logarithm and not the variable we use for error. The error variables can be distinguished as always having subscripts. So finally we have the equation,
+\[
+    \begin{align}
+        |e_j| &amp;\leq e^{jhK} |e_0| + \frac{h^2M}{2}  \frac{e^{jhK}-1}{hK} \newline
+        &amp;= e^{jhK} |e_0| + \frac{hM}{2K}(e^{jhK}-1)
+    \end{align}
+\]
+Recall that \(Nh = b-a\). Now if we let \(j=N\), we can find an expression for the error at point \(t=b\),
+\[
+    \begin{align}
+        |e_N|  &amp;\leq e^{(b-a)K} |e_0| + \frac{hM}{2K}(e^{K(b-a)}-1).
+    \end{align}
+\]
+This expression is order 1 because there is just a \(h\) in the numerator. Ok! We are done. This is the closed form expression of the error for Euler’s method at the endpoint as a function \(a,b,K,e_0,M,h\), which are all constants we can calculate.</p>
+
+<h2 id="implementation-">Implementation <a name="implementation"></a></h2>
+<p>Now that we have the theory developed, let’s apply Euler’s method to our example problem. The python3 code used in the demo can be found in full <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/eulers.py">here</a>. First, we define a global constant of the true value that we are aiming for.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">TRUE_VALUE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span> <span class="o">-</span> <span class="mi">2</span>
+</code></pre></div></div>
+
+<p>Next we define our \(y’\) function. This is the ODE we are aiming to solve.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">yPrime</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">t</span> <span class="o">+</span> <span class="n">y</span>
+</code></pre></div></div>
+
+<p>Now we can implement our Euler’s method function. Remember that this is all based on the following iteration method we developed when we derived the method from the Taylor series,
+\[
+    w_{j+1} = w_j + h f(t_j, w_j).
+\]</p>
+
+<p>Our Euler’s method function is parameterized by:</p>
+<ol>
+  <li>\(y’\): the ODE to solve</li>
+  <li>\(N\): the number of subintervals to use</li>
+  <li>\(a\): the starting time</li>
+  <li>\(b\): the ending time</li>
+  <li>\(\alpha\): the initial condition</li>
+</ol>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">eulersMethod</span><span class="p">(</span><span class="n">yPrime</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="n">N</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">alpha</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">h</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">yPrime</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span>
+</code></pre></div></div>
+
+<p>First, it calculates the size of \(h\), and then it iterates and updates the value of <code class="highlighter-rouge">w</code>. By the end of the loop, the value of <code class="highlighter-rouge">w</code> will be \(w_{N}\), which is our estimate of \(y(b)\). Also note the amazingly simple python syntax where we simply pass in a reference to the function <code class="highlighter-rouge">yPrime</code> and can call it with arbitrary arguments, which is a result of functions be objects in python (thanks Guido)!</p>
+
+<h2 id="results-">Results <a name="results"></a></h2>
+
+<p>Now we can write our main as follows.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">15</span><span class="p">):</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">eulersMethod</span><span class="p">(</span><span class="n">yPrime</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span> <span class="o">-</span> <span class="n">TRUE_VALUE</span><span class="p">)</span>  
+</code></pre></div></div>
+
+<p>We can see that this function calculates the error of our final approximation as we make \(N\) very large. The table below shows these results.</p>
+
+<p><img src="../../assets/img/eulers/table1.png" alt="table 1 eulers" /></p>
+
+<p>This table shows the error as a function of \(N\). Additionally, it shows the ratio of the errors. Because the method is of order \(h\), we expect that each time we double the size of \(N\), the error should decrease by a factor of 2. The third column shows this ratio and indeed demonstrates that we are approaching a ratio of 2 (e.g. the error for \(N=4\) is twice as large as the error for \(N=8\)).</p>
+
+<p>The last useful thing to examine is a plot of our approximations. The code for the following figure can be found <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/eulersVis.ipynb">here</a>.</p>
+
+<p><img src="../../assets/img/eulers/error.png" alt="table 1 eulers" height="100%" width="100%" /></p>
+
+<p>As we see, each approximation is plotted with the mesh points shown as circles on the dashed line. The true solution is the orange solid line. We can see that the lines are converging to the true solution, and the error at the point \(t=1\) is decreasing as we increase \(N\).</p>
+
+<hr />
+
+<p>Thanks for reading! This turned out to be quite a hefty post, but I hope it was useful. Please do reach out with comments/questions/corrections.</p>
+
+<p><em>Mike</em></p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+  </body>
+</html>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>

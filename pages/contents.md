@@ -11,6 +11,10 @@ This blog will have a range of posts and topics but will generally be centered a
 
 1. [Public-Key Cryptography](../../posts/2020-3-21-cryptography1)
 
+## Networking
+
+1. [Internet Protocol Suite and Basic Packet Construction](../../posts/2020-4-1-networks1)
+
 ## Mathematics
 
 1. [Euler's Method](../../posts/2020-3-27-eulers)

@@ -61,6 +61,10 @@
     
       
         
+      
+    
+      
+        
           <a class="sidebar-nav-item" href="/about/">About</a>
         
       
@@ -133,7 +137,7 @@
 
 <hr />
 
-<p>This post was inspired by the content I am covering currently in my Numerical Analysis course taught by Dr. David Bosley at the University of Colorado. This has been one of my favorite math courses as it combines theory and practice in a very intuitive way. The central goals in this field are creating good numerical estimates of values that are difficult or impossible to find analytically, while also understanding the error of the estimates. The following analysis is of Euler’s Method for integrating Ordinary Differential Equations (ODEs). ODEs are equations that relate an independent variable and its derivatives, and often come up in engineering and scientific applications. The problem is that most ODEs are impossible to solve algebraically, and indeed the techniques learned in ODEs courses taught at most universities only apply to a small subset of problems, so we must often turn to numerical approximation to get solutions. Euler’s method is the simplest way of doing so, and has a relatively high error rate (which we will derive!), but it is very helpful to develop an intuition about these techniques before moving on to more accurate methods.</p>
+<p>This post was inspired by the content I am covering currently in my Numerical Analysis course taught by Dr. David Bosley at the University of Colorado. This has been one of my favorite math courses as it combines theory and practice in a very intuitive way. The central goals in this field are creating good numerical estimates of values that are difficult or impossible to find analytically and understanding the error of the estimates. The following analysis is of Euler’s Method for integrating Ordinary Differential Equations (ODEs). ODEs are equations that relate an independent variable and its derivatives, and often come up in engineering and scientific applications. The problem is that most ODEs are impossible to solve algebraically, and indeed the techniques taught in ODEs courses only apply to a small subset of problems, so we must often turn to numerical approximation to get solutions. Euler’s method is the simplest way of doing so, and has a relatively high error rate (which we will derive!), but it is very helpful to develop an intuition about these techniques before moving on to more accurate methods.</p>
 
 <h2 id="context-">Context <a name="context"></a></h2>
 <p>We will consider the following class of Initial Value Problems (IVPs) 
@@ -162,7 +166,7 @@ Remember we are trying to find a function \(y(t)\) such that this above equation
         &amp;= e^t - 1.
     \end{align}
 \]
-They match! So now we now this is the solution to the ODE and can calculate the value at \(b=1\),
+They match! So now we know this is the solution to the ODE and can calculate the value at \(b=1\),
 \[
     \begin{align}
         y(1) &amp;= e - 1 - 1 \newline
@@ -192,7 +196,7 @@ We know this is exact for some \(\xi \in [a,b]\). We can reduce this using the f
 Additionally, we know the value of \(y’(t_j)\) because that is given by the IVP (recall that \(y\) is a function of \(t\)),
 \[
     \begin{align}
-        y(t_j) &amp;= f(t_j, y(t_j)).
+        y’(t_j) &amp;= f(t_j, y(t_j)).
     \end{align}
 \]
 So now we can rewrite our expansion more simply as,
@@ -216,7 +220,7 @@ So this gives the iteration method as follows,
     \end{align}
 \]</p>
 
-<p>This is what we will apply in the demo below. But first, we need to understand how the error shrinks as a function of \(h\). Intuitively, we expect that the error will shrink as we decrease \(h\). The iteration method above ignores the term that is order \(h^2\). This is called the <em>Local Truncation Error</em> (LTE). The global error then is a combination of each of these errors of the entire interval. The general rule is that the global error is order one less than the LTE, so Euler’s method is an \(O(h)\) method. What this means is that if we decrease \(h\) by a factor of 2, we expect the error to decrease by about a factor of 2. This is shown in the demo, but first we can derive a bound for the error.</p>
+<p>This is what we will apply in the demo below. But first, we need to understand how the error shrinks as a function of \(h\). Intuitively, we expect that the error will shrink as we decrease \(h\). The iteration method above ignores the term that is order \(h^2\), and referred to as the <em>Local Truncation Error</em> (LTE). The global error then is a combination of each of these errors of the entire interval. The general rule is that the global error is order one less than the LTE, so Euler’s method is an \(O(h)\) method. What this means is that if we decrease \(h\) by a factor of 2, we expect the error to decrease by about a factor of 2. This is shown in the demo, but first we can derive a bound for the error.</p>
 
 <h2 id="derivation-of-error-bound-">Derivation of error bound <a name="derive-2"></a></h2>
 <p>We start by considering the error of our approximation at time \(t_{j+1}\). Recall that the exact value of the solution \(y(t_{j+1})\) is given by our Taylor Series expansion,
@@ -270,11 +274,11 @@ Further, by the Extreme Value Theorem, we know that \( y’’ (t) \leq M\) for 
     \end{align}
 \]</p>
 
-<p>We can now rewrite \(|e_j|\) to be a function of only \(|e_0|\) by recursively defining \(|e_j|\) as a function of \(|e_{j-1}|\) all the way down to 0. This can be shown to be,
+<p>We can now rewrite \(|e_j|\) to be a function of only \(|e_0|\) by recursively defining \(|e_j|\) as a function of \(|e_{j-1}|\) all the way down to \(0\). Additionally we will use the identity \(e^{x} \geq 1+ x\). This gives the result,
 \[
     |e_j| \leq (1+hK)^{j} |e_0| + \frac{h^2}{2} M \sum_{i=0}^{j-1} e^{ihK}.
 \] 
-Now let’s simplify the sum. First we can look at the terms,</p>
+Note here that \(e\) is the base of the natural logarithm and not the variable we use for error. The error variables can be distinguished as always having subscripts. Now let’s simplify the sum. First we can look at the terms,</p>
 
 <p>\[
     \begin{align}
@@ -282,7 +286,7 @@ Now let’s simplify the sum. First we can look at the terms,</p>
     \end{align}
 \]</p>
 
-<p>We can see this is a geometric sequence with rule \(e_{hK}\), so we can calculate the value as,</p>
+<p>We can see this is a geometric sequence with rule \(e^{hK}\), so we can calculate the value as,</p>
 
 <p>\[
     \begin{align}
@@ -294,7 +298,7 @@ Plugging this back in we have the error as,
 \[
     |e_j| \leq (1+hK)^{j} |e_0| + \frac{h^2M}{2}  \frac{e^{jhK}-1}{e^{hK}-1}.
 \]
-Now we will use the identity \(e^{x} \geq 1+ x\). Note here that \(e\) is the base of the natural logarithm and not the variable we use for error. The error variables can be distinguished as always having subscripts. So finally we have the equation,
+So finally we have the equation,
 \[
     \begin{align}
         |e_j| &amp;\leq e^{jhK} |e_0| + \frac{h^2M}{2}  \frac{e^{jhK}-1}{hK} \newline
@@ -307,7 +311,7 @@ Recall that \(Nh = b-a\). Now if we let \(j=N\), we can find an expression for t
         |e_N|  &amp;\leq e^{(b-a)K} |e_0| + \frac{hM}{2K}(e^{K(b-a)}-1).
     \end{align}
 \]
-This expression is order 1 because there is just a \(h\) in the numerator. Ok! We are done. This is the closed form expression of the error for Euler’s method at the endpoint as a function \(a,b,K,e_0,M,h\), which are all constants we can calculate.</p>
+This expression is order 1 because there is just a \(h\) in the numerator. Ok! We are done. This is the closed form expression of the error for Euler’s method at the endpoint as a function of \(a,b,K,e_0,M,h\), which are all constants we can calculate.</p>
 
 <h2 id="implementation-">Implementation <a name="implementation"></a></h2>
 <p>Now that we have the theory developed, let’s apply Euler’s method to our example problem. The python3 code used in the demo can be found in full <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/eulers.py">here</a>. First, we define a global constant of the true value that we are aiming for.</p>
@@ -342,7 +346,7 @@ This expression is order 1 because there is just a \(h\) in the numerator. Ok! W
     <span class="k">return</span> <span class="n">w</span>
 </code></pre></div></div>
 
-<p>First, it calculates the size of \(h\), and then it iterates and updates the value of <code class="highlighter-rouge">w</code>. By the end of the loop, the value of <code class="highlighter-rouge">w</code> will be \(w_{N}\), which is our estimate of \(y(b)\). Also note the amazingly simple python syntax where we simply pass in a reference to the function <code class="highlighter-rouge">yPrime</code> and can call it with arbitrary arguments, which is a result of functions be objects in python (thanks Guido)!</p>
+<p>First, it calculates the size of \(h\), and then it iterates and updates the value of <code class="highlighter-rouge">w</code>. By the end of the loop, the value of <code class="highlighter-rouge">w</code> will be \(w_{N}\), which is our estimate of \(y(b)\). Also note the amazingly simple python syntax where we simply pass in a reference to the function <code class="highlighter-rouge">yPrime</code> and can call it with arbitrary arguments, which is a result of functions being objects in python (thanks Guido)!</p>
 
 <h2 id="results-">Results <a name="results"></a></h2>
 
@@ -359,7 +363,7 @@ This expression is order 1 because there is just a \(h\) in the numerator. Ok! W
 
 <p><img src="../../assets/img/eulers/table1.png" alt="table 1 eulers" height="100%" width="100%" /></p>
 
-<p>This table shows the error as a function of \(N\). Additionally, it shows the ratio of the errors. Because the method is of order \(h\), we expect that each time we double the size of \(N\), the error should decrease by a factor of 2. The third column shows this ratio and indeed demonstrates that we are approaching a ratio of 2 (e.g. the error for \(N=4\) is twice as large as the error for \(N=8\)).</p>
+<p>This table shows the error decreasing as \(N\) increases. Additionally, it shows the ratio of the errors. Because the method is of order \(h\), we expect the error to decrease by a factor of 2 each time we double the size of \(N\). The third column shows this ratio and indeed demonstrates that we are approaching a ratio of 2 (e.g. the error for \(N=4\) is twice as large as the error for \(N=8\)).</p>
 
 <p>The last useful thing to examine is a plot of our approximations. The code for the following figure can be found <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/assets/code/eulersVis.ipynb">here</a>.</p>
 

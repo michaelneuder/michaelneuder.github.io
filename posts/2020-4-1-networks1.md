@@ -88,7 +88,7 @@ We can see that at 12:25 a packet was processed from our `tcpdump` process with 
 
 ![ifconfig output](../../assets/img/network1/ascii2.png){:height="100%" width="100%"}
 
-The packet and contents are shown in the red box above. We can see that the plaintext fake password is now readable just by parsing the packet that we heard over the public network. Almost all data transmitted over TCP/IP is encrypted (curious about encryption? see my [Public Key Cryptography post](../2020-3-21-cryptography1)) using TLS (Transport Security Layer), so this type of packet sniffing won't usually expose user passwords and other sensitive information. You can tell if your connection is being secured by TLS encryption if the webpage name is prefixed with `https` or the lock symbol is seen in the search bar. 
+The packet and contents are shown in the red box above. We can see that the plaintext fake password is now readable just by parsing the packet that we heard over the public network. A large percent of the data transmitted over TCP/IP is encrypted (curious about encryption? see my [Public Key Cryptography post](../2020-3-21-cryptography1)) using TLS (Transport Security Layer), so this type of packet sniffing won't usually expose user passwords and other sensitive information. Though as Sujeet Akula brought up, many smaller websites won't use TLS, but the big names that see a lot of traffic certainly will. You can tell if your connection is being secured by TLS encryption if the webpage name is prefixed with `https` or the lock symbol is seen in the search bar. 
 
 ![ifconfig output](../../assets/img/network1/secure.png){:height="100%" width="100%"}
 

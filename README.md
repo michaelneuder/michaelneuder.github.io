@@ -1,2 +1,2 @@
 # michaelneuder.github.io
-personal academic webpage
+personal webpage

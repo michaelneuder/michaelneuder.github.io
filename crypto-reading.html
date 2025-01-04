@@ -12,7 +12,86 @@
         <h1>crypto reading/listening/watching list</h1>
         <p><a href="index.html">home</a></p>
 
+        by category (for 2025): <br>
+
+
+        <pre>
+-
+  +
+    *
+      ~ 
+  
+- <u>consensus and execution separation</u>
+  + <a href="https://ethresear.ch/t/execution-consensus-separation/19964">link</a>. <em>"Execution Consensus Separation"</em> by Max Resnick
+  + <a href="https://arxiv.org/pdf/1909.05821">link</a>. <em>"Flow: Separating Consensus and Compute"</em> by Alexander Hentschel et al.
+  - <a href="https://arxiv.org/pdf/1909.05832">link</a>. <em>"Flow: Separating Consensus and Compute – Execution Verification –"</em> by Alexander Hentschel et al.
+  - <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
+  
+      ~
+    *
+  +
+- 
+        </pre>
+
+
+
+        <p>=========================================================</p>
+        by year:
+        <h3>2025</h3>
         <p>-----------------------------------------------------------------------------</p>
+        <h3>january 2025</h3>
+        [NOTE - started additionally organizing by topic above. hope this makes the list more useful. also adding notes when i take them.]<br><br>
+
+        - <a href="https://ethresear.ch/t/execution-consensus-separation/19964">link</a>. "Execution Consensus Separation" by Max Resnick <br>
+        - <a href="https://arxiv.org/pdf/1909.05821">link</a>. <em>"Flow: Separating Consensus and Compute"</em> by Alexander Hentschel et al.
+        <pre>
+  + <u>Notes</u>
+    * “Specifically, the selection and ordering of transactions are performed independently from their execution.”
+    * ^ sounds a bit like rainbow staking, where you decompose the role of validator into different heterogeneous roles.
+    * Consensus role: only determine order of transactions and ~do not~ come to consensus on the resulting state.
+    * Execution roles: “raw compute” to determine the new state.
+    * “Operation Processors” vs. “Operation Verifiers” are both execution roles completely separate from consensus. 
+    * <b>Key result:</b> use consensus nodes to verify that a sufficient number of executors agree on the new state or to adjudicate and punish misbehaving nodes.
+    * <b>Reminder:</b> In Ethereum proposals, we might have a FOCIL committee propose a set of unordered transactions and then have the builders reorder and insert over them. That is pretty similar…
+        </pre>
+
+        - <a href="https://arxiv.org/pdf/1909.05832">link</a>. <em>"Flow: Separating Consensus and Compute – Execution Verification –"</em> by Alexander Hentschel et al.
+        <pre>
+  + <u>Notes</u>
+    * Presents a protocol for verification and dispute resolution, which is facilitated by the consensus nodes.
+    * Collector: “receive txns and introduce them into the network”
+      ~ ^ sounds a lot like a FOCIL committee member
+    * Consensus node: “form block inputs but not the state after the execution”
+    * Block sealing: “contains a supermajority vote about the resulting state voted on by the Verifiers and is included in a later block” (this is a finalization step that has accountable safety over the output of the execution) (note that the verifiers and the executors are different).
+    * Execution node: compute outputs and execution receipts.
+    * Verifier node: check the work of the execution nodes. 
+    * Observer node: external data providers.
+    * Not clear to me that you need all of these roles. A simpler model where the consensus and execution are the only separation seems more tractable and probably has similar properties. These details above feel more engineering motivated.
+    * Stages of transaction processing
+      1. Collection
+      2. Ordering
+      3. Execution
+      4. Verification of execution.
+      5. Sealing (finalization).
+    * ^ should consider that a transaction can revert at any point along here, need to ensure that the fallback mechanism. Free DA feels potentially lethal in particular.
+    * “Faulty computation result” protocol is essentially the same as a fraud proof for L2s. There is a challenge period, where the consensus nodes manage the dispute resolution over many rounds of communication. ~This is the key part. It feels extremely complex for an L1 to manage.~
+    * They have a protocol for resolving missing transaction data, but again, that doesn’t feel necessary unless we are allowing consensus to come over transaction hashes instead of the full transactions, which I don’t think Ethereum would ever do.
+        </pre>
+
+        - <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
+        <pre>
+  + <u>Notes</u>
+    * Focusing on Section 4: Block formation. The previous sections are repetitive and about cluster formation, which feels like a flow specific feature rather than something more general.
+    * Protocol 3 has an interesting feature, “line 5: has received all guaranteed collections”. This sounds like a vote for a block will only be included if the transaction has been seen. Doesn’t sound feasible because of private order flow, but interesting that it comes up. Not central to the point though.
+    * Section 4.5 Adjudicating Slashing Challenges: extremely sparse description of the slashing and resolution process. I really think this is the core of the issue. How do you resolve, what state do you roll back to, what do you do in the meantime with transactions? Essentially, this turns into a liveness attack on the network I believe.
+    * Mostly engineering details here. Sections 3 & 5 are specific to flow.
+    
+                </pre>
+        
+        <p>-----------------------------------------------------------------------------</p>
+        <h3>2024</h3>
+        <p>-----------------------------------------------------------------------------</p>
+        
         <h3>december 2024</h3>
         [NOTE - stopped adding podcasts; not useful and a lot of effort.]<br><br>
 

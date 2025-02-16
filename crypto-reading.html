@@ -10,9 +10,9 @@
       /* Hide the pre block initially */
       #notes-content {
           display: none;
-          padding-left: 20px;
-          border-left: 2px solid #ccc;
-          margin-top: 5px;
+          padding-left: 5px;
+          border-left: 2px solid #890b6a;
+          margin-top: 0px;
       }
 
       /* Style for the clickable Notes */
@@ -29,15 +29,15 @@
   </head>
   <body>
     <script>
-      function toggleNotes() {
-          var content = document.getElementById("notes-content");
-          if (content.style.display === "none") {
+      function toggleNotes(id) {
+          var content = document.getElementById(id);
+          if (content.style.display === "none" || content.style.display === "") {
               content.style.display = "block";
           } else {
               content.style.display = "none";
           }
       }
-    </script>
+  </script>
     <main>
         <h1>crypto reading/listening/watching list</h1>
         <p><a href="index.html">home</a></p>
@@ -87,10 +87,10 @@
         <p>-----------------------------------------------------------------------------</p>
         <h3>february 2025</h3>
         - <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em>  by Data Always<br>
-        <p class="expandable" onclick="toggleNotes()">&nbsp;&nbsp;+ <u>Notes</u></p>
-<pre id="notes-content">
-    * "Proposer-builder separation (PBS) is a scaling technology ... relays have also made significant investments in network infrastructure to optimize the propagation of blocks."
-      ~ interesting, haven't heard this framing, and i think it is actually kinda bad. if you depend on relays to handle the heavy blocks better than solo stakers, you start making solo staking less feasible.
+        <p class="expandable" onclick="toggleNotes(relays-and-reorgs)">&nbsp;&nbsp;+ <u>Notes</u></p>
+<pre id="relays-and-reorgs" class="notes-content">
+  * "Proposer-builder separation (PBS) is a scaling technology ... relays have also made significant investments in network infrastructure to optimize the propagation of blocks."
+    ~ interesting, haven't heard this framing, and i think it is actually kinda bad. if you depend on relays to handle the heavy blocks better than solo stakers, you start making solo staking less feasible.
 </pre>
         
         

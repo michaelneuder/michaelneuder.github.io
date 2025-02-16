@@ -6,8 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>crypto reading list</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Hide the pre block initially */
+      #notes-content {
+          display: none;
+          padding-left: 20px;
+          border-left: 2px solid #ccc;
+          margin-top: 5px;
+      }
+
+      /* Style for the clickable Notes */
+      .expandable {
+          cursor: pointer;
+          color: blue;
+          
+      }
+
+      .expandable:hover {
+          color: darkblue;
+      }
+    </style>
   </head>
   <body>
+    <script>
+      function toggleNotes() {
+          var content = document.getElementById("notes-content");
+          if (content.style.display === "none") {
+              content.style.display = "block";
+          } else {
+              content.style.display = "none";
+          }
+      }
+    </script>
     <main>
         <h1>crypto reading/listening/watching list</h1>
         <p><a href="index.html">home</a></p>
@@ -54,6 +84,16 @@
         <p>=========================================================</p>
         by year:
         <h3>2025</h3>
+        <p>-----------------------------------------------------------------------------</p>
+        <h3>february 2025</h3>
+        - <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em>  by Data Always<br>
+        <p class="expandable" onclick="toggleNotes()">&nbsp;&nbsp;+ <u>Notes</u></p>
+<pre id="notes-content">
+    * "Proposer-builder separation (PBS) is a scaling technology ... relays have also made significant investments in network infrastructure to optimize the propagation of blocks."
+      ~ interesting, haven't heard this framing, and i think it is actually kinda bad. if you depend on relays to handle the heavy blocks better than solo stakers, you start making solo staking less feasible.
+</pre>
+        
+        
         <p>-----------------------------------------------------------------------------</p>
         <h3>january 2025</h3>
         [NOTE - started additionally organizing by topic above. hope this makes the list more useful. also adding notes when i take them.]<br><br>

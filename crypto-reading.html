@@ -10,7 +10,7 @@
       /* Hide the pre block initially */
       .notes-content {
           display: none;
-          padding-left: 5px;
+          padding-left: 10px;
           border-left: 2px solid #991616;
           margin-top: 0px;
       }
@@ -87,7 +87,7 @@
         <p>-----------------------------------------------------------------------------</p>
         <h3>february 2025</h3>
         - <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em>  by Data Always<br>
-        <p class="expandable" onclick="toggleNotes('relays-and-reorgs')">&nbsp;&nbsp;+ <u>Notes</u></p>
+        <p class="expandable" onclick="toggleNotes('relays-and-reorgs')">&nbsp;&nbsp;+ <u>notes</u></p>
 <pre id="relays-and-reorgs" class="notes-content">
   * "Proposer-builder separation (PBS) is a scaling technology ... relays have also made significant investments in network infrastructure to optimize the propagation of blocks."
     ~ interesting, haven't heard this framing, and i think it is actually kinda bad. if you depend on relays to handle the heavy blocks better than solo stakers, you start making solo staking less feasible.
@@ -97,8 +97,6 @@
         <p>-----------------------------------------------------------------------------</p>
         <h3>january 2025</h3>
         [NOTE - started additionally organizing by topic above. hope this makes the list more useful. also adding notes when i take them.]<br><br>
-
-    
 
         - <a href="https://blog.succinct.xyz/succinct-network/">link</a>. <em>"Introducing Succinct Network: The Protocol for Programmable Truth"</em>  by Uma Roy <br>
         - <a href="https://www.provewith.us/">link</a>. <em>"Succinct Network: Prove the World’s Software"</em>  by Uma Roy et al. <br>
@@ -111,7 +109,7 @@
         - <a href="https://arxiv.org/pdf/2411.01689">link</a>.<em>"Consensus Under Adversary Majority Done Right"</em> by Srivatsan Sridhar et al. <br>
         - <a href="https://ethresear.ch/t/execution-consensus-separation/19964">link</a>. "Execution Consensus Separation" by Max Resnick <br>
         - <a href="https://arxiv.org/pdf/1909.05821">link</a>. <em>"Flow: Separating Consensus and Compute"</em> by Alexander Hentschel et al.
-<p class="expandable" onclick="toggleNotes('flow-separating-consensus-and-compute')">&nbsp;&nbsp;+ <u>Notes</u></p>
+<p class="expandable" onclick="toggleNotes('flow-separating-consensus-and-compute')">&nbsp;&nbsp;+ <u>notes</u></p>
 <pre id="flow-separating-consensus-and-compute" class="notes-content">
   * “Specifically, the selection and ordering of transactions are performed independently from their execution.”
   * ^ sounds a bit like rainbow staking, where you decompose the role of validator into different heterogeneous roles.
@@ -122,8 +120,8 @@
   * <b>Reminder:</b> In Ethereum proposals, we might have a FOCIL committee propose a set of unordered transactions and then have the builders reorder and insert over them. That is pretty similar…
 </pre>
         - <a href="https://arxiv.org/pdf/1909.05832">link</a>. <em>"Flow: Separating Consensus and Compute – Execution Verification –"</em> by Alexander Hentschel et al.
-        <pre>
-  + <u>Notes</u>
+<p class="expandable" onclick="toggleNotes('flow-execution-verification')">&nbsp;&nbsp;+ <u>notes</u></p>
+<pre id="flow-execution-verification" class="notes-content">
     * Presents a protocol for verification and dispute resolution, which is facilitated by the consensus nodes.
     * Collector: “receive txns and introduce them into the network”
       ~ ^ sounds a lot like a FOCIL committee member
@@ -145,14 +143,13 @@
         </pre>
 
         - <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
-        <pre>
-  + <u>Notes</u>
+<p class="expandable" onclick="toggleNotes('flow-block-formation-and-execution')">&nbsp;&nbsp;+ <u>notes</u></p>
+<pre id="flow-block-formation-and-execution" class="notes-content">   
     * Focusing on Section 4: Block formation. The previous sections are repetitive and about cluster formation, which feels like a flow specific feature rather than something more general.
     * Protocol 3 has an interesting feature, “line 5: has received all guaranteed collections”. This sounds like a vote for a block will only be included if the transaction has been seen. Doesn’t sound feasible because of private order flow, but interesting that it comes up. Not central to the point though.
     * Section 4.5 Adjudicating Slashing Challenges: extremely sparse description of the slashing and resolution process. I really think this is the core of the issue. How do you resolve, what state do you roll back to, what do you do in the meantime with transactions? Essentially, this turns into a liveness attack on the network I believe.
     * Mostly engineering details here. Sections 3 & 5 are specific to flow.
-    
-                </pre>
+</pre>
 
 
                 - <a href="https://ethresear.ch/t/exploring-sophisticated-execution-proposers-for-ethereum/21386">link</a>. <em>"Exploring Sophisticated Execution Proposers for Ethereum"</em> by Julian Ma

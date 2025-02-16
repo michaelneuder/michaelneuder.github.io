@@ -35,13 +35,18 @@
     <script>
       function toggleNotes(id) {
           var content = document.getElementById(id);
-          if (content.style.display === "none" || content.style.display === "") {
-              content.style.display = "block";
+
+          if (content.style.maxHeight === "0px" || content.style.maxHeight === "") {
+              content.style.maxHeight = content.scrollHeight + "px";  // Expand
+              content.style.paddingTop = "5px";
+              content.style.paddingBottom = "5px";
           } else {
-              content.style.display = "none";
+              content.style.maxHeight = "0px";  // Collapse
+              content.style.paddingTop = "0";
+              content.style.paddingBottom = "0";
           }
       }
-  </script>
+    </script>
     <main>
         <h1>crypto reading/listening/watching list</h1>
         <p><a href="index.html">home</a></p>

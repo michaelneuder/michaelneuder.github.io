@@ -13,6 +13,12 @@
           padding-left: 10px;
           border-left: 2px solid #991616;
           margin-top: 0px;
+          width: 600px;  /* Fixed width for all notes */
+          max-width: 90%;
+          word-wrap: break-word;  /* Ensures long words break properly */
+          overflow-wrap: break-word;
+          background-color: #f9f9f9; /* Light background for readability */
+          white-space: pre-wrap;
       }
 
       /* Style for the clickable Notes */
@@ -144,15 +150,13 @@
 
         - <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
 <p class="expandable" onclick="toggleNotes('flow-block-formation-and-execution')">&nbsp;&nbsp;+ <u>notes</u></p>
-<pre id="flow-block-formation-and-execution" class="notes-content">   
+<pre id="flow-block-formation-and-execution" class="notes-content"> 
     * Focusing on Section 4: Block formation. The previous sections are repetitive and about cluster formation, which feels like a flow specific feature rather than something more general.
     * Protocol 3 has an interesting feature, “line 5: has received all guaranteed collections”. This sounds like a vote for a block will only be included if the transaction has been seen. Doesn’t sound feasible because of private order flow, but interesting that it comes up. Not central to the point though.
     * Section 4.5 Adjudicating Slashing Challenges: extremely sparse description of the slashing and resolution process. I really think this is the core of the issue. How do you resolve, what state do you roll back to, what do you do in the meantime with transactions? Essentially, this turns into a liveness attack on the network I believe.
     * Mostly engineering details here. Sections 3 & 5 are specific to flow.
 </pre>
-
-
-                - <a href="https://ethresear.ch/t/exploring-sophisticated-execution-proposers-for-ethereum/21386">link</a>. <em>"Exploring Sophisticated Execution Proposers for Ethereum"</em> by Julian Ma
+          - <a href="https://ethresear.ch/t/exploring-sophisticated-execution-proposers-for-ethereum/21386">link</a>. <em>"Exploring Sophisticated Execution Proposers for Ethereum"</em> by Julian Ma
         
         <p>-----------------------------------------------------------------------------</p>
         <h3>2024</h3>

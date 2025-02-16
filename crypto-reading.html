@@ -57,6 +57,9 @@
     *
       ~ 
 
+- <u>relays/PBS</u>
+  + <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em> by Data Always
+
 - <u>prover markets</u>
   + <a href="https://blog.succinct.xyz/succinct-network/">link</a>. <em>"Introducing Succinct Network: The Protocol for Programmable Truth"</em>  by Uma Roy 
   + <a href="https://www.provewith.us/">link</a>. <em>"Succinct Network: Prove the World’s Software"</em>  by Uma Roy et al. 
@@ -70,6 +73,7 @@
   + <a href="https://arxiv.org/pdf/1909.05832">link</a>. <em>"Flow: Separating Consensus and Compute – Execution Verification –"</em> by Alexander Hentschel et al.
   + <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
   + <a href="https://ethresear.ch/t/exploring-sophisticated-execution-proposers-for-ethereum/21386">link</a>. <em>"Exploring Sophisticated Execution Proposers for Ethereum"</em> by Julian Ma
+  + <a href="https://ethresear.ch/t/proposal-delay-stateroot-reference-to-increase-throughput-and-reduce-latency/20490">link</a>. <em>"Proposal: Delay stateRoot Reference to Increase Throughput and Reduce Latency"</em> by Charlie Noyes and Max Resnick
 
 - <u>consensus</u>
   + <a href="https://arxiv.org/pdf/2411.01689">link</a>. <em>"Consensus Under Adversary Majority Done Right"</em>  by Srivatsan Sridhar et al. 
@@ -92,11 +96,14 @@
         <h3>2025</h3>
         <p>-----------------------------------------------------------------------------</p>
         <h3>february 2025</h3>
-        - <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em>  by Data Always<br>
+        - <a href="https://ethresear.ch/t/proposal-delay-stateroot-reference-to-increase-throughput-and-reduce-latency/20490">link</a>. <em>"Proposal: Delay stateRoot Reference to Increase Throughput and Reduce Latency"</em> by Charlie Noyes and Max Resnick<br>
+        - <a href="https://collective.flashbots.net/t/the-role-of-relays-in-reorgs/4247">link</a>. <em>"The role of relays in reorgs"</em> by Data Always<br>
         <p class="expandable" onclick="toggleNotes('relays-and-reorgs')">&nbsp;&nbsp;+ <u>notes</u></p>
 <pre id="relays-and-reorgs" class="notes-content">
   * "Proposer-builder separation (PBS) is a scaling technology ... relays have also made significant investments in network infrastructure to optimize the propagation of blocks."
     ~ interesting, haven't heard this framing, and i think it is actually kinda bad. if you depend on relays to handle the heavy blocks better than solo stakers, you start making solo staking less feasible.
+  * "Figure 7: cumulative distribution of unique bids between parent hashes in PBS auctions where the proposer requested a reorging parent hash"
+    ~ this is so cool, basically, these reorgs aren't actually necessary. and builders may have a competitive edge by have a good prior on whether or not the proposer is going to try to reorg or not. so many games going on here.
 </pre>
         
         

@@ -9,15 +9,11 @@
     <style>
       /* Hide the pre block initially */
       .notes-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-            padding-left: 50px;
-            border-left: 2px solid #ccc;
-            margin-top: 0px;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
+          display: none;
+          padding-left: 5px;
+          border-left: 2px solid #991616;
+          margin-top: 0px;
+      }
 
       /* Style for the clickable Notes */
       .expandable {
@@ -35,15 +31,10 @@
     <script>
       function toggleNotes(id) {
           var content = document.getElementById(id);
-
-          if (content.style.maxHeight === "0px" || content.style.maxHeight === "") {
-              content.style.maxHeight = content.scrollHeight + "px";  // Expand
-              content.style.paddingTop = "5px";
-              content.style.paddingBottom = "5px";
+          if (content.style.display === "none" || content.style.display === "") {
+              content.style.display = "block";  // Expand
           } else {
-              content.style.maxHeight = "0px";  // Collapse
-              content.style.paddingTop = "0";
-              content.style.paddingBottom = "0";
+              content.style.display = "none";  // Collapse
           }
       }
     </script>

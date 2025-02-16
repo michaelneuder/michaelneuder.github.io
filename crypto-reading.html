@@ -111,17 +111,16 @@
         - <a href="https://arxiv.org/pdf/2411.01689">link</a>.<em>"Consensus Under Adversary Majority Done Right"</em> by Srivatsan Sridhar et al. <br>
         - <a href="https://ethresear.ch/t/execution-consensus-separation/19964">link</a>. "Execution Consensus Separation" by Max Resnick <br>
         - <a href="https://arxiv.org/pdf/1909.05821">link</a>. <em>"Flow: Separating Consensus and Compute"</em> by Alexander Hentschel et al.
-        <pre>
-  + <u>Notes</u>
-    * “Specifically, the selection and ordering of transactions are performed independently from their execution.”
-    * ^ sounds a bit like rainbow staking, where you decompose the role of validator into different heterogeneous roles.
-    * Consensus role: only determine order of transactions and ~do not~ come to consensus on the resulting state.
-    * Execution roles: “raw compute” to determine the new state.
-    * “Operation Processors” vs. “Operation Verifiers” are both execution roles completely separate from consensus. 
-    * <b>Key result:</b> use consensus nodes to verify that a sufficient number of executors agree on the new state or to adjudicate and punish misbehaving nodes.
-    * <b>Reminder:</b> In Ethereum proposals, we might have a FOCIL committee propose a set of unordered transactions and then have the builders reorder and insert over them. That is pretty similar…
-        </pre>
-
+<p class="expandable" onclick="toggleNotes(flow-separating-consensus-and-compute)">&nbsp;&nbsp;+ <u>Notes</u></p>
+<pre id="flow-separating-consensus-and-compute" class="notes-content">
+  * “Specifically, the selection and ordering of transactions are performed independently from their execution.”
+  * ^ sounds a bit like rainbow staking, where you decompose the role of validator into different heterogeneous roles.
+  * Consensus role: only determine order of transactions and ~do not~ come to consensus on the resulting state.
+  * Execution roles: “raw compute” to determine the new state.
+  * “Operation Processors” vs. “Operation Verifiers” are both execution roles completely separate from consensus. 
+  * <b>Key result:</b> use consensus nodes to verify that a sufficient number of executors agree on the new state or to adjudicate and punish misbehaving nodes.
+  * <b>Reminder:</b> In Ethereum proposals, we might have a FOCIL committee propose a set of unordered transactions and then have the builders reorder and insert over them. That is pretty similar…
+</pre>
         - <a href="https://arxiv.org/pdf/1909.05832">link</a>. <em>"Flow: Separating Consensus and Compute – Execution Verification –"</em> by Alexander Hentschel et al.
         <pre>
   + <u>Notes</u>

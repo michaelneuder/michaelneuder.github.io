@@ -77,7 +77,9 @@
   + <a href="https://arxiv.org/pdf/2002.07403">link</a>. <em>"Flow: Separating Consensus and Compute – Block Formation and Execution –"</em> by Alexander Hentschel et al.
   + <a href="https://ethresear.ch/t/exploring-sophisticated-execution-proposers-for-ethereum/21386">link</a>. <em>"Exploring Sophisticated Execution Proposers for Ethereum"</em> by Julian Ma
   + <a href="https://ethresear.ch/t/proposal-delay-stateroot-reference-to-increase-throughput-and-reduce-latency/20490">link</a>. <em>"Proposal: Delay stateRoot Reference to Increase Throughput and Reduce Latency"</em> by Charlie Noyes and Max Resnick
-  + <a href="https://ethresear.ch/t/delayed-execution-and-skipped-transactions/21677">link</a>. <em>"Delayed Execution And Skipped Transactions"</em> by Toni
+  + <u>delayed execution</u>
+    * <a href="https://ethresear.ch/t/delayed-execution-and-skipped-transactions/21677">link</a>. <em>"Delayed Execution And Skipped Transactions"</em> by Toni
+    * <a href="https://hackmd.io/@fradamt/delayed-execution">link</a>. <em>"Delayed Execution"</em> by Francesco
   + <u>rainbow staking</u>
     * <a href="https://ethresear.ch/t/three-tier-staking-3ts-unbundling-attesters-includers-and-execution-proposers/21648">link</a>. <em>"Three-Tier staking (3TS) - Unbundling Attesters, Includers and Execution Proposers"</em> by Thomas Thiery
 
@@ -90,12 +92,24 @@
   + <a href="https://arxiv.org/abs/2408.01896">link</a>. <em>"Remote Staking with Optimal Economic Safety"</em>  by Xinshu Dong et al.
   + <a href="https://arxiv.org/abs/2208.02999">link</a>. <em>"Cryptoeconomic Security for Data Availability Committees"</em>  by Ertem Nusret Tas and Dan Boneh
   
-- <u>ethereum roadmap</u>
+- <u>ethereum roadmap & proposals</u>
   + <a href="https://www.paradigm.xyz/2025/01/ethereum-acceleration-1">link</a>. <em>"Ethereum Acceleration"</em> by Paradigm
   + <a href="https://blog.ethereum.org/2025/02/25/aya-announcement">link</a>. <em>"A new chapter in the infinite garden"</em> by Aya Miyaguchi
   + <a href="https://vitalik.eth.limo/general/2025/01/23/l1l2future.html">link</a>. <em>"Scaling Ethereum L1 and L2s in 2025 and beyond"</em> by Vitalik
   + <a href="https://vitalik.eth.limo/general/2025/02/14/l1scaling.html">link</a>. <em>"Reasons to have higher L1 gas limits even in an L2-heavy Ethereum"</em> by Vitalik
   + <a href="https://www.reddit.com/r/ethereum/comments/1iw8ln8/ama_we_are_ef_research_pt_13_25_february_2025/">link</a>. <em>"13th AMA"</em> by Ethereum Foundation Research Team
+  + <a href="https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517">link</a>. <em>"Native rollups—superpowers from L1 execution"</em> by Justin Drake
+  + <u>Proto-Danksharding/PeerDAS/DAS</u>
+    * <a href="https://ethresear.ch/t/peerdas-a-simpler-das-approach-using-battle-tested-p2p-components/16541">link</a>. <em>"PeerDAS – a simpler DAS approach using battle-tested p2p components"</em> by Danny Ryan
+    * <a href="https://arxiv.org/pdf/2502.12966">link</a>. <em>"The Early Days of the Ethereum Blob Fee Market and Lessons Learnt"</em>. by Lioba Heimbach and Jason Milionis
+  + <u>Electra/Prague EIPs</u>
+    * <a href="https://eips.ethereum.org/EIPS/eip-7691">link</a>. <em>"EIP-7691: EIP-7691: Blob throughput increase"</em>
+    * <a href="https://eips.ethereum.org/EIPS/eip-7623">link</a>. <em>"EIP-7623: Increase calldata cost"</em>
+    * <a href="https://eips.ethereum.org/EIPS/eip-7685">link</a>. <em>"EIP-7685: General purpose execution layer requests"</em>
+    * <a href="https://eips.ethereum.org/EIPS/eip-7251">link</a>. <em>"EIP-7251: increase the max effective balance"</em>
+
+- <u>fundamental blockchain</u>
+  + <a href="https://arxiv.org/pdf/2311.12731">link</a>. <em>"Serial Monopoly on Blockchains"</em> by Noam Nisan
 
       ~
     *
@@ -110,6 +124,38 @@
         <h3>2025</h3>
         <p>-----------------------------------------------------------------------------</p>
         <h3>march 2025</h3>
+        
+        - <a href="https://arxiv.org/pdf/2311.12731">link</a>. <em>"Serial Monopoly on Blockchains"</em> by Noam Nisan<br>
+        <p class="expandable" onclick="toggleNotes('serial-monopoly-noam')">&nbsp;&nbsp;+ <u>notes</u></p>
+<pre id="serial-monopoly-noam" class="notes-content">
+  * "they get the value of their transaction even if it is scheduled at later blocks"
+    ~ turns into a dynamic setting where the user is infinitely patient and are price takers.
+  * "is that monopolist pricing dynamics leads to never-ending price fluctuations and this happens endogenously without any stochastic element in the model and when the exogenous
+  conditions are completely stable"
+    ~ this must arise just from heterogeniety in user values and randomness in their arrivals?
+    ~ "Also note that the model is completely deterministic." 
+      > turns out not. figure 2 shows the output from the deterministic model, it looks almost like a logistic map or some other discrete dynamical system.
+  * "However, as this shading requires information about the market conditions, optimal bidding may be difficult."
+    ~ puts you back into the difficult FPA regime? 
+  * Pretty cool, need to relate it to our repeated game with service provision. Also relate it to Matt's recent paper.
+  * This all for sure has to do with supply function equilibria too. 
+</pre>
+        - <a href="https://arxiv.org/pdf/2502.12966">link</a>. <em>"The Early Days of the Ethereum Blob Fee Market and Lessons Learnt"</em>. by Lioba Heimbach and Jason Milionis<br>
+        - <a href="https://eips.ethereum.org/EIPS/eip-7691">link</a>. <em>"EIP-7691: EIP-7691: Blob throughput increase"</em><br>
+        - <a href="https://eips.ethereum.org/EIPS/eip-7623">link</a>. <em>"EIP-7623: Increase calldata cost"</em><br>
+        - <a href="https://eips.ethereum.org/EIPS/eip-7685">link</a>. <em>"EIP-7685: General purpose execution layer requests"</em><br>
+        - <a href="https://eips.ethereum.org/EIPS/eip-7251">link</a>. <em>"EIP-7251: increase the max effective balance"</em><br>
+        - <a href="https://ethresear.ch/t/peerdas-a-simpler-das-approach-using-battle-tested-p2p-components/16541">link</a>. <em>"PeerDAS – a simpler DAS approach using battle-tested p2p components"</em> by Danny Ryan<br>
+        - <a href="https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517">link</a>. <em>"Native rollups—superpowers from L1 execution"</em> by Justin Drake<br>
+        - <a href="https://hackmd.io/@fradamt/delayed-execution">link</a>. <em>"Delayed Execution"</em> by Francesco<br>
+        <p class="expandable" onclick="toggleNotes('delayed-exec-2')">&nbsp;&nbsp;+ <u>notes</u></p>
+<pre id="delayed-exec-2" class="notes-content">
+  * "Approach 2: optimistic attesting"
+    ~ pretty cool, block just becomes invalid. but i can see how painful this would be from the implementation pespective.
+  * "Approach 1: statically verify payload with upfront builder payment"
+    ~ makes sense and can allow block level base fees which can use up that extra space. 
+    ~ forcing the coinbase to pay the entire blocks base fee seems hard though.
+</pre>
         - <a href="https://ethresear.ch/t/delayed-execution-and-skipped-transactions/21677">link</a>. <em>"Delayed Execution And Skipped Transactions"</em> by Toni<br>
         <p class="expandable" onclick="toggleNotes('delayed-exec-1')">&nbsp;&nbsp;+ <u>notes</u></p>
 <pre id="delayed-exec-1" class="notes-content">

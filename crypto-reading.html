@@ -84,10 +84,11 @@
     * <a href="https://hackmd.io/@fradamt/delayed-execution">link</a>. <em>"Delayed Execution"</em> by Francesco
   + <u>rainbow staking</u>
     * <a href="https://ethresear.ch/t/three-tier-staking-3ts-unbundling-attesters-includers-and-execution-proposers/21648">link</a>. <em>"Three-Tier staking (3TS) - Unbundling Attesters, Includers and Execution Proposers"</em> by Thomas Thiery
+    * <a href="https://ethresear.ch/t/paths-to-ssf-revisited/22052">link</a>. <em>"Paths to SSF revisited"</em> by Barnabé
 
 - <u>consensus</u>
   + <a href="https://arxiv.org/pdf/2411.01689">link</a>. <em>"Consensus Under Adversary Majority Done Right"</em>  by Srivatsan Sridhar et al. 
-    * <a href="https://a16zcrypto.com/posts/article/beyond-51-attacks/">link</a>. <em>"Beyond 51% attacks: Precisely characterizing blockchain achievable resilience"</em>  by Joachim Neu, Srivatsan Sridhar, Ertem Nusret Tas
+  + <a href="https://a16zcrypto.com/posts/article/beyond-51-attacks/">link</a>. <em>"Beyond 51% attacks: Precisely characterizing blockchain achievable resilience"</em>  by Joachim Neu, Srivatsan Sridhar, Ertem Nusret Tas
   + <a href="https://eprint.iacr.org/2023/1556">link</a>. <em>"Better Safe than Sorry: Recovering after Adversarial Majority"</em>  by Srivatsan Sridhar, Dionysis Zindros, and David Tse
 
 - <u>crypto-economic security</u>
@@ -100,7 +101,6 @@
   + <a href="https://vitalik.eth.limo/general/2025/01/23/l1l2future.html">link</a>. <em>"Scaling Ethereum L1 and L2s in 2025 and beyond"</em> by Vitalik
   + <a href="https://vitalik.eth.limo/general/2025/02/14/l1scaling.html">link</a>. <em>"Reasons to have higher L1 gas limits even in an L2-heavy Ethereum"</em> by Vitalik
   + <a href="https://www.reddit.com/r/ethereum/comments/1iw8ln8/ama_we_are_ef_research_pt_13_25_february_2025/">link</a>. <em>"13th AMA"</em> by Ethereum Foundation Research Team
-  + <a href="https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517">link</a>. <em>"Native rollups—superpowers from L1 execution"</em> by Justin Drake
   + <u>Proto-Danksharding/PeerDAS/DAS/networking</u>
     * <a href="https://ethresear.ch/t/peerdas-a-simpler-das-approach-using-battle-tested-p2p-components/16541">link</a>. <em>"PeerDAS – a simpler DAS approach using battle-tested p2p components"</em> by Danny Ryan
     * <a href="https://arxiv.org/pdf/2502.12966">link</a>. <em>"The Early Days of the Ethereum Blob Fee Market and Lessons Learnt"</em>. by Lioba Heimbach and Jason Milionis
@@ -114,7 +114,13 @@
     * <a href="https://eips.ethereum.org/EIPS/eip-7623">link</a>. <em>"EIP-7623: Increase calldata cost"</em>
     * <a href="https://eips.ethereum.org/EIPS/eip-7685">link</a>. <em>"EIP-7685: General purpose execution layer requests"</em>
     * <a href="https://eips.ethereum.org/EIPS/eip-7251">link</a>. <em>"EIP-7251: increase the max effective balance"</em>
-
+  + <u>Based/native rollups</u>
+    * <a href="https://ethresear.ch/t/understanding-based-rollups-pga-challenges-total-anarchy-and-potential-solutions/21320">link</a>. <em>"Understanding Based Rollups: PGA Challenges, Total Anarchy, and Potential Solutions"</em> by Davide Rezzoli
+    * <a href="https://ethresear.ch/t/native-rollups-superpowers-from-l1-execution/21517">link</a>. <em>"Native rollups—superpowers from L1 execution"</em> by Justin Drake
+    * <a href="https://eips.ethereum.org/EIPS/eip-7917">link</a>. <em>"EIP-7917: Deterministic proposer lookahead"</em> by Lin Oshitani
+  + <u>censorship resistance</u>
+    * <a href="https://mirror.xyz/julianma.eth/G15Gs2TGfnU93t8R7fuyFjTmZGIwwhRFhNhH_M0dgGE">link</a>. <em>"IncluderSelect: Leveraging External Incentives in FOCIL"</em> by Julian Ma
+    
 - <u>fundamental blockchain</u>
   + <a href="https://arxiv.org/pdf/2311.12731">link</a>. <em>"Serial Monopoly on Blockchains"</em> by Noam Nisan
 
@@ -132,6 +138,20 @@
         <p>=========================================================</p>
         by year:
         <h3>2025</h3>
+        
+        <p>-----------------------------------------------------------------------------</p>
+        <h3>april 2025</h3>
+        - <a href="https://ethresear.ch/t/paths-to-ssf-revisited/22052">link</a>. <em>"Paths to SSF revisited"</em> by Barnabé <br>
+        - <a href="https://eips.ethereum.org/EIPS/eip-7917">link</a>. <em>"EIP-7917: Deterministic proposer lookahead"</em> by Lin Oshitani<br>
+        - <a href="https://mirror.xyz/julianma.eth/G15Gs2TGfnU93t8R7fuyFjTmZGIwwhRFhNhH_M0dgGE">link</a>. <em>"IncluderSelect: Leveraging External Incentives in FOCIL"</em> by Julian Ma <br>
+        - <a href="https://ethresear.ch/t/understanding-based-rollups-pga-challenges-total-anarchy-and-potential-solutions/21320">link</a>. <em>"Understanding Based Rollups: PGA Challenges, Total Anarchy, and Potential Solutions"</em> by Davide Rezzoli<br>
+        <p class="expandable" onclick="toggleNotes('based-pga-taiko')">&nbsp;&nbsp;+ <u>notes</u></p>
+<pre id="based-pga-taiko" class="notes-content">
+  * Main takeaway here: in a world where lots of rollups use blobs to land "latency sensitive" transactions 
+  as part of the "hot path" for L2 users, blobs will generally become more private. E.g., any contentious
+  data is likely to go through private channels. 
+</pre>
+
         <p>-----------------------------------------------------------------------------</p>
         <h3>march 2025</h3>
         - <a href="https://ethresear.ch/t/expanding-mempool-perspectives/22022">link</a>. <em>"Expanding Mempool Perspectives"</em> by Toni<br>

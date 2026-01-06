@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>crypto reading list</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Hide the pre block initially */
+      .notes-content {
+          display: none;
+          padding-left: 10px;
+          border-left: 2px solid #991616;
+          margin-top: 0px;
+          width: 600px;  /* Fixed width for all notes */
+          max-width: 90%;
+          word-wrap: break-word;  /* Ensures long words break properly */
+          overflow-wrap: break-word;
+          background-color: #f9f9f9; /* Light background for readability */
+          white-space: pre-wrap;
+      }
+
+      /* Style for the clickable Notes */
+      .expandable {
+          cursor: pointer;
+          color: blue;
+          
+      }
+
+      .expandable:hover {
+          color: darkblue;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function toggleNotes(id) {
+          var content = document.getElementById(id);
+          if (content.style.display === "none" || content.style.display === "") {
+              content.style.display = "block";  // Expand
+          } else {
+              content.style.display = "none";  // Collapse
+          }
+      }
+    </script>
+    <main>
+        <h1>2026 crypto reading list</h1>
+        <p><a href="index.html">home</a></p>
+
+        by category: <br>
+
+
+        <pre>
+-
+  +
+    *
+      ~
+
+- <u>MEV/relays/PBS</u>
+  + <a href="https://hackmd.io/@linoscope/pipelining-only-epbs">link</a>. <em>"Pipelining-Only ePBS"</em> by Lin
+
+      ~
+    *
+  +
+- 
+        </pre>
+
+
+
+        <p>=========================================================</p>
+        .
+
+        <h3>january 2026</h3>
+        - <a href="https://hackmd.io/@linoscope/pipelining-only-epbs">link</a>. <em>"Pipelining-Only ePBS"</em> by Lin<br>
+       
+        <p>-----------------------------------------------------------------------------</p>
+    </main>
+  </body>
+</html>

@@ -6,593 +6,723 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
     <title>writing</title>
+    <style>
+      main { max-width: 920px; }
+
+      /* by-topic list ---------------------------------------------- */
+      .topic { margin: 0 0 18px 0; }
+      .topic > .label { font-weight: bold; }
+      .subtopic { margin: 8px 0 2px 22px; font-style: italic; color: #7f4f00; }
+      .paper { margin: 3px 0 3px 22px; }
+      .paper.sub { margin-left: 44px; }
+      .paper::before { content: "+ "; color: #999; }
+
+      /* by-year list ----------------------------------------------- */
+      hr.rule { border: none; border-top: 1px solid #e2d5c2; margin: 26px 0; }
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 34px 0; }
+      .entry .title { font-style: italic; }
+      .entry .authors { font-style: italic; color: #555; }
+      .entry .meta { margin: 6px 0 0 22px; }
+      .entry .meta > div { margin: 2px 0; }
+    </style>
   </head>
   <body>
     <main>
         <h1>writing (articles)</h1>
         <p><a href="index.html">home</a></p>
 
-        by category: <br>
+        <h2>by topic</h2>
 
-        <pre>
+        <div class="topic">
+          <span class="label" id="mev">MEV</span>
 
-- <span id="mev"><b>MEV</b></span>
-  + <i>relays</i>
-    * <a href="https://ethresear.ch/t/bid-cancellations-considered-harmful/15500" target="_blank">Bid cancellations considered harmful</a>
-    * <a href="https://frontier.tech/optimistic-relays-and-where-to-find-them" target="_blank">Optimistic relays and where to find them</a>
-    * <a href="https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md" target="_blank">An Optimistic Weekend</a>
-    * <a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md" target="_blank">Towards ePBS an Optimistic Roadmap</a>
-    * <a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md" target="_blank">Optimistic Relay Proposal</a>
-  + <i>enshrined Proposer-Builder Separation</i>
-    * <a href="https://hackmd.io/@mikeneuder/decouple-payload-and-da" target="_blank">Decouple ExecutionPayload validity from Data Availability</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/consider-the-epbs" target="_blank">Consider the ePBS</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/infinite-buffet" target="_blank">ePBS – the infinite buffet</a>
-    * <a href="https://ethresear.ch/t/relays-in-a-post-epbs-world/16278" target="_blank">Relays in a post-ePBS world</a>
-    * <a href="https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054" target="_blank">Payload-Timeliness Committees</a>
-    * <a href="https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710" target="_blank">Why Enshrine Proposer-Builder Separation?</a>
-    * <a href="https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338" target="_blank">Equivocation Attacks in mev-boost and ePBS</a>
-  + <i>censorship resistance</i>
-    * <a href="https://eips.ethereum.org/EIPS/eip-7547" target="_blank">EIP-7547</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra" target="_blank">The case for ILECTRA</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/il-poc-spec" target="_blank">Inclusion Lists PoC Specification</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/il-spec-overview" target="_blank">Inclusion lists: execution, consensus, & engine spec overview</a>
-    * <a href="https://ethresear.ch/t/unconditional-inclusion-lists/18500" target="_blank">Unconditional Inclusion Lists</a>
-    * <a href="https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762" target="_blank">Resistance is not futile; CR in mev-boost</a>
-    * <a href="https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389" target="_blank">No free lunch – a new inclusion list design</a>
-  + <i>enshrined auction mechanisms</i>
-    * <a href="https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321" target="_blank">Mechan-stein</a>
-    * <a href="https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764" target="_blank">On block-space distribution mechanisms</a>
-    * <a href="https://ethresear.ch/t/execution-tickets/17944" target="_blank">Execution Tickets</a>
-    * <a href="https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384" target="_blank">dr. changestuff or: how i learned to stop worrying and love mev-burn</a>  
-  + <i>misc.</i>
-    * <a href="https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977" target="_blank">Application-controlled execution: A case study on cancel prioritization</a>
-    * <a href="https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612" target="_blank">Timing Games – implications and possible mitigations</a>
+          <div class="subtopic">relays</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/bid-cancellations-considered-harmful/15500" target="_blank">Bid cancellations considered harmful</a></div>
+          <div class="paper sub"><a href="https://frontier.tech/optimistic-relays-and-where-to-find-them" target="_blank">Optimistic relays and where to find them</a></div>
+          <div class="paper sub"><a href="https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md" target="_blank">An Optimistic Weekend</a></div>
+          <div class="paper sub"><a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md" target="_blank">Towards ePBS an Optimistic Roadmap</a></div>
+          <div class="paper sub"><a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md" target="_blank">Optimistic Relay Proposal</a></div>
 
-- <span id="pos"><b>proof-of-stake</b></span>
-  + <i>ethereum consensus</i>
-    * <a href="https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777" target="_blank">Concurrent Block Proposers in Ethereum</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv" target="_blank">Rollup-centric roadmap, 2024 version</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum" target="_blank">A set-theoretic view of Ethereum coteries</a>
-    * <a href="https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus" target="_blank">Time, Slots, and the ordering of events in Ethereum Proof-of-Stake</a>
-  + <i>procurement/zkEVM for Ethereum</i>
-    * <a href="https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254" target="_blank">A native zkEVM scales bandwidth, not just execution</a>
-    * <a href="https://ethresear.ch/t/capacity-oracles/24716" target="_blank">Capacity oracles</a>
-    * <a href="https://ethresear.ch/t/on-ethereum-prover-market-design/22916" target="_blank">On Ethereum Prover Market Design</a>
-    * <a href="https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469" target="_blank">On incentivizing anonymous participation</a>
-  + <i>`ETH` the asset</i>
-    * <a href="https://notes.ethereum.org/@mikeneuder/iiii" target="_blank">Issuance Issues — Initial Issue</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/subsol" target="_blank">Issuance Issues — Subsequent Soliloquy</a>
-    * <a href="https://hackmd.io/@mikeneuder/iitt" target="_blank">Issuance Issues — Tertiary Treatise</a>
-    * <a href="https://hackmd.io/@mikeneuder/ethesis" target="_blank">My (e)thesis: settlement, data availability, execution — in that order.</a>
-  + <i>exit/withdrawal queues</i>
-    * <a href="https://eips.ethereum.org/EIPS/eip-7922" target="_blank">EIP-7922</a>
-    * <a href="https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits" target="_blank">ELI5: Ethereum Validator Exits</a>
-    * <a href="https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061" target="_blank">Adding flexibility to Ethereum's exit queue</a>
-  + <i>EIP-7251; MAX_EFFECTIVE_BALANCE</i>
-    * <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank">EIP-7251</a>
-    * <a href="https://notes.ethereum.org/@fradamt/maxeb-consolidation" target="_blank">MAXEB Consolidation</a>
-    * <a href="https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509" target="_blank">Slashing penalty analysis – EIP-7251</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/eip-7251-faq" target="_blank">EIP-7251 FAQ</a>
-    * <a href="https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801" target="_blank">Increase the MAX_EFFECTIVE_BALANCE – a modest proposal</a>
-  + <i>liquid staking/restaking</i>
-    * <a href="https://ethresear.ch/t/the-risks-of-lrts/18799" target="_blank">The risks of LRTs</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/magnitude-and-direction" target="_blank">Magnitude and direction of Lido attack vectors</a>
-    * <a href="https://notes.ethereum.org/@mikeneuder/goldilocks" target="_blank">Can we find Goldilocks? Musings on “two-tiered” staking, a native Liquid Staking Token design</a>
-  + <i>blobs</i>
-    * <a href="https://hackmd.io/@mikeneuder/blob-gossip-and-validation" target="_blank">Blob gossip and validation before and after PeerDAS</a>
-    * <a href="https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613" target="_blank">On the future of the blob mempool</a>
+          <div class="subtopic">enshrined Proposer-Builder Separation</div>
+          <div class="paper sub"><a href="https://hackmd.io/@mikeneuder/decouple-payload-and-da" target="_blank">Decouple ExecutionPayload validity from Data Availability</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/consider-the-epbs" target="_blank">Consider the ePBS</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/infinite-buffet" target="_blank">ePBS – the infinite buffet</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/relays-in-a-post-epbs-world/16278" target="_blank">Relays in a post-ePBS world</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054" target="_blank">Payload-Timeliness Committees</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710" target="_blank">Why Enshrine Proposer-Builder Separation?</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338" target="_blank">Equivocation Attacks in mev-boost and ePBS</a></div>
 
-- <b>random</b>
-  + <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf" target="_blank">On 0x3d84</a>
-  + <a href="https://notes.ethereum.org/@mikeneuder/solo-staking-rig" target="_blank">Solo staking rig</a>
-  + <a href="public/strumpack.pdf" target="_blank">Implementing Iterative Mixed Refinement in STRUMPACK</a>
-  + <a href="https://hackmd.io/@mikeneuder/fed-balance-sheet" target="_blank">Overnight reverse repurchases and the Fed's balance sheet</a>
-        </pre>
+          <div class="subtopic">censorship resistance</div>
+          <div class="paper sub"><a href="https://eips.ethereum.org/EIPS/eip-7547" target="_blank">EIP-7547</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra" target="_blank">The case for ILECTRA</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/il-poc-spec" target="_blank">Inclusion Lists PoC Specification</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/il-spec-overview" target="_blank">Inclusion lists: execution, consensus, & engine spec overview</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/unconditional-inclusion-lists/18500" target="_blank">Unconditional Inclusion Lists</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762" target="_blank">Resistance is not futile; CR in mev-boost</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389" target="_blank">No free lunch – a new inclusion list design</a></div>
 
-        
-        <p>==========================================================================================</p>
-        by year:
-        
+          <div class="subtopic">enshrined auction mechanisms</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321" target="_blank">Mechan-stein</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764" target="_blank">On block-space distribution mechanisms</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/execution-tickets/17944" target="_blank">Execution Tickets</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384" target="_blank">dr. changestuff or: how i learned to stop worrying and love mev-burn</a></div>
+
+          <div class="subtopic">misc.</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977" target="_blank">Application-controlled execution: A case study on cancel prioritization</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612" target="_blank">Timing Games – implications and possible mitigations</a></div>
+        </div>
+
+        <div class="topic">
+          <span class="label" id="pos">proof-of-stake</span>
+
+          <div class="subtopic">ethereum consensus</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777" target="_blank">Concurrent Block Proposers in Ethereum</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv" target="_blank">Rollup-centric roadmap, 2024 version</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum" target="_blank">A set-theoretic view of Ethereum coteries</a></div>
+          <div class="paper sub"><a href="https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus" target="_blank">Time, Slots, and the ordering of events in Ethereum Proof-of-Stake</a></div>
+
+          <div class="subtopic">procurement / zkEVM for Ethereum</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254" target="_blank">A native zkEVM scales bandwidth, not just execution</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/capacity-oracles/24716" target="_blank">Capacity oracles</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/on-ethereum-prover-market-design/22916" target="_blank">On Ethereum Prover Market Design</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469" target="_blank">On incentivizing anonymous participation</a></div>
+
+          <div class="subtopic">`ETH` the asset</div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/iiii" target="_blank">Issuance Issues — Initial Issue</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/subsol" target="_blank">Issuance Issues — Subsequent Soliloquy</a></div>
+          <div class="paper sub"><a href="https://hackmd.io/@mikeneuder/iitt" target="_blank">Issuance Issues — Tertiary Treatise</a></div>
+          <div class="paper sub"><a href="https://hackmd.io/@mikeneuder/ethesis" target="_blank">My (e)thesis: settlement, data availability, execution — in that order.</a></div>
+
+          <div class="subtopic">exit/withdrawal queues</div>
+          <div class="paper sub"><a href="https://eips.ethereum.org/EIPS/eip-7922" target="_blank">EIP-7922</a></div>
+          <div class="paper sub"><a href="https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits" target="_blank">ELI5: Ethereum Validator Exits</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061" target="_blank">Adding flexibility to Ethereum's exit queue</a></div>
+
+          <div class="subtopic">EIP-7251; MAX_EFFECTIVE_BALANCE</div>
+          <div class="paper sub"><a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank">EIP-7251</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@fradamt/maxeb-consolidation" target="_blank">MAXEB Consolidation</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509" target="_blank">Slashing penalty analysis – EIP-7251</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/eip-7251-faq" target="_blank">EIP-7251 FAQ</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801" target="_blank">Increase the MAX_EFFECTIVE_BALANCE – a modest proposal</a></div>
+
+          <div class="subtopic">liquid staking / restaking</div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/the-risks-of-lrts/18799" target="_blank">The risks of LRTs</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/magnitude-and-direction" target="_blank">Magnitude and direction of Lido attack vectors</a></div>
+          <div class="paper sub"><a href="https://notes.ethereum.org/@mikeneuder/goldilocks" target="_blank">Can we find Goldilocks? Musings on “two-tiered” staking, a native Liquid Staking Token design</a></div>
+
+          <div class="subtopic">blobs</div>
+          <div class="paper sub"><a href="https://hackmd.io/@mikeneuder/blob-gossip-and-validation" target="_blank">Blob gossip and validation before and after PeerDAS</a></div>
+          <div class="paper sub"><a href="https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613" target="_blank">On the future of the blob mempool</a></div>
+        </div>
+
+        <div class="topic">
+          <span class="label">random</span>
+          <div class="paper"><a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf" target="_blank">On 0x3d84</a></div>
+          <div class="paper"><a href="https://notes.ethereum.org/@mikeneuder/solo-staking-rig" target="_blank">Solo staking rig</a></div>
+          <div class="paper"><a href="public/strumpack.pdf" target="_blank">Implementing Iterative Mixed Refinement in STRUMPACK</a></div>
+          <div class="paper"><a href="https://hackmd.io/@mikeneuder/fed-balance-sheet" target="_blank">Overnight reverse repurchases and the Fed's balance sheet</a></div>
+        </div>
+
+        <hr class="section">
+        <h2>by year</h2>
+
         <h3>2026</h3>
-        
-        <img src="public/zk-scales-bandwidth.png" alt="cm" width="300" height="300">
-        <p>&rarr; <i>A native zkEVM scales bandwidth, not just execution<br>
-          &nbsp;&nbsp;&nbsp;&nbsp; by Mike<br> 
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254" target="_blank">https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
 
-        <img src="public/capacity-oracle.png" alt="cm" width="580" height="200">
-        <p>&rarr; <i>Capacity oracles<br>
-          &nbsp;&nbsp;&nbsp;&nbsp; by Maryam and Mike<br> 
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/capacity-oracles/24716" target="_blank">https://ethresear.ch/t/capacity-oracles/24716</a>
-        </p>
+        <div class="entry">
+          <img src="public/zk-scales-bandwidth.png" alt="zkevm bandwidth" width="300" height="300">
+          <p>&rarr; <span class="title">A native zkEVM scales bandwidth, not just execution</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254" target="_blank">https://ethresear.ch/t/a-native-zkevm-scales-bandwidth-not-just-execution/25254</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        
-        <img src="public/aceappchain.png" alt="cm" width="370" height="400">
-        <p>&rarr; <i> Application-controlled execution: A case study on cancel prioritization<br>
-          &nbsp;&nbsp;&nbsp;&nbsp; by Maryam and Mike<br> 
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977" target="_blank">https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977</a>
-        </p>
+        <div class="entry">
+          <img src="public/capacity-oracle.png" alt="capacity oracles" width="580" height="200">
+          <p>&rarr; <span class="title">Capacity oracles</span></p>
+          <div class="meta">
+            <div class="authors">by Maryam and Mike</div>
+            <div><a href="https://ethresear.ch/t/capacity-oracles/24716" target="_blank">https://ethresear.ch/t/capacity-oracles/24716</a></div>
+          </div>
+        </div>
 
-        <p>==========================================================================================</p>
-        
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/aceappchain.png" alt="application-controlled execution" width="370" height="400">
+          <p>&rarr; <span class="title">Application-controlled execution: A case study on cancel prioritization</span></p>
+          <div class="meta">
+            <div class="authors">by Maryam and Mike</div>
+            <div><a href="https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977" target="_blank">https://ethresear.ch/t/application-controlled-execution-a-case-study-on-cancel-prioritization/23977</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2025</h3>
 
-        <img src="public/decouplepayloadandda.png" alt="cm" width="370" height="200">
-        <p>&rarr; <i> Decouple ExecutionPayload validity from Data Availability<br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/decouple-payload-and-da" target="_blank">https://hackmd.io/@mikeneuder/decouple-payload-and-da</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/overnightrepos.png" alt="cm" width="320" height="200">
-        <p>&rarr; <i> Overnight reverse repurchases and the Feds' balance sheet
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/fed-balance-sheet" target="_blank">https://hackmd.io/@mikeneuder/fed-balance-sheet</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/provermarket.png" alt="cm" width="220" height="126">
-        <p>&rarr; <i> On Ethereum Prover Market Design
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Maryam and Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/on-ethereum-prover-market-design/22916" target="_blank">https://ethresear.ch/t/on-ethereum-prover-market-design/22916</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/decouplepayloadandda.png" alt="decouple payload and da" width="370" height="200">
+          <p>&rarr; <span class="title">Decouple ExecutionPayload validity from Data Availability</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://hackmd.io/@mikeneuder/decouple-payload-and-da" target="_blank">https://hackmd.io/@mikeneuder/decouple-payload-and-da</a></div>
+          </div>
+        </div>
 
+        <hr class="rule">
 
-        <img src="public/verticalshard.png" alt="cm" width="420" height="126">
-        <p>&rarr; <i>On the future of the blob mempool
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike and Julian
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613" target="_blank">https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/anonymousparticipation.png" alt="cm" width="420" height="150">
-        <p>&rarr; <i>On incentivizing anonymous participation
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by maryam & mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469" target="_blank">https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/overnightrepos.png" alt="overnight repos" width="320" height="200">
+          <p>&rarr; <span class="title">Overnight reverse repurchases and the Feds' balance sheet</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://hackmd.io/@mikeneuder/fed-balance-sheet" target="_blank">https://hackmd.io/@mikeneuder/fed-balance-sheet</a></div>
+          </div>
+        </div>
 
-        <img src="public/blobs.png" alt="cm" width="300" height="110">
-        <p>&rarr; <i>Blob gossip and validation before and after PeerDAS
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/blob-gossip-and-validation" target="_blank">https://hackmd.io/@mikeneuder/blob-gossip-and-validation</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/eip-7922.png" alt="cm" width="300" height="70">
-        <p>&rarr; <i>EIP-7922: Dynamic exit queue rate limit
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mikhail Kalinin (@mkalinin), Mike Neuder (@michaelneuder), Mallesh Pai (@Mmp610)
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://eips.ethereum.org/EIPS/eip-7922" target="_blank">https://eips.ethereum.org/EIPS/eip-7922</a>
-        </p>
-        
+        <div class="entry">
+          <img src="public/provermarket.png" alt="prover market" width="220" height="126">
+          <p>&rarr; <span class="title">On Ethereum Prover Market Design</span></p>
+          <div class="meta">
+            <div class="authors">by Maryam and Mike</div>
+            <div><a href="https://ethresear.ch/t/on-ethereum-prover-market-design/22916" target="_blank">https://ethresear.ch/t/on-ethereum-prover-market-design/22916</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/exitqueueretrospective.png" alt="cm" width="430" height="220">
-        <p>&rarr; Adding flexibility to Ethereum's exit queue<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike, Mallesh, Mikhail
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061" target="_blank">https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061</a>
-        </p>
+        <div class="entry">
+          <img src="public/verticalshard.png" alt="blob mempool" width="420" height="126">
+          <p>&rarr; <span class="title">On the future of the blob mempool</span></p>
+          <div class="meta">
+            <div class="authors">by Mike and Julian</div>
+            <div><a href="https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613" target="_blank">https://ethresear.ch/t/on-the-future-of-the-blob-mempool/22613</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/ethereumvalidatorexits.png" alt="cm" width="430" height="220">
-        <p>&rarr; ELI5: Ethereum Validator Exits<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike and Mallesh
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits" target="_blank">https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits</a>
-        </p>
-        <p>==========================================================================================</p>
+        <div class="entry">
+          <img src="public/anonymousparticipation.png" alt="anonymous participation" width="420" height="150">
+          <p>&rarr; <span class="title">On incentivizing anonymous participation</span></p>
+          <div class="meta">
+            <div class="authors">by maryam & mike</div>
+            <div><a href="https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469" target="_blank">https://ethresear.ch/t/on-incentivizing-anonymous-participation/22469</a></div>
+          </div>
+        </div>
 
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/blobs.png" alt="blob gossip" width="300" height="110">
+          <p>&rarr; <span class="title">Blob gossip and validation before and after PeerDAS</span></p>
+          <div class="meta">
+            <div class="authors">by mike</div>
+            <div><a href="https://hackmd.io/@mikeneuder/blob-gossip-and-validation" target="_blank">https://hackmd.io/@mikeneuder/blob-gossip-and-validation</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/eip-7922.png" alt="eip-7922" width="300" height="70">
+          <p>&rarr; <span class="title">EIP-7922: Dynamic exit queue rate limit</span></p>
+          <div class="meta">
+            <div class="authors">by Mikhail Kalinin (@mkalinin), Mike Neuder (@michaelneuder), Mallesh Pai (@Mmp610)</div>
+            <div><a href="https://eips.ethereum.org/EIPS/eip-7922" target="_blank">https://eips.ethereum.org/EIPS/eip-7922</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/exitqueueretrospective.png" alt="exit queue flexibility" width="430" height="220">
+          <p>&rarr; <span class="title">Adding flexibility to Ethereum's exit queue</span></p>
+          <div class="meta">
+            <div class="authors">by Mike, Mallesh, Mikhail</div>
+            <div><a href="https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061" target="_blank">https://ethresear.ch/t/adding-flexibility-to-ethereums-exit-queue/22061</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/ethereumvalidatorexits.png" alt="validator exits" width="430" height="220">
+          <p>&rarr; <span class="title">ELI5: Ethereum Validator Exits</span></p>
+          <div class="meta">
+            <div class="authors">by Mike and Mallesh</div>
+            <div><a href="https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits" target="_blank">https://hackmd.io/@mikeneuder/eli5-ethereum-validator-exits</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2024</h3>
 
-        <img src="public/ethesis.png" alt="cm" width="430" height="420">
-        <p>&rarr; My (e)thesis: settlement, data availability, execution — in that order.<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/ethesis" target="_blank">https://hackmd.io/@mikeneuder/ethesis</a>
-        </p>
+        <div class="entry">
+          <img src="public/ethesis.png" alt="ethesis" width="430" height="420">
+          <p>&rarr; <span class="title">My (e)thesis: settlement, data availability, execution — in that order.</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://hackmd.io/@mikeneuder/ethesis" target="_blank">https://hackmd.io/@mikeneuder/ethesis</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/mechanstein.jpg" alt="cm" width="430" height="420">
-        <p>&rarr; Mechan-stein<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321" target="_blank">https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/bsdm.jpg" alt="cm" width="430" height="420">
-        <p>&rarr; On block-space distribution mechanisms<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike, Pranav, & Tim Roughgarden
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764" target="_blank">https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764</a>
-        </p>
+        <div class="entry">
+          <img src="public/mechanstein.jpg" alt="mechan-stein" width="430" height="420">
+          <p>&rarr; <span class="title">Mechan-stein</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321" target="_blank">https://ethresear.ch/t/mechan-stein-alt-franken-ism/20321</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/wealthgapwburn.png" alt="cm" width="600" height="260">
-        <p>&rarr; Issuance Issues – Tertiary Treatise<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://hackmd.io/@mikeneuder/iitt" target="_blank">https://hackmd.io/@mikeneuder/iitt</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/equilibriumyields.png" alt="cm" width="490" height="260">
-        <p>&rarr; Issuance Issues – Subsequent Soliloquy<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/subsol" target="_blank">https://notes.ethereum.org/@mikeneuder/subsol</a>
-        </p>
+        <div class="entry">
+          <img src="public/bsdm.jpg" alt="block-space distribution" width="430" height="420">
+          <p>&rarr; <span class="title">On block-space distribution mechanisms</span></p>
+          <div class="meta">
+            <div class="authors">by Mike, Pranav, & Tim Roughgarden</div>
+            <div><a href="https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764" target="_blank">https://ethresear.ch/t/on-block-space-distribution-mechanisms/19764</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/yields.png" alt="cm" width="430" height="260">
-        <p>&rarr; Issuance Issues – Initial Issue<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/iiii" target="_blank">https://notes.ethereum.org/@mikeneuder/iiii</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/ilectra.png" alt="cm" width="430" height="390">
-        <p>&rarr; The Case for ILECTRA<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra" target="_blank">https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra</a>
-        </p>
+        <div class="entry">
+          <img src="public/wealthgapwburn.png" alt="issuance tertiary" width="600" height="260">
+          <p>&rarr; <span class="title">Issuance Issues – Tertiary Treatise</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://hackmd.io/@mikeneuder/iitt" target="_blank">https://hackmd.io/@mikeneuder/iitt</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
+        <div class="entry">
+          <img src="public/equilibriumyields.png" alt="issuance subsequent" width="490" height="260">
+          <p>&rarr; <span class="title">Issuance Issues – Subsequent Soliloquy</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/subsol" target="_blank">https://notes.ethereum.org/@mikeneuder/subsol</a></div>
+          </div>
+        </div>
 
-        <img src="public/ilpocspec.png" alt="cm" width="290" height="390">
-        <p>&rarr; Inclusion Lists PoC Specification<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/il-poc-spec" target="_blank">https://notes.ethereum.org/@mikeneuder/il-poc-spec</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/lrts.png" alt="cm" width="470" height="390">
-        <p>&rarr; The risks of LRTs<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike & Tarun
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/the-risks-of-lrts/18799" target="_blank">https://ethresear.ch/t/the-risks-of-lrts/18799</a>
-        </p>
+        <div class="entry">
+          <img src="public/yields.png" alt="issuance initial" width="430" height="260">
+          <p>&rarr; <span class="title">Issuance Issues – Initial Issue</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/iiii" target="_blank">https://notes.ethereum.org/@mikeneuder/iiii</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/two-proposers.png" alt="cm" width="430" height="310">
-        <p>&rarr; Concurrent Block Proposers in Ethereum<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike & Max
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777" target="_blank">https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/rcr2vmsvftv.png" alt="cm" width="430" height="280">
-        <p>&rarr; Rollup-Centric Roadmap (2024 version) (mike+stokes version) (From The Vault)<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike & Stokes
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv" target="_blank">https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv</a>
-        </p>
+        <div class="entry">
+          <img src="public/ilectra.png" alt="ilectra" width="430" height="390">
+          <p>&rarr; <span class="title">The Case for ILECTRA</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra" target="_blank">https://notes.ethereum.org/@mikeneuder/the-case-for-ilectra</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/consider.png" alt="cm" width="430" height="380">
-        <p>&rarr; Consider the ePBS<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/consider-the-epbs" target="_blank">https://notes.ethereum.org/@mikeneuder/consider-the-epbs</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/ilspec.png" alt="cm" width="430" height="350">
-        <p>&rarr; Inclusion lists: execution, consensus, & engine spec overview<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/il-spec-overview" target="_blank">https://notes.ethereum.org/@mikeneuder/il-spec-overview</a>
-        </p>
+        <div class="entry">
+          <img src="public/ilpocspec.png" alt="il poc spec" width="290" height="390">
+          <p>&rarr; <span class="title">Inclusion Lists PoC Specification</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/il-poc-spec" target="_blank">https://notes.ethereum.org/@mikeneuder/il-poc-spec</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/unconditional.png" alt="cm" width="430" height="400">
-        <p>&rarr; Unconditional inclusion lists<i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike and Toni
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/unconditional-inclusion-lists/18500" target="_blank">https://ethresear.ch/t/unconditional-inclusion-lists/18500</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/lrts.png" alt="risks of lrts" width="470" height="390">
+          <p>&rarr; <span class="title">The risks of LRTs</span></p>
+          <div class="meta">
+            <div class="authors">by Mike & Tarun</div>
+            <div><a href="https://ethresear.ch/t/the-risks-of-lrts/18799" target="_blank">https://ethresear.ch/t/the-risks-of-lrts/18799</a></div>
+          </div>
+        </div>
 
-        <img src="public/consolidation.png" alt="cm" width="430" height="210">
-        <p>&rarr; <i>Validator consolidation in EIP-7251
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Francesco & Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@fradamt/maxeb-consolidation" target="_blank">https://notes.ethereum.org/@fradamt/maxeb-consolidation</a>
-        </p>
+        <hr class="rule">
 
-        
-        <p>==========================================================================================</p>
+        <div class="entry">
+          <img src="public/two-proposers.png" alt="concurrent proposers" width="430" height="310">
+          <p>&rarr; <span class="title">Concurrent Block Proposers in Ethereum</span></p>
+          <div class="meta">
+            <div class="authors">by Mike & Max</div>
+            <div><a href="https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777" target="_blank">https://ethresear.ch/t/concurrent-block-proposers-in-ethereum/18777</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/rcr2vmsvftv.png" alt="rollup-centric roadmap" width="430" height="280">
+          <p>&rarr; <span class="title">Rollup-Centric Roadmap (2024 version) (mike+stokes version) (From The Vault)</span></p>
+          <div class="meta">
+            <div class="authors">by Mike & Stokes</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv" target="_blank">https://notes.ethereum.org/@mikeneuder/rcr2vmsvftv</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/consider.png" alt="consider the epbs" width="430" height="380">
+          <p>&rarr; <span class="title">Consider the ePBS</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/consider-the-epbs" target="_blank">https://notes.ethereum.org/@mikeneuder/consider-the-epbs</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/ilspec.png" alt="il spec overview" width="430" height="350">
+          <p>&rarr; <span class="title">Inclusion lists: execution, consensus, & engine spec overview</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/il-spec-overview" target="_blank">https://notes.ethereum.org/@mikeneuder/il-spec-overview</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/unconditional.png" alt="unconditional il" width="430" height="400">
+          <p>&rarr; <span class="title">Unconditional inclusion lists</span></p>
+          <div class="meta">
+            <div class="authors">by Mike and Toni</div>
+            <div><a href="https://ethresear.ch/t/unconditional-inclusion-lists/18500" target="_blank">https://ethresear.ch/t/unconditional-inclusion-lists/18500</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/consolidation.png" alt="validator consolidation" width="430" height="210">
+          <p>&rarr; <span class="title">Validator consolidation in EIP-7251</span></p>
+          <div class="meta">
+            <div class="authors">by Francesco & Mike</div>
+            <div><a href="https://notes.ethereum.org/@fradamt/maxeb-consolidation" target="_blank">https://notes.ethereum.org/@fradamt/maxeb-consolidation</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2023</h3>
 
-        <img src="public/tickets.jpg" alt="cm" width="430" height="280">
-        <p>&rarr; <i>Execution tickets
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Justin and Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/execution-tickets/17944" target="_blank">https://ethresear.ch/t/execution-tickets/17944</a>
-        </p>
+        <div class="entry">
+          <img src="public/tickets.jpg" alt="execution tickets" width="430" height="280">
+          <p>&rarr; <span class="title">Execution tickets</span></p>
+          <div class="meta">
+            <div class="authors">by Justin and Mike</div>
+            <div><a href="https://ethresear.ch/t/execution-tickets/17944" target="_blank">https://ethresear.ch/t/execution-tickets/17944</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/persistence.jpg" alt="cm" width="420" height="280">
-        <p>&rarr; <i>The persistence of timing games
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Caspar and Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612" target="_blank">https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/builderliq.jpg" alt="cm" width="420" height="210">
-        <p>&rarr; <i>Dr. changestuff or: how i learned to stop worrying and love mev-burn
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike, Toni, and Justin
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384" target="_blank">https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384</a>
-        </p>
+        <div class="entry">
+          <img src="public/persistence.jpg" alt="timing games" width="420" height="280">
+          <p>&rarr; <span class="title">The persistence of timing games</span></p>
+          <div class="meta">
+            <div class="authors">by Caspar and Mike</div>
+            <div><a href="https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612" target="_blank">https://ethresear.ch/t/timing-games-implications-and-possible-mitigations/17612</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/tattoo.jpg" alt="cm" width="420" height="260">
-        <p>&rarr; <i>On 0x3d84a438af72f6396785eea97b32f903520e36c8
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf" target="_blank">https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/builderliq.jpg" alt="mev-burn" width="420" height="210">
+          <p>&rarr; <span class="title">Dr. changestuff or: how i learned to stop worrying and love mev-burn</span></p>
+          <div class="meta">
+            <div class="authors">by Mike, Toni, and Justin</div>
+            <div><a href="https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384" target="_blank">https://ethresear.ch/t/dr-changestuff-or-how-i-learned-to-stop-worrying-and-love-mev-burn/17384</a></div>
+          </div>
+        </div>
 
-        <img src="public/coteries.png" alt="cm" width="420" height="460">
-        <p>&rarr; <i>A set-theoretic view of Ethereum coteries
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum" target="_blank">https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/tattoo.jpg" alt="on 0x3d84" width="420" height="260">
+          <p>&rarr; <span class="title">On 0x3d84a438af72f6396785eea97b32f903520e36c8</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf" target="_blank">https://github.com/michaelneuder/michaelneuder.github.io/blob/master/public/on0x3d84.pdf</a></div>
+          </div>
+        </div>
 
-        <img src="public/fiveshades.png" alt="cm" width="420" height="280">
-        <p>&rarr; <i>Magnitude and direction of Lido attack vectors
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/magnitude-and-direction" target="_blank">https://notes.ethereum.org/@mikeneuder/magnitude-and-direction</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/coteries.png" alt="coteries" width="420" height="460">
+          <p>&rarr; <span class="title">A set-theoretic view of Ethereum coteries</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum" target="_blank">https://notes.ethereum.org/@mikeneuder/set-theoretic-ethereum</a></div>
+          </div>
+        </div>
 
-        <img src="public/relayils.png" alt="cm" width="500" height="240">
-        <p>&rarr; <i>Resistance is ~not futile; CR in mev-boost~
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762" target="_blank">https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/fiveshades.png" alt="lido attack vectors" width="420" height="280">
+          <p>&rarr; <span class="title">Magnitude and direction of Lido attack vectors</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/magnitude-and-direction" target="_blank">https://notes.ethereum.org/@mikeneuder/magnitude-and-direction</a></div>
+          </div>
+        </div>
 
-        <img src="public/eip-7547.png" alt="cm" width="300" height="70">
-        <p>&rarr; <i>EIP-7547: Inclusion lists
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by mike (@michaelneuder), Vitalik (@vbuterin), Francesco (@fradamt), Terence (@terencechain), potuz (@potuz), Manav (@manav2401)
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://eips.ethereum.org/EIPS/eip-7547" target="_blank">https://eips.ethereum.org/EIPS/eip-7547</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/nuc.jpg" alt="cm" width="330" height="440">
-        <p>&rarr; <i>solo-staking rigt
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/solo-staking-rig" target="_blank">https://notes.ethereum.org/@mikeneuder/solo-staking-rig</a>
-        </p>
+        <div class="entry">
+          <img src="public/relayils.png" alt="cr in mev-boost" width="500" height="240">
+          <p>&rarr; <span class="title">Resistance is ~not futile; CR in mev-boost~</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762" target="_blank">https://ethresear.ch/t/resistance-is-not-futile-cr-in-mev-boost/16762</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/infinitebuffet.png" alt="cm" width="300" height="240">
-        <p>&rarr; <i>ePBS – the infinite buffet
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/infinite-buffet" target="_blank">https://notes.ethereum.org/@mikeneuder/infinite-buffet</a>
-        </p>
+        <div class="entry">
+          <img src="public/eip-7547.png" alt="eip-7547" width="300" height="70">
+          <p>&rarr; <span class="title">EIP-7547: Inclusion lists</span></p>
+          <div class="meta">
+            <div class="authors">by mike (@michaelneuder), Vitalik (@vbuterin), Francesco (@fradamt), Terence (@terencechain), potuz (@potuz), Manav (@manav2401)</div>
+            <div><a href="https://eips.ethereum.org/EIPS/eip-7547" target="_blank">https://eips.ethereum.org/EIPS/eip-7547</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/twotieredstaking.png" alt="cm" width="500" height="240">
-        <p>&rarr; <i>Can we find Goldilocks? Musings on “two-tiered” staking, a native Liquid Staking Token design.
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/goldilocks" target="_blank">https://notes.ethereum.org/@mikeneuder/goldilocks</a>
-        </p>
+        <div class="entry">
+          <img src="public/nuc.jpg" alt="solo staking rig" width="330" height="440">
+          <p>&rarr; <span class="title">solo-staking rig</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/solo-staking-rig" target="_blank">https://notes.ethereum.org/@mikeneuder/solo-staking-rig</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/slashing7251.png" alt="cm" width="500" height="180">
-        <p>&rarr; <i>Slashing penalty analysis; EIP-7251
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike and Barnabé
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509" target="_blank">https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/nofreelunch.jpg" alt="cm" width="480" height="220">
-        <p>&rarr; <i>No free lunch – a new inclusion list design
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Vitalik and Mike
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389" target="_blank">https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/relaypostepbs.png" alt="cm" width="420" height="320">
-        <p>&rarr; <i>Relays in a post-ePBS world
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike, Jon, Hasu, Tomasz, Chris, and Toni 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/relays-in-a-post-epbs-world/16278" target="_blank">https://ethresear.ch/t/relays-in-a-post-epbs-world/16278</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/faq7251.jpg" alt="cm" width="420" height="120">
-        <p>&rarr; <i>FAQ on EIP-7251; Increasing the MAX_EFFECTIVE_BALANCE
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike, Francesco, Dapplion, and Mikhail 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://notes.ethereum.org/@mikeneuder/eip-7251-faq" target="_blank">https://notes.ethereum.org/@mikeneuder/eip-7251-faq</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/infinitebuffet.png" alt="infinite buffet" width="300" height="240">
+          <p>&rarr; <span class="title">ePBS – the infinite buffet</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/infinite-buffet" target="_blank">https://notes.ethereum.org/@mikeneuder/infinite-buffet</a></div>
+          </div>
+        </div>
 
-        <img src="public/ptc.jpg" alt="cm" width="420" height="250">
-        <p>&rarr; <i>Payload-timeliness committee (PTC) – an ePBS design
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder and Francesco D'Amato based on discussions with Potuz and Terence Tsao 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054" target="_blank">https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/eip-7251.png" alt="cm" width="300" height="70">
-        <p>&rarr; <i>EIP-7251: Increase the MAX_EFFECTIVE_BALANCE
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by mike (@michaelneuder), Francesco (@fradamt), dapplion (@dapplion), Mikhail (@mkalinin), Aditya (@adiasg), Justin (@justindrake), lightclient (@lightclient), Felix Lange (@fjl)
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank">https://eips.ethereum.org/EIPS/eip-7251</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/modestprop.png" alt="cm" width="300" height="250">
-        <p>&rarr; <i>Increase the MAX_EFFECTIVE_BALANCE – a modest proposal
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder, Francesco D'Amato, Aditya Asgaonkar, and Justin Drake
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801" target="_blank">https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/twotieredstaking.png" alt="two-tiered staking" width="500" height="240">
+          <p>&rarr; <span class="title">Can we find Goldilocks? Musings on “two-tiered” staking, a native Liquid Staking Token design.</span></p>
+          <div class="meta">
+            <div class="authors">by Mike</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/goldilocks" target="_blank">https://notes.ethereum.org/@mikeneuder/goldilocks</a></div>
+          </div>
+        </div>
 
-        <img src="public/whyenshrine.jpg" alt="cm" width="320" height="340">
-        <p>&rarr; <i>Why enshrine Proposer-Builder Separation? A viable path to ePBS
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder and Justin Drake
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710" target="_blank">https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/mevboostblockauction.png" alt="cm" width="300" height="230">
-        <p>&rarr; <i>Bid cancellations considered harmful
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder and Thomas Thiery
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/bid-cancellations-considered-harmful/15500" target="_blank">https://ethresear.ch/t/bid-cancellations-considered-harmful/15500</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/slashing7251.png" alt="slashing 7251" width="500" height="180">
+          <p>&rarr; <span class="title">Slashing penalty analysis; EIP-7251</span></p>
+          <div class="meta">
+            <div class="authors">by Mike and Barnabé</div>
+            <div><a href="https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509" target="_blank">https://ethresear.ch/t/slashing-penalty-analysis-eip-7251/16509</a></div>
+          </div>
+        </div>
 
-        <img src="public/honestreorgs.png" alt="cm" width="430" height="230">
-        <p>&rarr; <i>Time, slots, and the ordering of events in Ethereum Proof-of-Stake
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Georgios Konstantopoulos and Mike Neuder
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus" target="_blank">https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/latency.jpeg" alt="cm" width="300" height="230">
-        <p>&rarr; <i>Optimistic relays and where to find them
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Ankit Chiplunkar and Mike Neuder
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; <a href="https://frontier.tech/optimistic-relays-and-where-to-find-them" target="_blank">https://frontier.tech/optimistic-relays-and-where-to-find-them</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/nofreelunch.jpg" alt="no free lunch" width="480" height="220">
+          <p>&rarr; <span class="title">No free lunch – a new inclusion list design</span></p>
+          <div class="meta">
+            <div class="authors">by Vitalik and Mike</div>
+            <div><a href="https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389" target="_blank">https://ethresear.ch/t/no-free-lunch-a-new-inclusion-list-design/16389</a></div>
+          </div>
+        </div>
 
-        <img src="public/differeingviews.png" alt="cm" width="400" height="230">
-        <p>&rarr; <i>Equivocation attacks in mev-boost and ePBS
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Francesco D'Amato and Mike Neuder
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338" target="_blank">https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/anoptimisticweekend.png" alt="cm" width="400" height="200">
-        <p>&rarr; <i>An optimistic weekend
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder, Niclas Blomberg, and Justin Drake
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md" target="_blank">https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/relaypostepbs.png" alt="relays post-epbs" width="420" height="320">
+          <p>&rarr; <span class="title">Relays in a post-ePBS world</span></p>
+          <div class="meta">
+            <div class="authors">by Mike, Jon, Hasu, Tomasz, Chris, and Toni</div>
+            <div><a href="https://ethresear.ch/t/relays-in-a-post-epbs-world/16278" target="_blank">https://ethresear.ch/t/relays-in-a-post-epbs-world/16278</a></div>
+          </div>
+        </div>
 
-        <img src="public/towardsepbs.png" alt="cm" width="400" height="380">
-        <p>&rarr; <i>Towards enshrined PBS — an optimistic roadmap
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md" target="_blank">https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md</a>
-        </p>
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/proposal.png" alt="cm" width="400" height="110">
-        <p>&rarr; <i>Optimistic Relay Proposal
-          <br> &nbsp;&nbsp;&nbsp;&nbsp; by Mike Neuder
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md" target="_blank">https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md</a>
-        </p>
+        <div class="entry">
+          <img src="public/faq7251.jpg" alt="faq 7251" width="420" height="120">
+          <p>&rarr; <span class="title">FAQ on EIP-7251; Increasing the MAX_EFFECTIVE_BALANCE</span></p>
+          <div class="meta">
+            <div class="authors">by Mike, Francesco, Dapplion, and Mikhail</div>
+            <div><a href="https://notes.ethereum.org/@mikeneuder/eip-7251-faq" target="_blank">https://notes.ethereum.org/@mikeneuder/eip-7251-faq</a></div>
+          </div>
+        </div>
 
-        <p>==========================================================================================</p>
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/ptc.jpg" alt="ptc" width="420" height="250">
+          <p>&rarr; <span class="title">Payload-timeliness committee (PTC) – an ePBS design</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder and Francesco D'Amato based on discussions with Potuz and Terence Tsao</div>
+            <div><a href="https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054" target="_blank">https://ethresear.ch/t/payload-timeliness-committee-ptc-an-epbs-design/16054</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/eip-7251.png" alt="eip-7251" width="300" height="70">
+          <p>&rarr; <span class="title">EIP-7251: Increase the MAX_EFFECTIVE_BALANCE</span></p>
+          <div class="meta">
+            <div class="authors">by mike (@michaelneuder), Francesco (@fradamt), dapplion (@dapplion), Mikhail (@mkalinin), Aditya (@adiasg), Justin (@justindrake), lightclient (@lightclient), Felix Lange (@fjl)</div>
+            <div><a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank">https://eips.ethereum.org/EIPS/eip-7251</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/modestprop.png" alt="modest proposal" width="300" height="250">
+          <p>&rarr; <span class="title">Increase the MAX_EFFECTIVE_BALANCE – a modest proposal</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder, Francesco D'Amato, Aditya Asgaonkar, and Justin Drake</div>
+            <div><a href="https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801" target="_blank">https://ethresear.ch/t/increase-the-max-effective-balance-a-modest-proposal/15801</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/whyenshrine.jpg" alt="why enshrine pbs" width="320" height="340">
+          <p>&rarr; <span class="title">Why enshrine Proposer-Builder Separation? A viable path to ePBS</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder and Justin Drake</div>
+            <div><a href="https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710" target="_blank">https://ethresear.ch/t/why-enshrine-proposer-builder-separation-a-viable-path-to-epbs/15710</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/mevboostblockauction.png" alt="bid cancellations" width="300" height="230">
+          <p>&rarr; <span class="title">Bid cancellations considered harmful</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder and Thomas Thiery</div>
+            <div><a href="https://ethresear.ch/t/bid-cancellations-considered-harmful/15500" target="_blank">https://ethresear.ch/t/bid-cancellations-considered-harmful/15500</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/honestreorgs.png" alt="ordering of events" width="430" height="230">
+          <p>&rarr; <span class="title">Time, slots, and the ordering of events in Ethereum Proof-of-Stake</span></p>
+          <div class="meta">
+            <div class="authors">by Georgios Konstantopoulos and Mike Neuder</div>
+            <div><a href="https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus" target="_blank">https://www.paradigm.xyz/2023/04/mev-boost-ethereum-consensus</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/latency.jpeg" alt="optimistic relays" width="300" height="230">
+          <p>&rarr; <span class="title">Optimistic relays and where to find them</span></p>
+          <div class="meta">
+            <div class="authors">by Ankit Chiplunkar and Mike Neuder</div>
+            <div><a href="https://frontier.tech/optimistic-relays-and-where-to-find-them" target="_blank">https://frontier.tech/optimistic-relays-and-where-to-find-them</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/differeingviews.png" alt="equivocation attacks" width="400" height="230">
+          <p>&rarr; <span class="title">Equivocation attacks in mev-boost and ePBS</span></p>
+          <div class="meta">
+            <div class="authors">by Francesco D'Amato and Mike Neuder</div>
+            <div><a href="https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338" target="_blank">https://ethresear.ch/t/equivocation-attacks-in-mev-boost-and-epbs/15338</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/anoptimisticweekend.png" alt="optimistic weekend" width="400" height="200">
+          <p>&rarr; <span class="title">An optimistic weekend</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder, Niclas Blomberg, and Justin Drake</div>
+            <div><a href="https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md" target="_blank">https://github.com/ultrasoundmoney/mev-boost-relay/blob/prod-optimistic-relaying/docs/optimistic/an-optimistic-weekend.md</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/towardsepbs.png" alt="towards epbs" width="400" height="380">
+          <p>&rarr; <span class="title">Towards enshrined PBS — an optimistic roadmap</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder</div>
+            <div><a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md" target="_blank">https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/towards-epbs.md</a></div>
+          </div>
+        </div>
+
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/proposal.png" alt="optimistic relay proposal" width="400" height="110">
+          <p>&rarr; <span class="title">Optimistic Relay Proposal</span></p>
+          <div class="meta">
+            <div class="authors">by Mike Neuder</div>
+            <div><a href="https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md" target="_blank">https://github.com/michaelneuder/optimistic-relay-documentation/blob/main/proposal.md</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2020</h3>
 
-        
-        <img src="public/strumpack.png" alt="cm" width="400" height="220">
-        <p>&rarr; <i>Implementing Mixed-Precision Iterative Refinement in STRUMPACK
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="public/strumpack.pdf" target="_blank">strumpack.pdf</a>
-        </p>
-
-        <p>==========================================================================================</p>
-
-
-        
+        <div class="entry">
+          <img src="public/strumpack.png" alt="strumpack" width="400" height="220">
+          <p>&rarr; <span class="title">Implementing Mixed-Precision Iterative Refinement in STRUMPACK</span></p>
+          <div class="meta">
+            <div class="authors">by Michael Neuder</div>
+            <div><a href="public/strumpack.pdf" target="_blank">strumpack.pdf</a></div>
+          </div>
+        </div>
 
     </main>
   </body>

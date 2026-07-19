@@ -6,178 +6,287 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="styles.css">
     <title>writing</title>
+    <style>
+      main { max-width: 920px; }
+
+      /* venue badges ------------------------------------------------ */
+      .venue {
+        display: inline-block;
+        padding: 0 6px;
+        border-radius: 4px;
+        font-size: 0.78em;
+        font-weight: bold;
+        line-height: 1.5;
+        white-space: nowrap;
+        border: 1px solid rgba(0, 0, 0, 0.18);
+        vertical-align: middle;
+      }
+      .aft      { background: #d9ead3; color: #274e13; }  /* Adv. in Financial Technologies */
+      .fc       { background: #cfe2f3; color: #1c4587; }  /* Financial Cryptography         */
+      .ces      { background: #d9d2e9; color: #351c75; }  /* Cryptoeconomic Systems         */
+      .wine     { background: #f4cccc; color: #7f1d1d; }  /* WINE workshop                  */
+      .sigecom  { background: #fce5cd; color: #7f4f00; }  /* SIGecom Exchanges              */
+      .journal  { background: #d0e0e3; color: #0c343d; }  /* peer-reviewed journals         */
+      .preprint { background: #efefef; color: #444444; }  /* preprint / under submission    */
+
+      /* by-topic list ---------------------------------------------- */
+      .topic { margin: 0 0 14px 0; }
+      .topic > .label { font-weight: bold; }
+      .paper { margin: 3px 0 3px 22px; }
+      .paper::before { content: "+ "; color: #999; }
+
+      /* by-year list ----------------------------------------------- */
+      hr.rule { border: none; border-top: 1px solid #e2d5c2; margin: 26px 0; }
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 34px 0; }
+      .entry .title { font-style: italic; }
+      .entry .authors { font-style: italic; color: #555; }
+      .entry .meta { margin: 6px 0 0 22px; }
+      .entry .meta > div { margin: 2px 0; }
+    </style>
   </head>
   <body>
     <main>
         <h1>writing (papers)</h1>
         <p><a href="index.html">home</a></p>
 
-        by category: <br>
+        <h2>by topic</h2>
 
-        <pre>
-- <b>selfish mining</b>
-  + <a href="https://arxiv.org/pdf/2502.20360" target="_blank">Selfish mining under general stochastic rewards</a>
-- <b>consensus/proof-of-stake</b>
-  + <a href="https://arxiv.org/pdf/2102.02247" target="_blank">Low-cost attacks on Ethereum 2.0 by sub-1/3 stakeholders</a>
-  + <a href="https://arxiv.org/pdf/2009.05413" target="_blank">Defending Against Malicious Reorgs in Tezos Proof-of-Stake</a>
-  + <a href="https://arxiv.org/pdf/1912.02954" target="_blank">Selfish Behavior in the Tezos Proof-of-Stake Protocol</a>
-  + <a href="https://arxiv.org/pdf/2406.05124" target="_blank">Optimizing Exit Queues for Proof-of-Stake Blockchains: A Mechanism Design Approach</a>
-- <b>procurement</b>
-  + <a href="https://arxiv.org/pdf/2605.05559" target="_blank">Adversarial procurement in blockchains</a>
-  + <a href="https://arxiv.org/pdf/2603.27779" target="_blank">Beyond Winner-Take-all Procurement Auctions</a>
-- <b>defi</b>
-  + <a href="https://arxiv.org/pdf/2106.12033" target="_blank">Strategic Liquidity Provision in Uniswap v3</a>
-- <b>information theory</b>
-  + <a href="https://arxiv.org/pdf/2010.12384" target="_blank">Detection of Local Mixing in Time-Series Data Using Permutation Entropy</a>
-  + <a href="https://aip.scitation.org/doi/pdf/10.1063/1.5127211" target="_blank">An information-theoretic approach to extracting climate signals from deep polar ice cores</a>
-  + <a href="https://www.mdpi.com/1099-4300/20/12/931" target="_blank">Anomaly Detection in Paleoclimate Records Using Permutation Entropy</a>
-- <b>misc.</b>
-    <a href="https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf" target="_blank">Tullock Contests in the Wild: Applications in Blockchains</a>
-        </pre>
+        <div class="topic">
+          <span class="label">selfish mining</span>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2502.20360" target="_blank">Selfish mining under general stochastic rewards</a>
+            <span class="venue aft">AFT&rsquo;25</span>
+          </div>
+        </div>
 
-        
-        <p>==========================================================================================</p>
-        by year:
+        <div class="topic">
+          <span class="label">consensus / proof-of-stake</span>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2406.05124" target="_blank">Optimizing Exit Queues for Proof-of-Stake Blockchains: A Mechanism Design Approach</a>
+            <span class="venue aft">AFT&rsquo;24</span>
+          </div>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2102.02247" target="_blank">Low-cost attacks on Ethereum 2.0 by sub-1/3 stakeholders</a>
+            <span class="venue wine">WINE &mdash; GTiB Workshop</span>
+          </div>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2009.05413" target="_blank">Defending Against Malicious Reorgs in Tezos Proof-of-Stake</a>
+            <span class="venue aft">AFT&rsquo;20</span>
+          </div>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/1912.02954" target="_blank">Selfish Behavior in the Tezos Proof-of-Stake Protocol</a>
+            <span class="venue ces">CES&rsquo;20</span>
+          </div>
+        </div>
+
+        <div class="topic">
+          <span class="label">procurement</span>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2605.05559" target="_blank">Adversarial procurement in blockchains</a>
+            <span class="venue preprint">preprint</span>
+          </div>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2603.27779" target="_blank">Beyond Winner-Take-All Procurement Auctions</a>
+            <span class="venue fc">FC&rsquo;26</span>
+          </div>
+        </div>
+
+        <div class="topic">
+          <span class="label">defi</span>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2106.12033" target="_blank">Strategic Liquidity Provision in Uniswap v3</a>
+            <span class="venue aft">AFT&rsquo;23</span>
+          </div>
+        </div>
+
+        <div class="topic">
+          <span class="label">information theory</span>
+          <div class="paper">
+            <a href="https://arxiv.org/pdf/2010.12384" target="_blank">Detection of Local Mixing in Time-Series Data Using Permutation Entropy</a>
+            <span class="venue journal">Physical Review E</span>
+          </div>
+          <div class="paper">
+            <a href="https://aip.scitation.org/doi/pdf/10.1063/1.5127211" target="_blank">An information-theoretic approach to extracting climate signals from deep polar ice cores</a>
+            <span class="venue journal">Chaos</span>
+          </div>
+          <div class="paper">
+            <a href="https://www.mdpi.com/1099-4300/20/12/931" target="_blank">Anomaly Detection in Paleoclimate Records Using Permutation Entropy</a>
+            <span class="venue journal">Entropy</span>
+          </div>
+        </div>
+
+        <div class="topic">
+          <span class="label">misc.</span>
+          <div class="paper">
+            <a href="https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf" target="_blank">Tullock Contests in the Wild: Applications in Blockchains</a>
+            <span class="venue sigecom">SIGecom Exchanges</span>
+          </div>
+        </div>
+
+        <hr class="section">
+        <h2>by year</h2>
+
         <h3>2026</h3>
 
-        <img src="public/adversarial-procurement.png" alt="cm" width="435" height="350">
-        <p>&rarr; <i>Adversarial procurement in blockchains
- 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Maryam Bahrani, Michael Neuder, S. Matthew Weinberg</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2605.05559" target="_blank">https://arxiv.org/pdf/2605.05559</a>
-        </p>
+        <div class="entry">
+          <img src="public/adversarial-procurement.png" alt="adversarial procurement" width="435" height="350">
+          <p>&rarr; <span class="title">Adversarial procurement in blockchains</span>
+            <span class="venue preprint">preprint</span></p>
+          <div class="meta">
+            <div class="authors">Maryam Bahrani, Michael Neuder, S. Matthew Weinberg</div>
+            <div><a href="https://arxiv.org/pdf/2605.05559" target="_blank">https://arxiv.org/pdf/2605.05559</a></div>
+          </div>
+        </div>
 
-        
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/beyond-wta-procurement.png" alt="cm" width="435" height="250">
-        <p>&rarr; <i>Beyond Winner-Take-All Procurement Auctions
- 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Pranav Garimidi, Michael Neuder, Tim Roughgarden</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2603.27779" target="_blank">https://arxiv.org/pdf/2603.27779</a>
-        </p>
+        <hr class="rule">
 
-        
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/beyond-wta-procurement.png" alt="beyond winner-take-all procurement" width="435" height="250">
+          <p>&rarr; <span class="title">Beyond Winner-Take-All Procurement Auctions</span>
+            <span class="venue fc">FC&rsquo;26</span></p>
+          <div class="meta">
+            <div class="authors">Pranav Garimidi, Michael Neuder, Tim Roughgarden</div>
+            <div>Financial Cryptography &amp; Data Security 2026 (FC&rsquo;26)</div>
+            <div><a href="https://arxiv.org/pdf/2603.27779" target="_blank">https://arxiv.org/pdf/2603.27779</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2025</h3>
-        
-        <img src="public/exchanges-tullock.png" alt="cm" width="505" height="250">
-        <p>&rarr; <i>Tullock Contests in the Wild: Applications in Blockchains
- 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Pranav Garimidi, Michael Neuder, Tim Roughgarden</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf" target="_blank">https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf</a>
-        </p>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
-        <img src="public/generalselfishmining.png" alt="cm" width="505" height="300">
-        <p>&rarr; <i>Selfish mining under general stochastic rewards
- 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Maryam Bahrani, Michael Neuder, S. Matthew Weinberg</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2502.20360" target="_blank">https://arxiv.org/pdf/2502.20360</a>
-        </p>
+        <div class="entry">
+          <img src="public/exchanges-tullock.png" alt="tullock contests" width="505" height="250">
+          <p>&rarr; <span class="title">Tullock Contests in the Wild: Applications in Blockchains</span>
+            <span class="venue sigecom">SIGecom Exchanges</span></p>
+          <div class="meta">
+            <div class="authors">Pranav Garimidi, Michael Neuder, Tim Roughgarden</div>
+            <div>ACM SIGecom Exchanges, Vol. 23, No. 1</div>
+            <div><a href="https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf" target="_blank">https://www.sigecom.org/exchanges/volume_23/1/GARIMIDI.pdf</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
+        <hr class="rule">
+
+        <div class="entry">
+          <img src="public/generalselfishmining.png" alt="general selfish mining" width="505" height="300">
+          <p>&rarr; <span class="title">Selfish mining under general stochastic rewards</span>
+            <span class="venue aft">AFT&rsquo;25</span></p>
+          <div class="meta">
+            <div class="authors">Maryam Bahrani, Michael Neuder, S. Matthew Weinberg</div>
+            <div>Advances in Financial Technologies 2025 (AFT&rsquo;25)</div>
+            <div><a href="https://arxiv.org/pdf/2502.20360" target="_blank">https://arxiv.org/pdf/2502.20360</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2024</h3>
 
-        <img src="public/withdrawal.png" alt="cm" width="425" height="300">
-        <p>&rarr; <i>Optimizing Exit Queues for Proof-of-Stake Blockchains: A Mechanism Design Approach
- 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Mallesh Pai, and Max Resnick</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2406.05124" target="_blank">https://arxiv.org/pdf/2406.05124</a>
-        </p>
+        <div class="entry">
+          <img src="public/withdrawal.png" alt="exit queues" width="425" height="300">
+          <p>&rarr; <span class="title">Optimizing Exit Queues for Proof-of-Stake Blockchains: A Mechanism Design Approach</span>
+            <span class="venue aft">AFT&rsquo;24</span></p>
+          <div class="meta">
+            <div class="authors">Michael Neuder, Mallesh Pai, and Max Resnick</div>
+            <div>Advances in Financial Technologies 2024 (AFT&rsquo;24)</div>
+            <div><a href="https://arxiv.org/pdf/2406.05124" target="_blank">https://arxiv.org/pdf/2406.05124</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-        
+        <hr class="section">
+        <h3>2023</h3>
+
+        <div class="entry">
+          <img src="public/uniswaplp.png" alt="uniswap lp" width="400" height="200">
+          <p>&rarr; <span class="title">Strategic Liquidity Provision in Uniswap v3</span>
+            <span class="venue aft">AFT&rsquo;23</span></p>
+          <div class="meta">
+            <div class="authors">Z. Fan, F. Marmolejo-Cossio, D. J. Moroz, M. Neuder, R. Rao, and D. C. Parkes</div>
+            <div>Advances in Financial Technologies 2023 (AFT&rsquo;23)</div>
+            <div><a href="https://arxiv.org/pdf/2106.12033" target="_blank">https://arxiv.org/pdf/2106.12033</a></div>
+          </div>
+        </div>
+
+        <hr class="section">
         <h3>2021</h3>
 
-        <img src="public/uniswaplp.png" alt="cm" width="400" height="200">
-        <p>&rarr; <i>Strategic Liquidity Provision in Uniswap v3 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2106.12033" target="_blank">https://arxiv.org/pdf/2106.12033</a>
-        </p>
+        <div class="entry">
+          <img src="public/mixing.png" alt="local mixing" width="400" height="130">
+          <p>&rarr; <span class="title">Detection of Local Mixing in Time-Series Data Using Permutation Entropy</span>
+            <span class="venue journal">Physical Review E</span></p>
+          <div class="meta">
+            <div class="authors">Michael Neuder, Elizabeth Bradley, Edward Dlugokencky, James W. C. White and Joshua Garland</div>
+            <div>Physical Review E 103</div>
+            <div><a href="https://arxiv.org/pdf/2010.12384" target="_blank">https://arxiv.org/pdf/2010.12384</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
-
-        <img src="public/mixing.png" alt="cm" width="400" height="130">
-        <p>&rarr; <i>Detection of Local Mixing in Time-Series Data Using Permutation Entropy 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Elizabeth Bradley, Edward Dlugokencky, James W. C. White and Joshua Garland</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2010.12384" target="_blank">https://arxiv.org/pdf/2010.12384</a>
-        </p>
-
-        <p>------------------------------------------------------------------------------------------</p>
-
+        <hr class="section">
         <h3>2020</h3>
 
-        <img src="public/ethreorgs.png" alt="cm" width="400" height="100">
-        <p>&rarr; <i>Low-cost attacks on Ethereum 2.0 by sub-1/3 stakeholders 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2102.02247" target="_blank">https://arxiv.org/pdf/2102.02247</a>
-        </p>
+        <div class="entry">
+          <img src="public/ethreorgs.png" alt="eth reorgs" width="400" height="100">
+          <p>&rarr; <span class="title">Low-cost attacks on Ethereum 2.0 by sub-1/3 stakeholders</span>
+            <span class="venue wine">WINE &mdash; GTiB Workshop</span></p>
+          <div class="meta">
+            <div class="authors">Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</div>
+            <div>Workshop on Game Theory in Blockchain, Conference on Web and Internet Economics (WINE) 2020</div>
+            <div><a href="https://arxiv.org/pdf/2102.02247" target="_blank">https://arxiv.org/pdf/2102.02247</a></div>
+          </div>
+        </div>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <hr class="rule">
 
-        <img src="public/tezosdefend.png" alt="cm" width="400" height="130">
-        <p>&rarr; <i>Defending Against Malicious Reorgs in Tezos Proof-of-Stake 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/2009.05413" target="_blank">https://arxiv.org/pdf/2009.05413</a>
-        </p>
+        <div class="entry">
+          <img src="public/tezosdefend.png" alt="tezos defend" width="400" height="130">
+          <p>&rarr; <span class="title">Defending Against Malicious Reorgs in Tezos Proof-of-Stake</span>
+            <span class="venue aft">AFT&rsquo;20</span></p>
+          <div class="meta">
+            <div class="authors">Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</div>
+            <div>ACM Conference on Advances in Financial Technologies 2020 (AFT&rsquo;20)</div>
+            <div><a href="https://arxiv.org/pdf/2009.05413" target="_blank">https://arxiv.org/pdf/2009.05413</a></div>
+          </div>
+        </div>
 
-
-        <p>------------------------------------------------------------------------------------------</p>
-
+        <hr class="section">
         <h3>2019</h3>
-        
-        <img src="public/tezosreorgs.png" alt="cm" width="400" height="150">
-        <p>&rarr; <i>Selfish Behavior in the Tezos Proof-of-Stake Protocol 
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://arxiv.org/pdf/1912.02954" target="_blank">https://arxiv.org/pdf/1912.02954</a>
-        </p>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/tezosreorgs.png" alt="tezos reorgs" width="400" height="150">
+          <p>&rarr; <span class="title">Selfish Behavior in the Tezos Proof-of-Stake Protocol</span>
+            <span class="venue ces">CES&rsquo;20</span></p>
+          <div class="meta">
+            <div class="authors">Michael Neuder, Daniel Moroz, Rithvik Rao, and David C. Parkes</div>
+            <div>Cryptoeconomic Systems 2020 (CES&rsquo;20)</div>
+            <div><a href="https://arxiv.org/pdf/1912.02954" target="_blank">https://arxiv.org/pdf/1912.02954</a></div>
+          </div>
+        </div>
 
-        <img src="public/icecores1.png" alt="cm" width="400" height="200">
-        <p>&rarr; <i>An information-theoretic approach to extracting climate signals from deep polar ice cores
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          by Joshua Garland, Tyler R. Jones, Michael Neuder, James W. C. White, and Elizabeth Bradley</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://aip.scitation.org/doi/pdf/10.1063/1.5127211" target="_blank">https://aip.scitation.org/doi/pdf/10.1063/1.5127211</a>
-        </p>
+        <hr class="rule">
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/icecores1.png" alt="ice cores" width="400" height="200">
+          <p>&rarr; <span class="title">An information-theoretic approach to extracting climate signals from deep polar ice cores</span>
+            <span class="venue journal">Chaos</span></p>
+          <div class="meta">
+            <div class="authors">Joshua Garland, Tyler R. Jones, Michael Neuder, James W. C. White, and Elizabeth Bradley</div>
+            <div>Chaos: An Interdisciplinary Journal of Nonlinear Science, 29:101105</div>
+            <div><a href="https://aip.scitation.org/doi/pdf/10.1063/1.5127211" target="_blank">https://aip.scitation.org/doi/pdf/10.1063/1.5127211</a></div>
+          </div>
+        </div>
 
+        <hr class="section">
         <h3>2018</h3>
-        
-        <img src="public/anomaly.png" alt="cm" width="400" height="400">
-        <p>&rarr; <i>Anomaly Detection in Paleoclimate Records Using Permutation Entropy
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          Joshua Garland, Tyler R. Jones, Michael Neuder, Valarie Morris, James W. C. White, and Elizabeth Bradley</i>
-          <br> &nbsp;&nbsp;&nbsp;&nbsp;
-          <a href="https://www.mdpi.com/1099-4300/20/12/931" target="_blank">https://www.mdpi.com/1099-4300/20/12/931</a>
-        </p>
 
-        <p>------------------------------------------------------------------------------------------</p>
+        <div class="entry">
+          <img src="public/anomaly.png" alt="anomaly detection" width="400" height="400">
+          <p>&rarr; <span class="title">Anomaly Detection in Paleoclimate Records Using Permutation Entropy</span>
+            <span class="venue journal">Entropy</span></p>
+          <div class="meta">
+            <div class="authors">Joshua Garland, Tyler R. Jones, Michael Neuder, Valarie Morris, James W. C. White, and Elizabeth Bradley</div>
+            <div>Entropy, 20(12):931</div>
+            <div><a href="https://www.mdpi.com/1099-4300/20/12/931" target="_blank">https://www.mdpi.com/1099-4300/20/12/931</a></div>
+          </div>
+        </div>
 
     </main>
   </body>

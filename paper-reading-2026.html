@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>crypto reading list</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Hide the pre block initially */
+      .notes-content {
+          display: none;
+          padding-left: 10px;
+          border-left: 2px solid #991616;
+          margin-top: 0px;
+          width: 600px;  /* Fixed width for all notes */
+          max-width: 90%;
+          word-wrap: break-word;  /* Ensures long words break properly */
+          overflow-wrap: break-word;
+          background-color: #f9f9f9; /* Light background for readability */
+          white-space: pre-wrap;
+      }
+
+      /* Style for the clickable Notes */
+      .expandable {
+          cursor: pointer;
+          color: blue;
+          
+      }
+
+      .expandable:hover {
+          color: darkblue;
+      }
+      hr.rule    { border: none; border-top: 1px solid #e2d5c2; margin: 22px 0; }
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 30px 0; }
+    </style>
+  </head>
+  <body>
+    <script>
+      function toggleNotes(id) {
+          var content = document.getElementById(id);
+          if (content.style.display === "none" || content.style.display === "") {
+              content.style.display = "block";  // Expand
+          } else {
+              content.style.display = "none";  // Collapse
+          }
+      }
+    </script>
+    <main>
+        <h1>2026 paper reading list</h1>
+        <p><a href="index.html">home</a></p>
+
+        by category: <br>
+
+
+        <pre>
+-
+  +
+    *
+      ~
+
+- <u>Consensus</u>
+  + <a href="https://arxiv.org/pdf/2607.02275">link</a>. <em>"Cadence: Extreme Pipelining with Multiple Concurrent Proposers"</em> by Babel et al.<br>
+
+      ~
+    *
+  +
+- 
+        </pre>
+
+
+
+        <hr class="section">
+        <h3>july 2026</h3>
+
+        - <a href="https://arxiv.org/pdf/2607.02275">link</a>. <em>"Cadence: Extreme Pipelining with Multiple Concurrent Proposers"</em> by Babel et al.<br>
+        
+    </main>
+  </body>
+</html>

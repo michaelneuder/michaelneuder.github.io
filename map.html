@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
+    <style>
+      main { max-width: 900px; }
+
+      #map {
+        height: 520px;
+        width: 100%;
+        border: 1px solid #cbb99e;
+        background-color: #FFF5EA;
+      }
+
+      .mapboxgl-map { font-family: Monospace; }
+
+      /* shown only when no token is configured */
+      .no-token {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        font-size: .85em;
+        color: #777;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      /* pins */
+      .pin { cursor: pointer; }
+      .pin svg { display: block; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
+
+      /* popup */
+      .mapboxgl-popup-content {
+        font-family: Monospace;
+        padding: 8px 12px;
+        border-radius: 3px;
+        line-height: 1.45;
+      }
+      .mapboxgl-popup-content .p-name { font-weight: bold; }
+      .mapboxgl-popup-content .p-meta { color: #555; font-size: .85em; }
+      .mapboxgl-popup-close-button { font-size: 16px; padding: 0 5px; }
+
+      /* filters */
+      .filters { margin: 18px 0 6px 0; }
+      .filters button {
+        font-family: Monospace;
+        font-size: .85em;
+        cursor: pointer;
+        border: 1px solid #cbb99e;
+        background: #fffdf9;
+        padding: 4px 9px;
+        margin: 0 6px 6px 0;
+        border-radius: 3px;
+      }
+      .filters button .dot {
+        display: inline-block;
+        width: 9px; height: 9px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: -1px;
+      }
+      .filters button.off { opacity: .4; text-decoration: line-through; }
+
+      /* list */
+      .cat-block { margin-bottom: 20px; }
+      .cat-head {
+        font-weight: bold;
+        border-bottom: 1px solid #e2d5c2;
+        padding-bottom: 3px;
+        margin-bottom: 6px;
+      }
+      ul.places { list-style: none; padding-left: 0; margin: 0; }
+      ul.places li {
+        padding: 3px 5px;
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: .9em;
+        line-height: 1.5;
+      }
+      ul.places li:hover { background: #f3e7d5; }
+      ul.places li .dot {
+        display: inline-block;
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        margin-right: 8px;
+        vertical-align: 1px;
+      }
+      ul.places li .where { color: #555; }
+      ul.places li .when { color: #888; font-size: .9em; }
+      .cat-block.hidden { display: none; }
+
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 26px 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>map</h1>
+      <p><a href="index.html">home</a></p>
+
+      <p>places i have lived and traveled. click a pin or a row in the list below.
+      toggle categories to filter.</p>
+
+      <div id="map"></div>
+
+      <div class="filters" id="filters"></div>
+
+      <hr class="section">
+
+      <div id="list"></div>
+    </main>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+    <script>
+      // ---------------------------------------------------------------------
+      // mapbox token.
+      //
+      // this is a PUBLIC (pk.*) token and is meant to live here in the page
+      // source -- there is no way to hide it on a static site. secure it in the
+      // mapbox dashboard instead, by adding a URL restriction for
+      // michaelneuder.github.io. never paste a secret (sk.*) token here.
+      // ---------------------------------------------------------------------
+      const MAPBOX_TOKEN = "pk.eyJ1IjoibWljaGFlbG5ldWRlciIsImEiOiJja29hcXN6MzkwM21zMm9vZWx4YnVrZzNsIn0.rGDh96Um0gtkwK0brfIWlQ";
+
+      const MAPBOX_STYLE = "mapbox://styles/mapbox/light-v11";
+
+      // ---------------------------------------------------------------------
+      // data. add categories here; everything else (pins, filters, the list)
+      // is generated from these two objects.
+      // ---------------------------------------------------------------------
+      const CATEGORIES = {
+        living:     { label: "living",           color: "#991616" },
+        conference: { label: "trip: conference", color: "#1f5c99" },
+        tourism:    { label: "trip: tourism",    color: "#2e7d32" },
+      };
+
+      const PLACES = [
+        // --- living ---
+        { cat: "living", name: "Central Square",   where: "Cambridge, MA",        when: "Aug 2020 - Dec 2022", lat: 42.3654, lng: -71.1039 },
+        { cat: "living", name: "Williamsburg",     where: "Brooklyn, NY",         when: "Jan 2023 - Dec 2024", lat: 40.7143, lng: -73.9613 },
+        { cat: "living", name: "Colorado College", where: "Colorado Springs, CO", when: "Jan 2025 - May 2025", lat: 38.8487, lng: -104.8258 },
+        { cat: "living", name: "Kitsilano Beach",  where: "Vancouver, BC",        when: "May 2025 - Aug 2025", lat: 49.2734, lng: -123.1553 },
+        { cat: "living", name: "Princeton",        where: "Princeton, NJ",        when: "Sep 2025 - Apr 2026", lat: 40.3487, lng: -74.6590 },
+        { cat: "living", name: "Squamish",         where: "Squamish, BC",         when: "May 2026 - Aug 2026", lat: 49.7016, lng: -123.1558 },
+
+        // --- trips ---
+        { cat: "conference", name: "Engelberg",  where: "Switzerland",        when: "Jan 5 - Jan 9, 2026",   lat: 46.8207, lng: 8.4046 },
+        { cat: "tourism",    name: "Lisbon",     where: "Portugal",           when: "Jan 9 - Jan 15, 2026",  lat: 38.7223, lng: -9.1393 },
+        { cat: "conference", name: "Basseterre", where: "St. Kitts & Nevis",  when: "Mar 1 - Mar 5, 2026",   lat: 17.2955, lng: -62.7250 },
+        { cat: "conference", name: "Lemnos",     where: "Greece",             when: "Jul 11 - Jul 15, 2026", lat: 39.8747, lng: 25.0656 },
+        { cat: "tourism",    name: "Madrid",     where: "Spain",              when: "Jul 16 - Jul 21, 2026", lat: 40.4168, lng: -3.7038 },
+      ];
+
+      const filtersEl = document.getElementById("filters");
+      const listEl = document.getElementById("list");
+      const mapEl = document.getElementById("map");
+
+      function dot(color) {
+        return '<span class="dot" style="background:' + color + '"></span>';
+      }
+
+      function pinEl(color) {
+        const el = document.createElement("div");
+        el.className = "pin";
+        el.innerHTML =
+          '<svg width="22" height="30" viewBox="0 0 22 30" xmlns="http://www.w3.org/2000/svg">' +
+            '<path d="M11 29C11 29 21 17.5 21 11A10 10 0 0 0 1 11c0 6.5 10 18 10 18z" ' +
+                  'fill="' + color + '" stroke="#3a2f22" stroke-width="1.3"/>' +
+            '<circle cx="11" cy="11" r="3.6" fill="#FFF5EA"/>' +
+          "</svg>";
+        return el;
+      }
+
+      const active = new Set(Object.keys(CATEGORIES));
+      let map = null;
+
+      // ---------------------------------------------------------------------
+      // map
+      // ---------------------------------------------------------------------
+      function initMap() {
+        if (!MAPBOX_TOKEN) {
+          mapEl.innerHTML =
+            '<div class="no-token">no mapbox token set.<br>' +
+            "add a public (pk.*) token to MAPBOX_TOKEN in this file&rsquo;s source.</div>";
+          return;
+        }
+
+        mapboxgl.accessToken = MAPBOX_TOKEN;
+
+        map = new mapboxgl.Map({
+          container: "map",
+          style: MAPBOX_STYLE,
+          projection: "mercator", // flat; "globe" is the gl-js v3 default but leaves dead space
+          center: [-40, 42],
+          zoom: 1.5,
+          cooperativeGestures: true, // ctrl/cmd + scroll to zoom, so the page still scrolls
+        });
+
+        map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
+        map.addControl(new mapboxgl.FullscreenControl(), "top-right");
+
+        PLACES.forEach((p) => {
+          p._marker = new mapboxgl.Marker({ element: pinEl(CATEGORIES[p.cat].color), anchor: "bottom" })
+            .setLngLat([p.lng, p.lat])
+            .setPopup(
+              new mapboxgl.Popup({ offset: 30, closeButton: true }).setHTML(
+                '<span class="p-name">' + p.name + "</span><br>" +
+                '<span class="p-meta">' + p.where + "<br>" + p.when + "<br>" +
+                CATEGORIES[p.cat].label + "</span>"
+              )
+            );
+        });
+
+        map.on("load", () => {
+          syncMarkers();
+          fitAll(false);
+        });
+      }
+
+      function fitAll(animate) {
+        if (!map) return;
+        const visible = PLACES.filter((p) => active.has(p.cat));
+        if (!visible.length) return;
+        const b = new mapboxgl.LngLatBounds();
+        visible.forEach((p) => b.extend([p.lng, p.lat]));
+        map.fitBounds(b, {
+          padding: { top: 50, bottom: 50, left: 40, right: 40 },
+          maxZoom: 6,
+          duration: animate ? 900 : 0,
+        });
+      }
+
+      function syncMarkers() {
+        if (!map) return;
+        PLACES.forEach((p) => {
+          if (active.has(p.cat)) p._marker.addTo(map);
+          else p._marker.remove();
+        });
+      }
+
+      // ---------------------------------------------------------------------
+      // filters
+      // ---------------------------------------------------------------------
+      Object.entries(CATEGORIES).forEach(([key, cat]) => {
+        const count = PLACES.filter((p) => p.cat === key).length;
+        const btn = document.createElement("button");
+        btn.innerHTML = dot(cat.color) + cat.label + " (" + count + ")";
+        btn.dataset.cat = key;
+        btn.onclick = () => {
+          active.has(key) ? active.delete(key) : active.add(key);
+          render();
+        };
+        filtersEl.appendChild(btn);
+      });
+
+      const resetBtn = document.createElement("button");
+      resetBtn.textContent = "reset";
+      resetBtn.onclick = () => {
+        Object.keys(CATEGORIES).forEach((k) => active.add(k));
+        render();
+        fitAll(true);
+      };
+      filtersEl.appendChild(resetBtn);
+
+      // ---------------------------------------------------------------------
+      // list (built once, shown/hidden on filter changes)
+      // ---------------------------------------------------------------------
+      Object.entries(CATEGORIES).forEach(([key, cat]) => {
+        const block = document.createElement("div");
+        block.className = "cat-block";
+        block.dataset.cat = key;
+
+        const head = document.createElement("div");
+        head.className = "cat-head";
+        head.innerHTML = dot(cat.color) + cat.label;
+        block.appendChild(head);
+
+        const ul = document.createElement("ul");
+        ul.className = "places";
+        PLACES.filter((p) => p.cat === key).forEach((p) => {
+          const li = document.createElement("li");
+          li.innerHTML =
+            dot(cat.color) + p.name +
+            ' <span class="where">&mdash; ' + p.where + "</span>" +
+            ' <span class="when">(' + p.when + ")</span>";
+          li.onclick = () => {
+            if (!map || !active.has(p.cat)) return;
+            map.flyTo({ center: [p.lng, p.lat], zoom: Math.max(map.getZoom(), 8), duration: 1200 });
+            if (!p._marker.getPopup().isOpen()) p._marker.togglePopup();
+            mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          };
+          ul.appendChild(li);
+        });
+        block.appendChild(ul);
+        listEl.appendChild(block);
+      });
+
+      function render() {
+        syncMarkers();
+        filtersEl.querySelectorAll("button[data-cat]").forEach((b) => {
+          b.classList.toggle("off", !active.has(b.dataset.cat));
+        });
+        listEl.querySelectorAll(".cat-block").forEach((b) => {
+          b.classList.toggle("hidden", !active.has(b.dataset.cat));
+        });
+      }
+
+      initMap();
+      render();
+    </script>
+  </body>
+</html>

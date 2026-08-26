@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>map</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <style>
       main { max-width: 900px; }
 
@@ -16,35 +16,15 @@
         background-color: #FFF5EA;
       }
 
-      .mapboxgl-map { font-family: Monospace; }
-
-      /* shown only when no token is configured */
-      .no-token {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        text-align: center;
-        font-size: .85em;
-        color: #777;
-        padding: 20px;
-        line-height: 1.6;
-      }
+      .leaflet-container { font-family: Monospace; background: #FFF5EA; }
 
       /* pins */
-      .pin { cursor: pointer; }
       .pin svg { display: block; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
 
       /* popup */
-      .mapboxgl-popup-content {
-        font-family: Monospace;
-        padding: 8px 12px;
-        border-radius: 3px;
-        line-height: 1.45;
-      }
-      .mapboxgl-popup-content .p-name { font-weight: bold; }
-      .mapboxgl-popup-content .p-meta { color: #555; font-size: .85em; }
-      .mapboxgl-popup-close-button { font-size: 16px; padding: 0 5px; }
+      .leaflet-popup-content { margin: 8px 10px; line-height: 1.45; }
+      .leaflet-popup-content .p-name { font-weight: bold; }
+      .leaflet-popup-content .p-meta { color: #555; font-size: .85em; }
 
       /* filters */
       .filters { margin: 18px 0 6px 0; }
@@ -103,8 +83,8 @@
       <h1>map</h1>
       <p><a href="index.html">home</a></p>
 
-      <p>places i have lived and traveled. click a pin or a row in the list below.
-      toggle categories to filter.</p>
+      <p>i like maps, so i had claude make a little interactive map of places 
+        where i have lived or traveled. still a lot left to explore!</p>
 
       <div id="map"></div>
 
@@ -115,19 +95,16 @@
       <div id="list"></div>
     </main>
 
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
       // ---------------------------------------------------------------------
-      // mapbox token.
+      // no api key required. tiles are esri's light gray canvas (free, keyless):
+      // a muted basemap plus a separate labels layer, so the colored pins pop.
       //
-      // this is a PUBLIC (pk.*) token and is meant to live here in the page
-      // source -- there is no way to hide it on a static site. secure it in the
-      // mapbox dashboard instead, by adding a URL restriction for
-      // michaelneuder.github.io. never paste a secret (sk.*) token here.
+      // note: carto's basemaps are NOT usable here -- they now return tiles with
+      // an "API KEY REQUIRED" watermark painted into the image.
       // ---------------------------------------------------------------------
-      const MAPBOX_TOKEN = "pk.eyJ1IjoibWljaGFlbG5ldWRlciIsImEiOiJja29hcXN6MzkwM21zMm9vZWx4YnVrZzNsIn0.rGDh96Um0gtkwK0brfIWlQ";
-
-      const MAPBOX_STYLE = "mapbox://styles/mapbox/light-v11";
+      const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services";
 
       // ---------------------------------------------------------------------
       // data. add categories here; everything else (pins, filters, the list)
@@ -141,6 +118,12 @@
 
       const PLACES = [
         // --- living ---
+        { cat: "living", name: "Monument Valley Park", where: "Colorado Springs, CO", when: "Jun 2016 - Aug 2016", lat: 38.8464, lng: -104.8286 },
+        { cat: "living", name: "CU Boulder",           where: "Boulder, CO",          when: "Aug 2016 - Jun 2018", lat: 40.0076, lng: -105.2659 },
+        { cat: "living", name: "Oxford",               where: "United Kingdom",       when: "Jan 2018 - May 2018", lat: 51.7520, lng: -1.2577 },
+        { cat: "living", name: "Santa Fe Institute",   where: "Santa Fe, NM",         when: "Jun 2018 - Aug 2018", lat: 35.7057, lng: -105.9269 },
+        { cat: "living", name: "Santa Clara",          where: "Santa Clara, CA",      when: "Sep 2018 - Dec 2018", lat: 37.3541, lng: -121.9552 },
+        { cat: "living", name: "Frisco",               where: "Frisco, CO",           when: "Mar 2020 - May 2020", lat: 39.5744, lng: -106.0973 },
         { cat: "living", name: "Central Square",   where: "Cambridge, MA",        when: "Aug 2020 - Dec 2022", lat: 42.3654, lng: -71.1039 },
         { cat: "living", name: "Williamsburg",     where: "Brooklyn, NY",         when: "Jan 2023 - Dec 2024", lat: 40.7143, lng: -73.9613 },
         { cat: "living", name: "Colorado College", where: "Colorado Springs, CO", when: "Jan 2025 - May 2025", lat: 38.8487, lng: -104.8258 },
@@ -148,14 +131,122 @@
         { cat: "living", name: "Princeton",        where: "Princeton, NJ",        when: "Sep 2025 - Apr 2026", lat: 40.3487, lng: -74.6590 },
         { cat: "living", name: "Squamish",         where: "Squamish, BC",         when: "May 2026 - Aug 2026", lat: 49.7016, lng: -123.1558 },
 
-        // --- trips ---
-        { cat: "conference", name: "Engelberg",  where: "Switzerland",        when: "Jan 5 - Jan 9, 2026",   lat: 46.8207, lng: 8.4046 },
-        { cat: "tourism",    name: "Lisbon",     where: "Portugal",           when: "Jan 9 - Jan 15, 2026",  lat: 38.7223, lng: -9.1393 },
-        { cat: "conference", name: "Basseterre", where: "St. Kitts & Nevis",  when: "Mar 1 - Mar 5, 2026",   lat: 17.2955, lng: -62.7250 },
-        { cat: "conference", name: "Lemnos",     where: "Greece",             when: "Jul 11 - Jul 15, 2026", lat: 39.8747, lng: 25.0656 },
-        { cat: "tourism",    name: "Madrid",     where: "Spain",              when: "Jul 16 - Jul 21, 2026", lat: 40.4168, lng: -3.7038 },
+        // --- trips, chronological ---
+        { cat: "tourism",    name: "Zadar",        where: "Croatia",        when: "Apr 10 - Apr 16, 2018", lat: 44.1194,  lng: 15.2314 },
+        { cat: "tourism",    name: "Ljubljana",    where: "Slovenia",       when: "Apr 16 - Apr 17, 2018", lat: 46.0569,  lng: 14.5058 },
+        { cat: "tourism",    name: "Venice",       where: "Italy",          when: "Apr 17 - Apr 18, 2018", lat: 45.4408,  lng: 12.3155 },
+        { cat: "conference", name: "Radovici",     where: "Montenegro",     when: "May 3 - May 16, 2023",  lat: 42.4056,  lng: 18.6844 },
+        { cat: "tourism",    name: "Charlottetown", where: "Canada",        when: "Jun 6 - Jun 10, 2023",  lat: 46.2382,  lng: -63.1311 },
+        { cat: "conference", name: "Paris",        where: "France",         when: "Jul 13 - Jul 23, 2023", lat: 48.8566,  lng: 2.3522 },
+        { cat: "tourism",    name: "Vienna",       where: "Austria",        when: "Jul 23 - Jul 26, 2023", lat: 48.2082,  lng: 16.3738 },
+        { cat: "tourism",    name: "London",       where: "United Kingdom", when: "Jul 26 - Jul 28, 2023", lat: 51.5074,  lng: -0.1278 },
+        { cat: "conference", name: "San Jose",     where: "Costa Rica",     when: "Nov 1 - Nov 4, 2023",   lat: 9.9281,   lng: -84.0907 },
+        { cat: "conference", name: "Istanbul",     where: "Turkey",         when: "Nov 11 - Nov 20, 2023", lat: 41.0082,  lng: 28.9784 },
+        { cat: "tourism",    name: "Athens",       where: "Greece",         when: "Nov 20 - Nov 24, 2023", lat: 37.9838,  lng: 23.7275 },
+        { cat: "conference", name: "Nairobi",      where: "Kenya",          when: "May 12 - May 20, 2024", lat: -1.2921,  lng: 36.8219 },
+        { cat: "tourism",    name: "Tokyo",        where: "Japan",          when: "Jul 23 - Aug 5, 2024",  lat: 35.6762,  lng: 139.6503 },
+        { cat: "conference", name: "Vienna",       where: "Austria",        when: "Sep 21 - Sep 28, 2024", lat: 48.2082,  lng: 16.3738 },
+        { cat: "tourism",    name: "Berlin",       where: "Germany",        when: "Sep 28 - Oct 3, 2024",  lat: 52.5200,  lng: 13.4050 },
+        { cat: "conference", name: "Bangkok",      where: "Thailand",       when: "Nov 4 - Nov 19, 2024",  lat: 13.7563,  lng: 100.5018 },
+        { cat: "conference", name: "Oxford",       where: "United Kingdom", when: "Jan 19 - Jan 22, 2025", lat: 51.7520,  lng: -1.2577 },
+        { cat: "conference", name: "Sicily",       where: "Italy",          when: "Mar 1 - Mar 7, 2025",   lat: 37.5999,  lng: 14.0154 },
+        { cat: "tourism",    name: "Berlin",       where: "Germany",        when: "Jun 18 - Jun 28, 2025", lat: 52.5200,  lng: 13.4050 },
+        { cat: "conference", name: "Cannes",       where: "France",         when: "Jun 28 - Jul 3, 2025",  lat: 43.5528,  lng: 7.0174 },
+        { cat: "tourism",    name: "Geneva",       where: "Switzerland",    when: "Jul 4 - Jul 5, 2025",   lat: 46.2044,  lng: 6.1432 },
+        { cat: "tourism",    name: "Chamonix",     where: "France",         when: "Jul 5 - Jul 8, 2025",   lat: 45.9237,  lng: 6.8694 },
+        { cat: "tourism",    name: "Aosta",        where: "Italy",          when: "Jul 8 - Jul 11, 2025",  lat: 45.7372,  lng: 7.3206 },
+        { cat: "tourism",    name: "Milan",        where: "Italy",          when: "Jul 11 - Jul 12, 2025", lat: 45.4642,  lng: 9.1900 },
+        { cat: "tourism",    name: "Montreal",     where: "Canada",         when: "Oct 10 - Oct 13, 2025", lat: 45.5017,  lng: -73.5673 },
+        { cat: "conference", name: "Engelberg",    where: "Switzerland",    when: "Jan 5 - Jan 9, 2026",   lat: 46.8207,  lng: 8.4046 },
+        { cat: "tourism",    name: "Lisbon",       where: "Portugal",       when: "Jan 9 - Jan 15, 2026",  lat: 38.7223,  lng: -9.1393 },
+        { cat: "conference", name: "Basseterre",   where: "St. Kitts & Nevis", when: "Mar 1 - Mar 5, 2026", lat: 17.2955, lng: -62.7250 },
+        { cat: "conference", name: "Lemnos",       where: "Greece",         when: "Jul 11 - Jul 15, 2026", lat: 39.8747,  lng: 25.0656 },
+        { cat: "tourism",    name: "Madrid",       where: "Spain",          when: "Jul 16 - Jul 21, 2026", lat: 40.4168,  lng: -3.7038 },
       ];
 
+      // ---------------------------------------------------------------------
+      // map
+      // ---------------------------------------------------------------------
+      const map = L.map("map", { scrollWheelZoom: true, worldCopyJump: true, minZoom: 1 });
+
+      // muted gray land + water
+      L.tileLayer(ESRI + "/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "Tiles &copy; Esri",
+        maxZoom: 16,
+      }).addTo(map);
+
+      // place names / roads, drawn on top
+      L.tileLayer(ESRI + "/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 16,
+        pane: "overlayPane",
+      }).addTo(map);
+
+      function pinIcon(color, dx) {
+        dx = dx || 0;
+        return L.divIcon({
+          className: "pin",
+          html:
+            '<svg width="22" height="30" viewBox="0 0 22 30" xmlns="http://www.w3.org/2000/svg">' +
+              '<path d="M11 29C11 29 21 17.5 21 11A10 10 0 0 0 1 11c0 6.5 10 18 10 18z" ' +
+                    'fill="' + color + '" stroke="#3a2f22" stroke-width="1.3"/>' +
+              '<circle cx="11" cy="11" r="3.6" fill="#FFF5EA"/>' +
+            "</svg>",
+          iconSize: [22, 30],
+          iconAnchor: [11 - dx, 29],
+          popupAnchor: [dx, -27],
+        });
+      }
+
+      // some places repeat (oxford, vienna and berlin each appear twice), which
+      // would stack their pins exactly on top of each other. markers keep their
+      // true coordinates; only the icon is nudged sideways in pixels, so every
+      // pin stays clickable and stays correct at every zoom level.
+      const byCoord = {};
+      PLACES.forEach((p) => {
+        const k = p.lat + "," + p.lng;
+        (byCoord[k] = byCoord[k] || []).push(p);
+      });
+      Object.values(byCoord).forEach((group) => {
+        group.forEach((p, i) => {
+          p._dx = group.length === 1 ? 0 : (i - (group.length - 1) / 2) * 16;
+        });
+      });
+
+      PLACES.forEach((p) => {
+        p._marker = L.marker([p.lat, p.lng], {
+          icon: pinIcon(CATEGORIES[p.cat].color, p._dx),
+          title: p.name,
+        }).bindPopup(
+          '<span class="p-name">' + p.name + "</span><br>" +
+          '<span class="p-meta">' + p.where + "<br>" + p.when + "<br>" +
+          CATEGORIES[p.cat].label + "</span>"
+        );
+      });
+
+      const layer = L.layerGroup().addTo(map);
+
+      function fitAll(animate) {
+        const visible = PLACES.filter((p) => active.has(p.cat));
+        if (!visible.length) return;
+        map.fitBounds(L.latLngBounds(visible.map((p) => [p.lat, p.lng])), {
+          paddingTopLeft: [40, 50],
+          paddingBottomRight: [40, 50],
+          maxZoom: 6,
+          animate: !!animate,
+        });
+      }
+
+      function syncMarkers() {
+        layer.clearLayers();
+        PLACES.forEach((p) => {
+          if (active.has(p.cat)) layer.addLayer(p._marker);
+        });
+      }
+
+      // ---------------------------------------------------------------------
+      // filters
+      // ---------------------------------------------------------------------
+      const active = new Set(Object.keys(CATEGORIES));
       const filtersEl = document.getElementById("filters");
       const listEl = document.getElementById("list");
       const mapEl = document.getElementById("map");
@@ -164,88 +255,6 @@
         return '<span class="dot" style="background:' + color + '"></span>';
       }
 
-      function pinEl(color) {
-        const el = document.createElement("div");
-        el.className = "pin";
-        el.innerHTML =
-          '<svg width="22" height="30" viewBox="0 0 22 30" xmlns="http://www.w3.org/2000/svg">' +
-            '<path d="M11 29C11 29 21 17.5 21 11A10 10 0 0 0 1 11c0 6.5 10 18 10 18z" ' +
-                  'fill="' + color + '" stroke="#3a2f22" stroke-width="1.3"/>' +
-            '<circle cx="11" cy="11" r="3.6" fill="#FFF5EA"/>' +
-          "</svg>";
-        return el;
-      }
-
-      const active = new Set(Object.keys(CATEGORIES));
-      let map = null;
-
-      // ---------------------------------------------------------------------
-      // map
-      // ---------------------------------------------------------------------
-      function initMap() {
-        if (!MAPBOX_TOKEN) {
-          mapEl.innerHTML =
-            '<div class="no-token">no mapbox token set.<br>' +
-            "add a public (pk.*) token to MAPBOX_TOKEN in this file&rsquo;s source.</div>";
-          return;
-        }
-
-        mapboxgl.accessToken = MAPBOX_TOKEN;
-
-        map = new mapboxgl.Map({
-          container: "map",
-          style: MAPBOX_STYLE,
-          projection: "mercator", // flat; "globe" is the gl-js v3 default but leaves dead space
-          center: [-40, 42],
-          zoom: 1.5,
-          cooperativeGestures: true, // ctrl/cmd + scroll to zoom, so the page still scrolls
-        });
-
-        map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), "top-right");
-        map.addControl(new mapboxgl.FullscreenControl(), "top-right");
-
-        PLACES.forEach((p) => {
-          p._marker = new mapboxgl.Marker({ element: pinEl(CATEGORIES[p.cat].color), anchor: "bottom" })
-            .setLngLat([p.lng, p.lat])
-            .setPopup(
-              new mapboxgl.Popup({ offset: 30, closeButton: true }).setHTML(
-                '<span class="p-name">' + p.name + "</span><br>" +
-                '<span class="p-meta">' + p.where + "<br>" + p.when + "<br>" +
-                CATEGORIES[p.cat].label + "</span>"
-              )
-            );
-        });
-
-        map.on("load", () => {
-          syncMarkers();
-          fitAll(false);
-        });
-      }
-
-      function fitAll(animate) {
-        if (!map) return;
-        const visible = PLACES.filter((p) => active.has(p.cat));
-        if (!visible.length) return;
-        const b = new mapboxgl.LngLatBounds();
-        visible.forEach((p) => b.extend([p.lng, p.lat]));
-        map.fitBounds(b, {
-          padding: { top: 50, bottom: 50, left: 40, right: 40 },
-          maxZoom: 6,
-          duration: animate ? 900 : 0,
-        });
-      }
-
-      function syncMarkers() {
-        if (!map) return;
-        PLACES.forEach((p) => {
-          if (active.has(p.cat)) p._marker.addTo(map);
-          else p._marker.remove();
-        });
-      }
-
-      // ---------------------------------------------------------------------
-      // filters
-      // ---------------------------------------------------------------------
       Object.entries(CATEGORIES).forEach(([key, cat]) => {
         const count = PLACES.filter((p) => p.cat === key).length;
         const btn = document.createElement("button");
@@ -289,9 +298,9 @@
             ' <span class="where">&mdash; ' + p.where + "</span>" +
             ' <span class="when">(' + p.when + ")</span>";
           li.onclick = () => {
-            if (!map || !active.has(p.cat)) return;
-            map.flyTo({ center: [p.lng, p.lat], zoom: Math.max(map.getZoom(), 8), duration: 1200 });
-            if (!p._marker.getPopup().isOpen()) p._marker.togglePopup();
+            if (!active.has(p.cat)) return;
+            map.flyTo([p.lat, p.lng], Math.max(map.getZoom(), 8), { duration: 0.9 });
+            p._marker.openPopup();
             mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
           };
           ul.appendChild(li);
@@ -310,8 +319,8 @@
         });
       }
 
-      initMap();
       render();
+      fitAll(false);
     </script>
   </body>
 </html>

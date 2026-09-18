@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>climbing gyms</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <style>
+      main { max-width: 920px; }
+
+      #map {
+        height: 520px;
+        width: 100%;
+        border: 1px solid #cbb99e;
+        background-color: #FFF5EA;
+      }
+
+      .leaflet-container { font-family: Monospace; background: #FFF5EA; }
+
+      /* pins */
+      .pin svg { display: block; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
+
+      /* popup */
+      .leaflet-popup-content { margin: 8px 10px; line-height: 1.45; }
+      .leaflet-popup-content .p-name { font-weight: bold; }
+      .leaflet-popup-content .p-meta { color: #555; font-size: .85em; }
+
+      /* filters */
+      .filters { margin: 18px 0 6px 0; }
+      .filters button {
+        font-family: Monospace;
+        font-size: .85em;
+        cursor: pointer;
+        border: 1px solid #cbb99e;
+        background: #fffdf9;
+        padding: 4px 9px;
+        margin: 0 6px 6px 0;
+        border-radius: 3px;
+      }
+      .filters button .dot {
+        display: inline-block;
+        width: 9px; height: 9px;
+        border-radius: 50%;
+        margin-right: 6px;
+        vertical-align: -1px;
+      }
+      .filters button.off { opacity: .4; text-decoration: line-through; }
+
+      /* ordered list */
+      ol.gyms { padding-left: 2.4em; margin: 0; }
+      ol.gyms li {
+        padding: 4px 5px 4px 2px;
+        border-radius: 3px;
+        font-size: .9em;
+        line-height: 1.55;
+      }
+      ol.gyms li:hover { background: #f3e7d5; }
+      ol.gyms li.hidden { display: none; }
+      ol.gyms .gym  { font-weight: bold; cursor: pointer; }
+      ol.gyms .loc  { color: #555; }
+      ol.gyms .when { color: #888; }
+      ol.gyms .gmap { font-size: .85em; }
+
+      hr.rule    { border: none; border-top: 1px solid #e2d5c2; margin: 22px 0; }
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 30px 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>climbing gyms</h1>
+      <p><a href="index.html">home</a> / <a href="climbing.html">climbing</a></p>
+
+      <p>
+        i have climbed in a lot of gyms. below is a map and chronological list 
+        of gyms i have been to.  
+      </p>
+
+      <div id="map"></div>
+
+      <div class="filters" id="filters"></div>
+
+      <hr class="section">
+
+      <ol class="gyms" id="list"></ol>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      // ---------------------------------------------------------------------
+      // no api key required -- esri light gray canvas, same as map.html.
+      // ---------------------------------------------------------------------
+      const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services";
+
+      const CATEGORIES = {
+        home:   { label: "home gym",   color: "#991616" },
+        travel: { label: "travel gym", color: "#1f5c99" },
+      };
+
+      // ---------------------------------------------------------------------
+      // gyms. `sort` is the start date, used to order the list below.
+      // coordinates are approximate (city / neighborhood level).
+      // ---------------------------------------------------------------------
+      const GYMS = [
+        { cat: "home",   sort: "2011-01", name: "City Rock",                     city: "Colorado Springs",          state: "CO", country: "USA",         when: "circa 2011", lat: 38.8339, lng: -104.8207 },
+        { cat: "home",   sort: "2011-02", name: "Springs Climbing Center",       city: "Colorado Springs",          state: "CO", country: "USA",         when: "circa 2011", lat: 38.8567, lng: -104.8100 },
+        { cat: "travel", sort: "2015-08", name: "ABC",                           city: "Boulder",                   state: "CO", country: "USA",         when: "Aug 2015",   lat: 40.0212, lng: -105.2830 },
+        { cat: "home",   sort: "2015-08-01", name: "The Spot",                      city: "Boulder",                   state: "CO", country: "USA",         when: "Aug 2015",   lat: 40.0330, lng: -105.2530 },
+        { cat: "home",   sort: "2018-06", name: "Santa Fe Climbing Center",      city: "Santa Fe",                  state: "NM", country: "USA",         when: "Jun 2018",   lat: 35.6660, lng: -105.9640 },
+        { cat: "home",   sort: "2018-09", name: "Movement Sunnyvale",            city: "Sunnyvale",                 state: "CA", country: "USA",         when: "Sep 2018",   lat: 37.3780, lng: -122.0080 },
+        { cat: "travel", sort: "2020-08", name: "Central Rock Gym",              city: "Watertown",                 state: "MA", country: "USA",         when: "Aug 2020",   lat: 42.3660, lng: -71.1820 },
+        { cat: "home",   sort: "2020-08-01", name: "Bouldering Project Somerville", city: "Somerville",                state: "MA", country: "USA",         when: "Aug 2020",   lat: 42.3810, lng: -71.0940 },
+        { cat: "home",   sort: "2023-01", name: "Bouldering Project Gowanus",    city: "Brooklyn",                  state: "NY", country: "USA",         when: "Jan 2023",   lat: 40.6790, lng: -73.9910 },
+        { cat: "home",   sort: "2023-01-01", name: "GP81",                          city: "Brooklyn",                  state: "NY", country: "USA",         when: "Jan 2023",   lat: 40.6750, lng: -73.9950 },
+        { cat: "home",   sort: "2023-01-02", name: "Vital Williamsburg",            city: "Brooklyn",                  state: "NY", country: "USA",         when: "Jan 2023",   lat: 40.7200, lng: -73.9550 },
+        { cat: "travel", sort: "2023-07-23", name: "Blockfabrik",                   city: "Vienna",                                country: "Austria",     when: "Jul 2023",   lat: 48.1720, lng: 16.3400 },
+        { cat: "travel", sort: "2023-11-20", name: "No Biggie",                     city: "Athens",                                country: "Greece",      when: "Nov 2023",   lat: 37.9790, lng: 23.7180 },
+        { cat: "travel", sort: "2024-07-23", name: "B-PUMP Akihabara",              city: "Tokyo",                                 country: "Japan",       when: "Jul 2024",   lat: 35.7020, lng: 139.7740 },
+        { cat: "travel", sort: "2024-09-28", name: "Berta Block",                   city: "Berlin",                                country: "Germany",     when: "Sep 2024",   lat: 52.5540, lng: 13.3980 },
+        { cat: "travel", sort: "2024-11-04", name: "Main Wall Climbing Gym",        city: "Chiang Mai",                            country: "Thailand",    when: "Nov 2024",   lat: 18.7880, lng: 98.9930 },
+        { cat: "travel", sort: "2024-11-10", name: "Stonegoat Climbing Gym (S69)",  city: "Bangkok",                               country: "Thailand",    when: "Nov 2024",   lat: 13.7000, lng: 100.5600 },
+        { cat: "home",   sort: "2025-05", name: "The Hive Vancouver",            city: "Vancouver",                 state: "BC", country: "Canada",      when: "May 2025",   lat: 49.2670, lng: -123.0720 },
+        { cat: "travel", sort: "2025-05-01", name: "The Hive Heights",              city: "Burnaby",                   state: "BC", country: "Canada",      when: "May 2025",   lat: 49.2830, lng: -123.0230 },
+        { cat: "travel", sort: "2025-05-02", name: "The Hive North Shore",          city: "North Vancouver",           state: "BC", country: "Canada",      when: "May 2025",   lat: 49.3200, lng: -123.0730 },
+        { cat: "travel", sort: "2025-05-03", name: "The Hive Surrey",               city: "Surrey",                    state: "BC", country: "Canada",      when: "May 2025",   lat: 49.1870, lng: -122.8480 },
+        { cat: "travel", sort: "2025-05-04", name: "The Hive Coquitlam",            city: "Coquitlam",                 state: "BC", country: "Canada",      when: "May 2025",   lat: 49.2780, lng: -122.7930 },
+        { cat: "travel", sort: "2025-05-05", name: "Approach Climbing",             city: "Richmond",                  state: "BC", country: "Canada",      when: "May 2025",   lat: 49.1860, lng: -123.1200 },
+        { cat: "home",   sort: "2025-05", name: "Progression",                   city: "Vancouver",                 state: "BC", country: "Canada",      when: "May 2025",   lat: 49.2622, lng: -123.0996 },
+        { cat: "travel", sort: "2025-06-18", name: "Boulderklub Kreuzberg",         city: "Berlin",                                country: "Germany",     when: "Jun 2025",   lat: 52.4950, lng: 13.4200 },
+        { cat: "travel", sort: "2025-06-28", name: "Blocparty",                     city: "Mougins",                               country: "France",      when: "Jun 2025",   lat: 43.6000, lng: 7.0100 },
+        { cat: "travel", sort: "2025-07-11", name: "Manga Climbing",                city: "Milan",                                 country: "Italy",       when: "Jul 2025",   lat: 45.4900, lng: 9.2200 },
+        { cat: "home",   sort: "2025-09", name: "Gravity Vault Princeton",       city: "Princeton",                 state: "NJ", country: "USA",         when: "Sep 2025",   lat: 40.3080, lng: -74.6600 },
+        { cat: "travel", sort: "2025-10-10", name: "Bloc Shop Hochelaga",           city: "Montreal",                  state: "QC", country: "Canada",      when: "Oct 2025",   lat: 45.5480, lng: -73.5380 },
+        { cat: "travel", sort: "2026-01-05", name: "S\u00fcdwand Engelberg",        city: "Engelberg",                             country: "Switzerland", when: "Jan 2026",   lat: 46.8210, lng: 8.4030 },
+        { cat: "travel", sort: "2026-01-09", name: "9.8 Gravity Climbing",          city: "Lisbon",                                country: "Portugal",    when: "Jan 2026",   lat: 38.7400, lng: -9.1400 },
+        { cat: "travel", sort: "2026-01-10", name: "Crux Climbing Center",          city: "S\u00e3o Domingos de Rana",             country: "Portugal",    when: "Jan 2026",   lat: 38.7020, lng: -9.3320 },
+        { cat: "home",   sort: "2026-05", name: "Ground Up Climbing Centre",     city: "Squamish",                  state: "BC", country: "Canada",      when: "May 2026",   lat: 49.7000, lng: -123.1550 },
+        { cat: "travel", sort: "2026-07-16", name: "Arkose Cuatro Caminos",         city: "Madrid",                                country: "Spain",       when: "Jul 2026",   lat: 40.4470, lng: -3.7040 },
+        { cat: "travel", sort: "2026-07-17", name: "Sputnik Climbing Legazpi",      city: "Madrid",                                country: "Spain",       when: "Jul 2026",   lat: 40.3900, lng: -3.6950 },
+      ];
+
+      GYMS.sort((a, b) => (a.sort < b.sort ? -1 : a.sort > b.sort ? 1 : 0));
+
+      // "Boulder, CO, USA" / "Vienna, Austria"
+      function locString(g) {
+        return [g.city, g.state, g.country].filter(Boolean).join(", ");
+      }
+
+      // google maps search link, built from the gym name + its location
+      function gmapsUrl(g) {
+        return "https://www.google.com/maps/search/?api=1&query=" +
+          encodeURIComponent(g.name + ", " + locString(g));
+      }
+
+      // ---------------------------------------------------------------------
+      // map
+      // ---------------------------------------------------------------------
+      const map = L.map("map", { scrollWheelZoom: true, worldCopyJump: true, minZoom: 1 });
+
+      L.tileLayer(ESRI + "/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "Tiles &copy; Esri",
+        maxZoom: 16,
+      }).addTo(map);
+
+      L.tileLayer(ESRI + "/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}", {
+        maxZoom: 16,
+        pane: "overlayPane",
+      }).addTo(map);
+
+      function pinIcon(color, dx) {
+        dx = dx || 0;
+        return L.divIcon({
+          className: "pin",
+          html:
+            '<svg width="22" height="30" viewBox="0 0 22 30" xmlns="http://www.w3.org/2000/svg">' +
+              '<path d="M11 29C11 29 21 17.5 21 11A10 10 0 0 0 1 11c0 6.5 10 18 10 18z" ' +
+                    'fill="' + color + '" stroke="#3a2f22" stroke-width="1.3"/>' +
+              '<circle cx="11" cy="11" r="3.6" fill="#FFF5EA"/>' +
+            "</svg>",
+          iconSize: [22, 30],
+          iconAnchor: [11 - dx, 29],
+          popupAnchor: [dx, -27],
+        });
+      }
+
+      // blockfabrik appears twice (two vienna trips) at identical coordinates.
+      // markers keep their true position; only the icon is nudged in pixels.
+      const byCoord = {};
+      GYMS.forEach((g) => {
+        const k = g.lat + "," + g.lng;
+        (byCoord[k] = byCoord[k] || []).push(g);
+      });
+      Object.values(byCoord).forEach((group) => {
+        group.forEach((g, i) => {
+          g._dx = group.length === 1 ? 0 : (i - (group.length - 1) / 2) * 16;
+        });
+      });
+
+      GYMS.forEach((g) => {
+        g._marker = L.marker([g.lat, g.lng], {
+          icon: pinIcon(CATEGORIES[g.cat].color, g._dx),
+          title: g.name,
+        }).bindPopup(
+          '<span class="p-name">' + g.name + "</span><br>" +
+          '<span class="p-meta">' + locString(g) + "<br>" + g.when + "<br>" +
+          '<a href="' + gmapsUrl(g) + '" target="_blank">google maps</a></span>'
+        );
+      });
+
+      const layer = L.layerGroup().addTo(map);
+
+      const active = new Set(Object.keys(CATEGORIES));
+      const filtersEl = document.getElementById("filters");
+      const listEl = document.getElementById("list");
+      const mapEl = document.getElementById("map");
+
+      function fitAll(animate) {
+        const visible = GYMS.filter((g) => active.has(g.cat));
+        if (!visible.length) return;
+        map.fitBounds(L.latLngBounds(visible.map((g) => [g.lat, g.lng])), {
+          paddingTopLeft: [40, 50],
+          paddingBottomRight: [40, 50],
+          maxZoom: 6,
+          animate: !!animate,
+        });
+      }
+
+      function syncMarkers() {
+        layer.clearLayers();
+        GYMS.forEach((g) => {
+          if (active.has(g.cat)) layer.addLayer(g._marker);
+        });
+      }
+
+      function dot(color) {
+        return '<span class="dot" style="background:' + color + '"></span>';
+      }
+
+      // ---------------------------------------------------------------------
+      // filters
+      // ---------------------------------------------------------------------
+      Object.entries(CATEGORIES).forEach(([key, cat]) => {
+        const count = GYMS.filter((g) => g.cat === key).length;
+        const btn = document.createElement("button");
+        btn.innerHTML = dot(cat.color) + cat.label + " (" + count + ")";
+        btn.dataset.cat = key;
+        btn.onclick = () => {
+          active.has(key) ? active.delete(key) : active.add(key);
+          render();
+        };
+        filtersEl.appendChild(btn);
+      });
+
+      const resetBtn = document.createElement("button");
+      resetBtn.textContent = "reset";
+      resetBtn.onclick = () => {
+        Object.keys(CATEGORIES).forEach((k) => active.add(k));
+        render();
+        fitAll(true);
+      };
+      filtersEl.appendChild(resetBtn);
+
+      // ---------------------------------------------------------------------
+      // ordered list, oldest first
+      // ---------------------------------------------------------------------
+      GYMS.forEach((g) => {
+        const li = document.createElement("li");
+        li.dataset.cat = g.cat;
+        li.innerHTML =
+          dot(CATEGORIES[g.cat].color) +
+          '<span class="gym">' + g.name + "</span>" +
+          ' <span class="loc">&mdash; ' + locString(g) + "</span>" +
+          ' <span class="when">(' + g.when + ")</span>" +
+          " " +
+          '<a class="gmap" href="' + gmapsUrl(g) + '" target="_blank">[maps]</a>';
+        li.querySelector(".gym").onclick = () => {
+          if (!active.has(g.cat)) return;
+          map.flyTo([g.lat, g.lng], Math.max(map.getZoom(), 11), { duration: 0.9 });
+          g._marker.openPopup();
+          mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        };
+        g._li = li;
+        listEl.appendChild(li);
+      });
+
+      function render() {
+        syncMarkers();
+        filtersEl.querySelectorAll("button[data-cat]").forEach((b) => {
+          b.classList.toggle("off", !active.has(b.dataset.cat));
+        });
+        GYMS.forEach((g) => g._li.classList.toggle("hidden", !active.has(g.cat)));
+      }
+
+      render();
+      fitAll(false);
+    </script>
+  </body>
+</html>

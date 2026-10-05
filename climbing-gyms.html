@@ -252,9 +252,8 @@
       // filters
       // ---------------------------------------------------------------------
       Object.entries(CATEGORIES).forEach(([key, cat]) => {
-        const count = GYMS.filter((g) => g.cat === key).length;
         const btn = document.createElement("button");
-        btn.innerHTML = dot(cat.color) + cat.label + " (" + count + ")";
+        btn.innerHTML = dot(cat.color) + cat.label;
         btn.dataset.cat = key;
         btn.onclick = () => {
           selected = (selected === key) ? null : key;   // click again to clear

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>climbing outside</title>
+    <style>
+      main { max-width: 920px; }
+
+      .filters { margin: 14px 0 18px 0; }
+      .filters button {
+        font-family: Monospace; font-size: .85em; cursor: pointer;
+        border: 1px solid #cbb99e; background: #fffdf9;
+        padding: 4px 9px; margin: 0 6px 6px 0; border-radius: 3px;
+      }
+      .filters button.off { opacity: .4; text-decoration: line-through; }
+      .filters button.on { background: #e9d9bf; border-color: #a8906a; font-weight: bold; }
+
+      .dot {
+        display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+        margin-right: 7px; vertical-align: 1px;
+      }
+      .filters button .dot { margin-right: 6px; vertical-align: -1px; width: 9px; height: 9px; }
+
+      .day { margin-bottom: 20px; }
+      .day.hidden { display: none; }
+      .day-head {
+        font-weight: bold; border-bottom: 1px solid #e2d5c2;
+        padding-bottom: 3px; margin-bottom: 5px;
+      }
+      .crag { color: #777; font-size: .85em; margin: 6px 0 2px 2px; }
+      .crag.hidden { display: none; }
+      ul.climbs.hidden { display: none; }
+      .region { color: #999; }
+      ul.climbs { list-style: none; padding-left: 0; margin: 0 0 4px 0; }
+      ul.climbs li { padding: 2px 4px; font-size: .9em; line-height: 1.5; border-radius: 3px; }
+      ul.climbs li:hover { background: #f3e7d5; }
+      ul.climbs li.hidden { display: none; }
+      .grade { color: #555; }
+      .note  { color: #888; font-style: italic; font-size: .9em; }
+      .nolink { }
+      .unmatched { color: #b08900; cursor: help; }
+      .nosend { color: #a05a2c; font-size: .85em; }
+      button.vid {
+        font-family: Monospace; font-size: .75em; cursor: pointer;
+        border: 1px solid #cbb99e; background: #fffdf9;
+        padding: 0 6px; margin-left: 6px; border-radius: 3px; color: #444;
+      }
+      button.vid:hover { background: #f3e7d5; }
+
+      /* video viewer */
+      #viewer {
+        position: fixed; inset: 0; background: rgba(30,22,14,.82);
+        display: none; align-items: center; justify-content: center;
+        z-index: 1000; padding: 20px;
+      }
+      #viewer.open { display: flex; }
+      #viewer .box {
+        background: #FFF5EA; border: 1px solid #cbb99e; border-radius: 4px;
+        padding: 10px; max-width: 94vw; max-height: 92vh;
+        display: flex; flex-direction: column; gap: 6px;
+      }
+      #viewer video { max-width: 86vw; max-height: 78vh; display: block; background: #000; }
+      #viewer .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      #viewer .vname { font-weight: bold; font-size: .9em; }
+      #viewer .close {
+        font-family: Monospace; font-size: .85em; cursor: pointer;
+        border: 1px solid #cbb99e; background: #fffdf9; padding: 2px 9px; border-radius: 3px;
+      }
+
+      hr.section { border: none; border-top: 2px solid #cbb99e; margin: 26px 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>climbing outside</h1>
+      <p><a href="index.html">home</a> / <a href="climbing.html">climbing</a> / climbing outside</p>
+
+      <p>
+        <!-- intro goes here -->
+      </p>
+
+      <div class="filters" id="filters">
+        <button data-type="boulder"><span class="dot" style="background:#991616"></span>boulder (70)</button>
+        <button data-type="sport"><span class="dot" style="background:#1f5c99"></span>sport (77)</button>
+        <button data-type="trad"><span class="dot" style="background:#2e7d32"></span>trad (32)</button>
+        <button id="vidonly">has video (15)</button>
+        <button id="reset">reset</button>
+      </div>
+
+      <hr class="section">
+
+      <div class="day">
+        <div class="day-head">Oct 3, 2026</div>
+        <div class="crag">The Gunks <span class="region">&mdash; New York, USA</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/113250761/the-art-of-nothing" target="_blank">The Art of Nothing</a> <span class="grade">V8</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/117815975/even-lovely" target="_blank">Even Lovely</a> <span class="grade">V9</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/119356333/8-bawl" target="_blank">8 Bawl</a> <span class="grade">V8</span> <span class="nosend">[no send]</span> <button class="vid" data-src="public/8bawl.mp4" data-name="8 Bawl">video</button></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Sep 27, 2026</div>
+        <div class="crag">Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/106193849/cold-comfort" target="_blank">Cold Comfort</a> <span class="grade">5.9</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105941644/the-zip" target="_blank">The Zip</a> <span class="grade">5.10a</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/106007175/supervalue" target="_blank">Supervalue</a> <span class="grade">5.10c</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105845816/flying-circus" target="_blank">Flying Circus</a> <span class="grade">5.10a</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/106055694/orifice-fish" target="_blank">Orifice Fish</a> <span class="grade">5.9+</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/107640767/asleep-at-the-wheel" target="_blank">Asleep at the Wheel</a> <span class="grade">5.8</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Sep 19, 2026</div>
+        <div class="crag">Andrew Area, The Gunks <span class="region">&mdash; New York, USA</span></div>
+        <ul class="climbs">
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/113491175/dragon-turns" target="_blank">Dragon Turns</a> <span class="grade">V9</span> <button class="vid" data-src="public/dragonturns.mp4" data-name="Dragon Turns">video</button></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106542672/andrew-roof" target="_blank">Andrew&#x27;s Roof</a> <span class="grade">V10</span> <span class="nosend">[no send]</span> <button class="vid" data-src="public/freak.mp4" data-name="Andrew&#x27;s Roof">video</button></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/107317437/boxcar-arete" target="_blank">Boxcar Arete</a> <span class="grade">V8</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/123399375/a-slugs-life" target="_blank">Slug&#x27;s Life</a> <span class="grade">V6</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106518895/andrew-boulder-problem" target="_blank">Andrew Boulder Problem</a> <span class="grade">V4</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Sep 12, 2026</div>
+        <div class="crag">Sourland Mountain Preserve <span class="region">&mdash; New Jersey, USA</span></div>
+        <ul class="climbs">
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/118666274/the-flying-eagle" target="_blank">The Flying Eagle</a> <span class="grade">V4</span> <button class="vid" data-src="public/theflyingeagle.mp4" data-name="The Flying Eagle">video</button></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/118700756/blood-sport" target="_blank">Blood Sport</a> <span class="grade">V9-</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112142780/get-smart" target="_blank">Get Smart</a> <span class="grade">V3+</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 30, 2026</div>
+        <div class="crag">The Pillary, Brohm Lake <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114432210/colin-de-bin" target="_blank">Colin de Bin</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114432261/stone-have-mercy" target="_blank">Stone Have Mercy</a> <span class="grade">5.11c</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114432092/lowbrow-hijinks" target="_blank">Lowbrow Hijinks</a> <span class="grade">5.11a</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 29, 2026</div>
+        <div class="crag">Easter Island, Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/106532940/easter-island" target="_blank">Easter Island</a> <span class="grade">5.8</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114935630/free-and-easy" target="_blank">Free and Easy</a> <span class="grade">5.10b</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114968506/cragger" target="_blank">Cragger</a> <span class="grade">5.7</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114935589/dance-eat-sleep-repeat" target="_blank">Dance, Eat, Sleep, Repeat</a> <span class="grade">5.8</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 26, 2026</div>
+        <div class="crag">Neat and Cool, Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105958263/cat-crack" target="_blank">Cat Crack</a> <span class="grade">5.7</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105845816/flying-circus" target="_blank">Flying Circus</a> <span class="grade">5.10a</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105957572/burgers-and-fries" target="_blank">Burgers and Fries</a> <span class="grade">5.7</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105957603/bilbo-baggins" target="_blank">Bilbo Baggins</a> <span class="grade">5.7+</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 25, 2026</div>
+        <div class="crag">Penny Lane, Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105857742/quarryman" target="_blank">Quarryman</a> <span class="grade">5.8</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105954921/clandestine-affair" target="_blank">Clandestine Affair</a> <span class="grade">5.9</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105842825/penny-lane" target="_blank">Penny Lane</a> <span class="grade">5.9</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 24, 2026</div>
+        <div class="crag">Pensioner&#x27;s Wall, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119373903/oap" target="_blank">OAP</a> <span class="grade">5.9</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/119373936/hevys-corner" target="_blank">Hevy&#x27;s Corner</a> <span class="grade">5.8+</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119373959/my-hidden-garden" target="_blank">My Hidden Garden</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119373972/bench-route" target="_blank">Bench Route</a> <span class="grade">5.10b</span></li>
+        </ul>
+        <div class="crag">Quercus, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108266453/a-prince-among-thieves" target="_blank">A Prince Among Thieves</a> <span class="grade">5.12b</span></li>
+        </ul>
+        <div class="crag">Woodstock, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/110140392/yasgurs-farm" target="_blank">Yasgur&#x27;s Farm</a> <span class="grade">5.9</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 22, 2026</div>
+        <div class="crag">Neat and Cool, Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/107000945/mouse-trap" target="_blank">The Mouse Trap</a> <span class="grade">5.7</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105962497/cornflakes" target="_blank">Cornflakes</a> <span class="grade">5.6</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105842817/mosquito" target="_blank">Mosquito</a> <span class="grade">5.8</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105910806/neat-and-cool" target="_blank">Neat and Cool</a> <span class="grade">5.10a</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 19, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106028737/titanic" target="_blank">Titanic</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110745902/black-mark" target="_blank">Black Mark</a> <span class="grade">V4</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/124551434/majestic" target="_blank">Majestic</a> <span class="grade">V6</span> <button class="vid" data-src="public/majestic.mp4" data-name="Majestic">video</button></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 17, 2026</div>
+        <div class="crag">The Pillary, Brohm Lake <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114431800/medusas-werewolf" target="_blank">Medusa&#x27;s Werewolf</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114432210/colin-de-bin" target="_blank">Colin de Bin</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114432068/tip-toe-thru-the-few-clips" target="_blank">Tip-Toe Thru the Few Clips</a> <span class="grade">5.10c/d</span> <span class="nosend">[no send]</span></li>
+        </ul>
+        <div class="crag">Electric Avenue, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/116961864/the-torii-gate" target="_blank">Torii Gate</a> <span class="grade">5.10+</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119457054/uncontrolled-release" target="_blank">Uncontrolled Release</a> <span class="grade">5.12a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/116961810/the-heel-stone" target="_blank">The Heel Stone</a> <span class="grade">5.10b</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 16, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112021075/ramen-raw" target="_blank">Ramen Raw</a> <span class="grade">V7</span> <button class="vid" data-src="public/ramenraw.mp4" data-name="Ramen Raw">video</button></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112015910/gibbs-cave" target="_blank">Gibbs Cave</a> <span class="grade">V8</span> <button class="vid" data-src="public/gibbscave.mp4" data-name="Gibbs Cave">video</button></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 15, 2026</div>
+        <div class="crag">Up Among the Firs, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/107271215/nostalgia-aint-what-it-used-to-be" target="_blank">Nostalgia Ain&#x27;t What It Used to Be</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/107235689/totally-clips" target="_blank">Totally Clips</a> <span class="grade">5.10b/c</span> <span class="nosend">[no send]</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105972238/wicker-cranium" target="_blank">Wicker Cranium</a> <span class="grade">5.9</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/106007144/poster-boy" target="_blank">Poster Boy</a> <span class="grade">5.10+</span> <span class="nosend">[no send]</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/105950098/a-little-testis" target="_blank">A Little Testis</a> <span class="grade">5.10b</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 13, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112853878/wwf-action" target="_blank">WWF Action</a> <span class="grade">V3</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span> <button class="vid" data-src="public/superfly.mp4" data-name="Superfly">video</button></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110097678/baba-hari-dass" target="_blank">Baba Hari Dass</a> <span class="grade">V7</span> <span class="nosend">[no send]</span> <button class="vid" data-src="public/babaharidass.mp4" data-name="Baba Hari Dass">video</button></li>
+        </ul>
+        <div class="crag">Zoë, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105910842/zoe" target="_blank">Zoe</a> <span class="grade">5.10a</span></li>
+        </ul>
+        <div class="crag">Petrifying Wall, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/107758342/heavy-petting-action" target="_blank">Heavy Petting Action</a> <span class="grade">5.10b</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/106072648/black-water" target="_blank">Black Water</a> <span class="grade">5.12a</span> <span class="nosend">[no send]</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105950090/pleasant-pheasant" target="_blank">Pleasant Pheasant</a> <span class="grade">5.11a</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 9, 2026</div>
+        <div class="crag">Electric Avenue, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117541463/then-well-take-it-higher" target="_blank">Then We Will Take It Higher</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/118858764/rock-down-to" target="_blank">Rock Down To</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117531816/the-monatude" target="_blank">The Monatude</a> <span class="grade">5.10d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117541484/credulous-hedgehog" target="_blank">Credulus Hedgehog</a> <span class="grade">5.10d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/118858655/momzilla" target="_blank">Momzilla</a> <span class="grade">5.10</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117531784/railton-road" target="_blank">Railton Road</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117531728/darkness-at-teatime" target="_blank">Darkness at Teatime</a> <span class="grade">5.11a</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 8, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108506331/detached-flake" target="_blank">Detached Flake</a> <span class="grade">V1</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/115438613/squealing-pork" target="_blank">Squealing Pork</a> <span class="grade">V7</span> <span class="nosend">[no send]</span> <button class="vid" data-src="public/squeelingpork.mp4" data-name="Squealing Pork">video</button></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/114340534/rhino-face" target="_blank">Rhino Face</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112082819/finger-scoop-of-peanut-butter" target="_blank">Finger Scoop of Peanut Butter</a> <span class="grade">V5</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/122696164/wild-kingdom" target="_blank">Wild Kingdom</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/122957795/good-training" target="_blank">Good Training</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/125853945/dad-bod" target="_blank">Dad Bod</a> <span class="grade">V5-</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 7, 2026</div>
+        <div class="crag">Electric Avenue, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117541367/bolt-from-the-blue" target="_blank">Bolt from the Blue</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117531784/railton-road" target="_blank">Railton Road</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/116961864/the-torii-gate" target="_blank">Torii Gate</a> <span class="grade">5.10+</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/118872109/crosstalk" target="_blank">Crosstalk</a> <span class="grade">5.12b</span> <span class="nosend">[no send]</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 6, 2026</div>
+        <div class="crag">The Courtyard, Crumpit Woods <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114457805/slab-your-face" target="_blank">Slab Your Face</a> <span class="grade">5.7</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114457795/people-of-the-sun" target="_blank">People of the Sun</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114457020/cyanide-and-almonds" target="_blank">Cyanide and Almonds</a> <span class="grade">5.9</span></li>
+        </ul>
+        <div class="crag">The Playground, Crumpit Woods <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114458241/shits-and-giggles-in-the-lake" target="_blank">Shits and Giggles in the Lake</a> <span class="grade">5.10b</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114458268/parental-guidance" target="_blank">Parental Guidance</a> <span class="grade">5.11b/c</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114458289/recess" target="_blank">Recess</a> <span class="grade">5.10a/b</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114458282/playground-bully" target="_blank">Playground Bully</a> <span class="grade">5.11a/b</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 3, 2026</div>
+        <div class="crag">Electric Avenue, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117674610/st-elmos-fire" target="_blank">St. Elmo&#x27;s Fire</a> <span class="grade">5.8+</span></li>
+        </ul>
+        <div class="crag">The Monastery, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117603157/satori" target="_blank">Satori</a> <span class="grade">5.11-</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117614196/out-of-the-darkness-and-into-the-light" target="_blank">Out of the Darkness and Into the Light</a> <span class="grade">5.12a</span> <span class="nosend">[no send]</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119167382/way-of-the-warrior-monk" target="_blank">Way of the Warrior Monk</a> <span class="grade">5.11d</span> <span class="nosend">[no send]</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Aug 2, 2026</div>
+        <div class="crag">Smoke Bluffs <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114935630/free-and-easy" target="_blank">Free and Easy</a> <span class="grade">5.10b</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114968506/cragger" target="_blank">Cragger</a> <span class="grade">5.7</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114804004/appmaster" target="_blank">Appmaster</a> <span class="grade">5.10-</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/114935589/dance-eat-sleep-repeat" target="_blank">Dance, Eat, Sleep, Repeat</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/120508740/spotdafly" target="_blank">Spotdafly</a> <span class="grade">5.11a</span> <span class="nosend">[no send]</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 30, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108506331/detached-flake" target="_blank">Detached Flake</a> <span class="grade">V1</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/122956623/hog-wild" target="_blank">Hog Wild</a> <span class="grade">V5-6</span> <button class="vid" data-src="public/hogwild.mp4" data-name="Hog Wild">video</button></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/122131121/chicken-lips-and-assholes" target="_blank">Chicken Lips</a> <span class="grade">V6</span> <button class="vid" data-src="public/chickenlips.mp4" data-name="Chicken Lips">video</button></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/114116542/space-monkey" target="_blank">Space Monkey</a> <span class="grade">V5</span> <button class="vid" data-src="public/spacemonkey.mp4" data-name="Space Monkey">video</button></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/113249633/japanese-cowboy" target="_blank">Japanese Cowboy</a> <span class="grade">V5</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/116102705/typhoon" target="_blank">Typhoon</a> <span class="grade">V4</span> <button class="vid" data-src="public/typhoon.mp4" data-name="Typhoon">video</button></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/114340558/hydrogen" target="_blank">Hydrogen</a> <span class="grade">V2</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 29, 2026</div>
+        <div class="crag">Commune, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119405401/wheres-maddie" target="_blank">Where&#x27;s Maddie</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119481026/lokis-hiding" target="_blank">Loki&#x27;s Hiding</a> <span class="grade">5.9</span></li>
+        </ul>
+        <div class="crag">Lakeside in the Woods, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/107850975/the-reacharound" target="_blank">The Reacharound</a> <span class="grade">5.9</span></li>
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/117625403/tiffany-cuff-links" target="_blank">Tiffany Cuff Links</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108259519/the-burglar" target="_blank">The Burglar</a> <span class="grade">5.10c/d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108259507/more-than-just-a-pretty-face" target="_blank">More Than Just a Pretty Face</a> <span class="grade">5.10c</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 23, 2026</div>
+        <div class="crag">Commune, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119405389/mikey-likes-it" target="_blank">Mikey Likes It</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/119405392/veroniks-climb" target="_blank">Veronik&#x27;s Climb</a> <span class="grade">5.8</span></li>
+        </ul>
+        <div class="crag">Lakeside in the Woods, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="trad"><span class="dot" style="background:#2e7d32"></span><a href="https://www.mountainproject.com/route/107850975/the-reacharound" target="_blank">The Reacharound</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/126217252/unknown" target="_blank">Unknown 10c/d</a></li>
+        </ul>
+        <div class="crag">Woodstock, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/110140392/yasgurs-farm" target="_blank">Yasgur&#x27;s Farm</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/110140396/happy-day" target="_blank">Oh Happy Day</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/111808444/white-rabbit" target="_blank">White Rabbit</a> <span class="grade">5.10d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/110587409/wavy-gravy" target="_blank">Wavy Gravy</a> <span class="grade">5.10d</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 9, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110653275/superdyke" target="_blank">Superdyke</a> <span class="grade">V3+</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112030389/stus-fly" target="_blank">Stu&#x27;s Fly</a> <span class="grade">V2</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/105857248/sloppy-poppy" target="_blank">Sloppy Poppy</a> <span class="grade">V4</span></li>
+          <li data-type="boulder" data-vid="1"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/111647264/slingshot" target="_blank">Slingshot</a> <span class="grade">V2</span> <button class="vid" data-src="public/slingshot.mp4" data-name="Slingshot">video</button></li>
+        </ul>
+        <div class="crag">Cereal Killers, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114621449/silly-rabbit" target="_blank">Silly Rabbit</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/114495462/marshmallow-rainbows" target="_blank">Marshmallow Rainbows</a> <span class="grade">5.10a/b</span></li>
+        </ul>
+        <div class="crag">Marc Andre&#x27;s Wall, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/115143210/the-marc-of-excellence" target="_blank">The Marc of Excellence</a> <span class="grade">5.10c</span></li>
+        </ul>
+        <div class="crag">Petrifying Wall, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108259493/elastic-man" target="_blank">Elastic Man</a> <span class="grade">5.11c</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 8, 2026</div>
+        <div class="crag">Zoë, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105910842/zoe" target="_blank">Zoe</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105910852/jeff-and-the-giant-reach" target="_blank">Jeff and the Giant Reach</a> <span class="grade">5.11c</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/107596457/staples-of-the-gluten-intolerant" target="_blank">Staples of the Gluten Intolerant</a> <span class="grade">5.10b</span></li>
+        </ul>
+        <div class="crag">Lakeside in the Woods, Murrin Park <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108259507/more-than-just-a-pretty-face" target="_blank">More Than Just a Pretty Face</a> <span class="grade">5.10c</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/108259519/the-burglar" target="_blank">The Burglar</a> <span class="grade">5.10c/d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/112115749/fearless-fraser" target="_blank">Fearless Fraser</a> <span class="grade">5.11b</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 6, 2026</div>
+        <div class="crag">Forgotten Wall, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105960659/clear-cut" target="_blank">Clear Cut</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105960664/bullet-the-blue-car" target="_blank">Bullet the Blue Car</a> <span class="grade">5.10d</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/107755928/creepy-crawlers" target="_blank">Creepy Crawlers</a> <span class="grade">5.11a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/105962603/low-impact" target="_blank">Low Impact</a> <span class="grade">5.10a</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 5, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106028730/easy-in-an-easy-chair" target="_blank">Easy Chair</a> <span class="grade">V4</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jul 1, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/124458680/drone" target="_blank">Drone</a> <span class="grade">V3+</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 30, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106028730/easy-in-an-easy-chair" target="_blank">Easy Chair</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/111998633/minor-threat" target="_blank">Minor Threat</a> <span class="grade">V6</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106256366/golden-boy" target="_blank">Golden Boy</a> <span class="grade">V7</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/121306962/mindbender" target="_blank">Mind Bender</a> <span class="grade">V7</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/126261058/shazam" target="_blank">Shazam</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/203799032/slot-machine" target="_blank">Slot Machine</a> <span class="grade">V3</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 28, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110097678/baba-hari-dass" target="_blank">Baba Hari Dass</a> <span class="grade">V7</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106028737/titanic" target="_blank">Titanic</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108252343/the-mantis" target="_blank">The Mantis</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/114116684/tumbleweed" target="_blank">Tumbleweed</a> <span class="grade">V2</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/203799032/slot-machine" target="_blank">Slot Machine</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108252364/tims-sloper-problem" target="_blank">Tim&#x27;s Sloper Problem</a> <span class="grade">V5</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 20, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108630456/cheese-grater" target="_blank">Cheese Grater</a> <span class="grade">V2-</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110745942/anatomy-lesson" target="_blank">Anatomy Lesson</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110866396/american-gigolo" target="_blank">American Gigolo</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110745902/black-mark" target="_blank">Black Mark</a> <span class="grade">V4</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 13, 2026</div>
+        <div class="crag">Electric Avenue, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117674610/st-elmos-fire" target="_blank">St. Elmo&#x27;s Fire</a> <span class="grade">5.8+</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/117541367/bolt-from-the-blue" target="_blank">Bolt from the Blue</a> <span class="grade">5.10a</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/116961810/the-heel-stone" target="_blank">The Heel Stone</a> <span class="grade">5.10b</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/116961864/the-torii-gate" target="_blank">Torii Gate</a> <span class="grade">5.10+</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 11, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106028737/titanic" target="_blank">Titanic</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112015946/mantra" target="_blank">Mantra</a> <span class="grade">V8</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/110745902/black-mark" target="_blank">Black Mark</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/203799032/slot-machine" target="_blank">Slot Machine</a> <span class="grade">V3</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/108252364/tims-sloper-problem" target="_blank">Tim&#x27;s Sloper Problem</a> <span class="grade">V5</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">Jun 7, 2026</div>
+        <div class="crag">Grand Wall Boulders <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/106034519/superfly" target="_blank">Superfly</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/111594749/trad-killer" target="_blank">Trad Killer</a> <span class="grade">V4</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/124582973/the-bee-professor" target="_blank">Bee Professor</a> <span class="grade">V8</span> <span class="nosend">[no send]</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/112157919/heartbreak-hotel" target="_blank">Heartbreak Hotel</a> <span class="grade">V2</span></li>
+          <li data-type="boulder"><span class="dot" style="background:#991616"></span><a href="https://www.mountainproject.com/route/111998633/minor-threat" target="_blank">Minor Threat</a> <span class="grade">V6</span> <span class="nosend">[no send]</span></li>
+        </ul>
+      </div>
+      <div class="day">
+        <div class="day-head">May 30, 2026</div>
+        <div class="crag">The Crest, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/106861033/step-off" target="_blank">Step Off</a> <span class="grade">5.9</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/106861046/giddy-up" target="_blank">Giddy Up</a> <span class="grade">5.10+</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/107760915/currently-coagulating" target="_blank">Currently Coagulating</a> <span class="grade">5.11a</span></li>
+        </ul>
+        <div class="crag">Whiskey Jack Wall, Chek Canyon <span class="region">&mdash; Squamish, BC, Canada</span></div>
+        <ul class="climbs">
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/109121825/attitude-is-everything" target="_blank">Attitude is Everything</a> <span class="grade">5.8</span></li>
+          <li data-type="sport"><span class="dot" style="background:#1f5c99"></span><a href="https://www.mountainproject.com/route/109121712/road-less-travelled" target="_blank">Road Less Travelled</a> <span class="grade">5.10d</span></li>
+        </ul>
+      </div>
+
+    </main>
+
+    <div id="viewer">
+      <div class="box">
+        <div class="bar">
+          <span class="vname" id="vname"></span>
+          <button class="close" id="vclose">close</button>
+        </div>
+        <video id="vplayer" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+
+    <script>
+      const active = new Set(["boulder", "sport", "trad"]);
+      const filters = document.getElementById("filters");
+
+      let videoOnly = false;
+
+      function render() {
+        document.querySelectorAll("ul.climbs li").forEach((li) => {
+          const hide = !active.has(li.dataset.type) || (videoOnly && !li.dataset.vid);
+          li.classList.toggle("hidden", hide);
+        });
+        // hide a crag heading when none of its climbs are visible
+        document.querySelectorAll("ul.climbs").forEach((ul) => {
+          const any = ul.querySelector("li:not(.hidden)");
+          ul.classList.toggle("hidden", !any);
+          const prev = ul.previousElementSibling;
+          if (prev && prev.classList.contains("crag")) {
+            prev.classList.toggle("hidden", !any);
+          }
+        });
+        // hide a day entirely when nothing in it is visible
+        document.querySelectorAll(".day").forEach((d) => {
+          const any = d.querySelector("ul.climbs li:not(.hidden)");
+          d.classList.toggle("hidden", !any);
+        });
+        filters.querySelectorAll("button[data-type]").forEach((b) => {
+          b.classList.toggle("off", !active.has(b.dataset.type));
+        });
+      }
+
+      filters.querySelectorAll("button[data-type]").forEach((b) => {
+        b.onclick = () => {
+          const t = b.dataset.type;
+          active.has(t) ? active.delete(t) : active.add(t);
+          render();
+        };
+      });
+      const vidBtn = document.getElementById("vidonly");
+      vidBtn.onclick = () => {
+        videoOnly = !videoOnly;
+        vidBtn.classList.toggle("on", videoOnly);
+        render();
+      };
+
+      document.getElementById("reset").onclick = () => {
+        ["boulder", "sport", "trad"].forEach((t) => active.add(t));
+        videoOnly = false;
+        vidBtn.classList.remove("on");
+        render();
+      };
+
+      // ---- video viewer ----
+      const viewer = document.getElementById("viewer");
+      const player = document.getElementById("vplayer");
+      const vname  = document.getElementById("vname");
+
+      function openVideo(src, name) {
+        player.src = src;
+        vname.textContent = name;
+        viewer.classList.add("open");
+        player.play().catch(() => {});   // autoplay may be blocked; controls still work
+      }
+      function closeVideo() {
+        player.pause();
+        player.removeAttribute("src");
+        player.load();
+        viewer.classList.remove("open");
+      }
+
+      document.querySelectorAll("button.vid").forEach((b) => {
+        b.onclick = () => openVideo(b.dataset.src, b.dataset.name);
+      });
+      document.getElementById("vclose").onclick = closeVideo;
+      viewer.onclick = (e) => { if (e.target === viewer) closeVideo(); };
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && viewer.classList.contains("open")) closeVideo();
+      });
+
+      render();
+    </script>
+  </body>
+</html>

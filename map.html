@@ -45,7 +45,7 @@
         margin-right: 6px;
         vertical-align: -1px;
       }
-      .filters button.off { opacity: .4; text-decoration: line-through; }
+      .filters button.on { background: #e9d9bf; border-color: #a8906a; font-weight: bold; }
 
       /* list */
       .cat-block { margin-bottom: 20px; }
@@ -84,7 +84,7 @@
       <p><a href="index.html">home</a> / map </p>
 
       <p>i like maps, so i had claude make a little interactive map of places 
-        where i have lived or traveled internationally. still a lot left to explore!</p>
+        where i have lived or traveled internationally.</p>
 
       <div id="map"></div>
 
@@ -248,6 +248,7 @@
       // filters
       // ---------------------------------------------------------------------
       const active = new Set(Object.keys(CATEGORIES));
+      let selected = null;   // null = every category shown
       const filtersEl = document.getElementById("filters");
       const listEl = document.getElementById("list");
       const mapEl = document.getElementById("map");
@@ -262,7 +263,10 @@
         btn.innerHTML = dot(cat.color) + cat.label + " (" + count + ")";
         btn.dataset.cat = key;
         btn.onclick = () => {
-          active.has(key) ? active.delete(key) : active.add(key);
+          selected = (selected === key) ? null : key;   // click again to clear
+          active.clear();
+          if (selected) active.add(selected);
+          else Object.keys(CATEGORIES).forEach((k) => active.add(k));
           render();
         };
         filtersEl.appendChild(btn);
@@ -271,6 +275,7 @@
       const resetBtn = document.createElement("button");
       resetBtn.textContent = "reset";
       resetBtn.onclick = () => {
+        selected = null;
         Object.keys(CATEGORIES).forEach((k) => active.add(k));
         render();
         fitAll(true);
@@ -313,7 +318,7 @@
       function render() {
         syncMarkers();
         filtersEl.querySelectorAll("button[data-cat]").forEach((b) => {
-          b.classList.toggle("off", !active.has(b.dataset.cat));
+          b.classList.toggle("on", b.dataset.cat === selected);
         });
         listEl.querySelectorAll(".cat-block").forEach((b) => {
           b.classList.toggle("hidden", !active.has(b.dataset.cat));

@@ -15,7 +15,6 @@
         border: 1px solid #cbb99e; background: #fffdf9;
         padding: 4px 9px; margin: 0 6px 6px 0; border-radius: 3px;
       }
-      .filters button.off { opacity: .4; text-decoration: line-through; }
       .filters button.on { background: #e9d9bf; border-color: #a8906a; font-weight: bold; }
 
       .dot {
@@ -546,14 +545,15 @@
     </div>
 
     <script>
-      const active = new Set(["boulder", "sport", "trad"]);
-      const filters = document.getElementById("filters");
-
+      // null = show every type; otherwise show only the selected one
+      let selected = null;
       let videoOnly = false;
+      const filters = document.getElementById("filters");
 
       function render() {
         document.querySelectorAll("ul.climbs li").forEach((li) => {
-          const hide = !active.has(li.dataset.type) || (videoOnly && !li.dataset.vid);
+          const hide = (selected && li.dataset.type !== selected) ||
+                       (videoOnly && !li.dataset.vid);
           li.classList.toggle("hidden", hide);
         });
         // hide a crag heading when none of its climbs are visible
@@ -571,14 +571,14 @@
           d.classList.toggle("hidden", !any);
         });
         filters.querySelectorAll("button[data-type]").forEach((b) => {
-          b.classList.toggle("off", !active.has(b.dataset.type));
+          b.classList.toggle("on", b.dataset.type === selected);
         });
       }
 
       filters.querySelectorAll("button[data-type]").forEach((b) => {
         b.onclick = () => {
           const t = b.dataset.type;
-          active.has(t) ? active.delete(t) : active.add(t);
+          selected = (selected === t) ? null : t;   // click again to clear
           render();
         };
       });
@@ -590,7 +590,7 @@
       };
 
       document.getElementById("reset").onclick = () => {
-        ["boulder", "sport", "trad"].forEach((t) => active.add(t));
+        selected = null;
         videoOnly = false;
         vidBtn.classList.remove("on");
         render();

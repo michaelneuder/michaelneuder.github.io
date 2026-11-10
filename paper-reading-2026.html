@@ -31,6 +31,19 @@
       .expandable:hover {
           color: darkblue;
       }
+      /* always-visible note under a paper in the per-topic list (same as climbing films) */
+      pre .note {
+          display: inline-block;
+          vertical-align: top;
+          white-space: pre-wrap;
+          overflow-wrap: break-word;
+          max-width: min(600px, calc(100% - 8ch));
+          padding: 2px 8px 2px 10px;
+          margin: 1px 0 5px 0;
+          border-left: 2px solid #991616;
+          background-color: #f9f9f9;
+      }
+
       hr.rule    { border: none; border-top: 1px solid #e2d5c2; margin: 22px 0; }
       hr.section { border: none; border-top: 2px solid #cbb99e; margin: 30px 0; }
     </style>
@@ -90,6 +103,11 @@
   + <u>PropAMMs</u>
     * <a href="https://arxiv.org/pdf/2609.38056" target="_blank">link</a>. <em>"Active Liquidity On Chain: Evidence from PropAMMs Across Chains"</em> by Solmaz et al.
 
+- <u>Dynamic mechanism design</u>
+  + <a href="https://arxiv.org/pdf/2105.07649" target="_blank">link</a>. <em>"Optimal selling time with evolving private information"</em> by Kiho Yoon
+    <span class="note">Single item sale, one buyer, evolving private valuation. Determines the optimal selling time of the item. With assumptions, shows that this is implementable in the dynamic setting.</span>
+  + <a href="https://www.jstor.org/stable/pdf/48812033.pdf" target="_blank">link</a>. <em>"Timing of Auctions of Real Options"</em> by Lin William Cong
+    <span class="note">Studies selling options to a set of buyers who have random and private cost of exercising. The key point is that when the seller can determine when to run the auction, they push it later to reduce the window of time post-auction for the buyer to exercise it. But if the buyer can initiate the auction, the auction happens much earlier.</span>
       ~
     *
   +
@@ -97,7 +115,11 @@
 
         </pre>
 
-
+        <hr class="section">
+        <h3>november 2026</h3>
+        - <a href="https://arxiv.org/pdf/2105.07649" target="_blank">link</a>. <em>"Optimal selling time with evolving private information"</em> by Kiho Yoon<br>
+        - <a href="https://www.jstor.org/stable/pdf/48812033.pdf" target="_blank">link</a>. <em>"Timing of Auctions of Real Options"</em> by Lin William Cong<br>
+      
         <hr class="section">
         <h3>october 2026</h3>
       

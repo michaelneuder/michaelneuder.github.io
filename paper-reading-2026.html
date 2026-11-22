@@ -31,7 +31,9 @@
       .expandable:hover {
           color: darkblue;
       }
-      /* always-visible note under a paper in the per-topic list (same as climbing films) */
+      /* note under a paper in the per-topic list, opened with its [notes] toggle */
+      pre .note-toggle { cursor: pointer; color: blue; }
+      pre .note-toggle:hover { color: darkblue; text-decoration: underline; }
       pre .note {
           display: inline-block;
           vertical-align: top;
@@ -93,6 +95,8 @@
     * <a href="https://arxiv.org/pdf/2305.09032" target="_blank">link</a>. <em>"Time is Money: Strategic Timing Games in Proof-of-Stake Protocols"</em> by Schwarz-Schilling et al.
   + <u>Mining games</u>
     * <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7047638" target="_blank">link</a>. <em>"Unruly by Design: Fee Volatility and Strategic Attacks in Bitcoin Mining"</em> by Schär et al.
+    * <a href="https://pabloazar.github.io/assets/pdf/2026_when_higher_stakes_weaken_security.pdf" target="_blank">link</a>. <em>"When Higher Stakes Weaken Security"</em> by Pablo D. Azar and Maryam Farboodi
+    <span class="note">Analyzes the probability of a fork arising from increases in fees. Empirical econ paper that demonstrates that higher fees imply higher uncle rates. Interesting that the fed is looking at this.</span>
 
 - <u>MEV/block building/execution layer</u>
   + <a href="https://arxiv.org/pdf/1111.2626" target="_blank">link</a>. <em>"On Bitcoin and Red Balloons"</em> by Babaioff et al.
@@ -122,6 +126,7 @@
         <hr class="section">
         <h3>november 2026</h3>
 
+        - <a href="https://pabloazar.github.io/assets/pdf/2026_when_higher_stakes_weaken_security.pdf" target="_blank">link</a>. <em>"When Higher Stakes Weaken Security"</em> by Pablo D. Azar and Maryam Farboodi<br>
         - <a href="https://dl.acm.org/doi/pdf/10.1145/2810103.2813659" target="_blank">link</a>. <em>"Demystifying Incentives in the Consensus Computer"</em> by Luu et al.<br>
         - <a href="https://arxiv.org/pdf/2610.18812" target="_blank">link</a>. <em>"The Geography of (Concurrent) Block Proposing"</em> by Maollemi et al.<br>
         - <a href="https://arxiv.org/pdf/2105.07649" target="_blank">link</a>. <em>"Optimal selling time with evolving private information"</em> by Kiho Yoon<br>
@@ -164,5 +169,29 @@
         - <a href="https://arxiv.org/pdf/2607.02275" target="_blank">link</a>. <em>"Cadence: Extreme Pipelining with Multiple Concurrent Proposers"</em> by Babel et al.<br>
         
     </main>
+
+    <script>
+      // ---------------------------------------------------------------------
+      // notes in the per-topic list. write <span class="note">...</span> on
+      // the line under a paper; it starts hidden behind a [notes] toggle at the
+      // end of the paper's line and opens directly under the paper's link.
+      // ---------------------------------------------------------------------
+      document.querySelectorAll("pre").forEach((pre) => {
+        if (!pre.querySelector(".note")) return;
+        pre.innerHTML = pre.innerHTML.replace(
+          /^( *)([+*~-] )(.*)\n *(<span class="note">([\s\S]*?)<\/span>)/gm,
+          (m, indent, bullet, rest, note, text) => {
+            const line = indent + bullet + rest;
+            if (!text.trim()) return line;   // empty note: no toggle
+            return line + ' <span class="note-toggle">[notes]</span>' +
+              '<span class="note-line" hidden>\n' + indent + "  " + note + "</span>";
+          }
+        );
+        pre.addEventListener("click", (e) => {
+          const toggle = e.target.closest(".note-toggle");
+          if (toggle) toggle.nextElementSibling.hidden = !toggle.nextElementSibling.hidden;
+        });
+      });
+    </script>
   </body>
 </html>
